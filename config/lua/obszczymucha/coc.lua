@@ -193,6 +193,7 @@ g.coc_global_extensions = {
   "coc-pairs",
   "coc-json",
   "coc-eslint",
-  "coc-css"
+  "coc-css",
+  "coc-clangd"
 }
 
