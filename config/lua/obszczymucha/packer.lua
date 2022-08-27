@@ -24,6 +24,7 @@ return require( 'packer' ).startup( function( use )
   use { 'tpope/vim-vinegar' }
   use { 'nvim-lua/plenary.nvim' }
   use { 'ThePrimeagen/harpoon' }
+  use { 'jenterkin/vim-autosource' }
 --  use 'kyazdani42/nvim-web-devicons'
 
   -- Automatically set up your configuration after cloning packer.nvim
