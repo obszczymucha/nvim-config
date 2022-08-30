@@ -102,7 +102,7 @@ xmap( "<leader>f", [[<Plug>(coc-format-selected)]] )
 nmap( "<leader>f", [[<Plug>(coc-format-selected)]] )
 
 -- Add `:Format` command to format current buffer.
-cmd( [[command! -nargs=0 Format :call CocActionAsync( 'format' )]] )
+cmd( [[command! -nargs=0 Format :call CocActionAsync('format')]] )
 
 -- Formatting the entire file.
 nnoremap( "<leader>F", "<cmd>Format<CR>", { silent = true } )
@@ -111,9 +111,9 @@ cmd( [[
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction( 'formatSelected' )
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync( 'showSignatureHelp' )
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 ]], false )
 
