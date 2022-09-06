@@ -29,8 +29,12 @@ o.signcolumn = 'yes'
 
 -- Use tab for trigger completion with characters ahead and navigate.
 -- Use command ':verbose imap <tab>' to make sure tab is not mapped by another plugin.
-inoremap( "<TAB>", [[coc#pum#visible() ? coc#pum#next(1) : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request( 'doKeymap', [ 'snippets-expand-jump', '' ])\<CR>" : CheckBackspace() ? "\<Tab>" : coc#refresh()]], { silent = true, expr = true } )
-inoremap( "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], { expr = true } )
+local next_item = [[coc#pum#visible() ? coc#pum#next(1) : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request( 'doKeymap', [ 'snippets-expand-jump', '' ])\<CR>" : CheckBackspace() ? "\<Tab>" : coc#refresh()]]
+local prev_item = [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]]
+inoremap( "<TAB>", next_item, { silent = true, expr = true } )
+inoremap( "<C-j>", next_item, { silent = true, expr = true } )
+inoremap( "<S-TAB>", prev_item, { expr = true } )
+inoremap( "<C-k>", prev_item, { expr = true } )
 
 -- snippets
 -- Use <C-l> for trrigger snippet expand.
@@ -46,7 +50,7 @@ g.coc_snippet_next = "<c-j>"
 g.coc_snippet_prev = "<c-k>"
 
 -- Use <C-j> for both expand and jump (make expand higher priority).
-imap( "<C-j>", "<Plug>(coc-snippets-expand-jump)" )
+--imap( "<C-j>", "<Plug>(coc-snippets-expand-jump)" )
 
 -- Use <leader>x for convert visual selected code to snippet
 xmap( "<leader>x", "<Plug>(coc-convert-snippet)" )
