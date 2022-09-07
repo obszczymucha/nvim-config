@@ -13,6 +13,8 @@ nnoremap( "<leader>fg", "<cmd>Telescope live_grep<CR>" )
 nnoremap( "<leader>fb", "<cmd>Telescope buffers<CR>" )
 nnoremap( "<leader>fh", "<cmd>Telescope help_tags<CR>" )
 
+nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )
+
 nnoremap( "<A-v>", "<C-w>v<C-w>w" )
 nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>Telescope find_files<CR>" )
 nnoremap( "<A-s>", "<C-w>s<C-w>w" )
