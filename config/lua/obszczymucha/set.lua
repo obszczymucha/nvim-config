@@ -34,6 +34,6 @@ g.airline_theme = "deus"
 g.airline_symbols = { colnr = "c:", linenr = " l:" }
 g.airline_powerline_fonts = 1
 
-api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | Telescope find_files", {} )
+api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon.ui' ).nav_file( 1 )", {} )
 cmd( "cnoreabbrev H vert bo h" )
 
