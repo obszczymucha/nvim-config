@@ -5,4 +5,5 @@ require( "obszczymucha.remap" )
 require( "obszczymucha.coc" )
 require( "obszczymucha.netrw" )
 require( "obszczymucha.macros" )
+require( "obszczymucha.telescope" )
 

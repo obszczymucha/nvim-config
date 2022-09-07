@@ -8,8 +8,8 @@ end
 
 nnoremap( "<M-Esc>", netrw( "toggle_netrw" ) )
 nnoremap( "-", netrw( "run_vinegar" ) )
-nnoremap( "<leader>ff", "<cmd>Telescope find_files<CR>" )
-nnoremap( "<leader>fg", "<cmd>Telescope live_grep<CR>" )
+nnoremap( "<leader>ff", "<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
+nnoremap( "<leader>fg", "<cmd>lua require( 'obszczymucha.telescope' ).live_grep()<CR>" )
 nnoremap( "<leader>fb", "<cmd>Telescope buffers<CR>" )
 nnoremap( "<leader>fh", "<cmd>Telescope help_tags<CR>" )
 
