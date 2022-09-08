@@ -198,6 +198,7 @@ g.coc_global_extensions = {
   "coc-json",
   "coc-eslint",
   "coc-css",
-  "coc-clangd"
+  "coc-clangd",
+  "coc-sh"
 }
 
