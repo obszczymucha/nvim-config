@@ -18,10 +18,12 @@ M.vmap = bind( "v", { noremap = false } )
 M.nmap = bind( "n", { noremap = false } )
 M.xmap = bind( "x", { noremap = false } )
 M.omap = bind( "o", { noremap = false } )
+M.cmap = bind( "c", { noremap = false } )
 M.nnoremap = bind( "n" )
 M.vnoremap = bind( "v" )
 M.xnoremap = bind( "x" )
 M.inoremap = bind( "i" )
+M.cnoremap = bind( "c" )
 
 return M
 

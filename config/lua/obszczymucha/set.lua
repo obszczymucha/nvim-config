@@ -37,3 +37,5 @@ g.airline_powerline_fonts = 1
 api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon.ui' ).nav_file( 1 )", {} )
 cmd( "cnoreabbrev H vert bo h" )
 
+g.smoothie_no_default_mappings = true
+

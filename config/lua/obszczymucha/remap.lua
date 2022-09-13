@@ -1,8 +1,11 @@
+local M = {}
+
 local keymap = require( "obszczymucha.keymap" )
 local nnoremap = keymap.nnoremap
 local inoremap = keymap.inoremap
 local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
+local cnoremap = keymap.cnoremap
 
 -- netrw
 local netrw = function( functionName )
@@ -63,5 +66,51 @@ vnoremap( "<leader>y", "\"+y" )
 nnoremap( "<leader>d", "\"_d" )
 vnoremap( "<leader>d", "\"_d" )
 
+local function smart_page_down()
+  local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
+  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
+
+  if row < middle then
+    return vim.cmd( [[call smoothie#do( "M" )]] )
+  else
+    return vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
+  end
+end
+
+local function smart_page_up()
+  local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
+  local current = line( "." )
+  local top = line( "w0" )
+  local relative = current - top + 1
+  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
+
+  if relative > middle then
+    return vim.cmd( [[call smoothie#do( "M" )]] )
+  else
+    return vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
+  end
+end
+
+--local function test()
+  --local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
+  --local current = line( "." )
+  --local top = line( "w0" )
+  --local bottom = line( "w$" )
+  --local height = vim.api.nvim_win_get_height( 0 )
+  --local middle = math.ceil( height / 2 )
+  --local relative = current - top + 1
+
+  --print( string.format( "current: %s, top: %s, bottom: %s, height: %s, middle: %s, relative: %s", current, top, bottom, height, middle, relative ) )
+--end
+--nnoremap( "<C-a>", function() return test() end )
+
+nnoremap( "<C-d>", function() return smart_page_down() end )
+nnoremap( "<C-u>", function() return smart_page_up() end )
+
 inoremap( "<C-c>", "<Esc>" )
+cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
+cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
+cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
+
+return M
 
