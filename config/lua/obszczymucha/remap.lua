@@ -108,6 +108,8 @@ nnoremap( "<C-d>", function() return smart_page_down() end )
 nnoremap( "<C-u>", function() return smart_page_up() end )
 
 inoremap( "<C-c>", "<Esc>" )
+
+-- wildmenu is the completion menu in the command line
 cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
 cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
