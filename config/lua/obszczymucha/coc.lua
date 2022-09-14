@@ -77,7 +77,7 @@ nmap( "[g", [[<Plug>(coc-diagnostic-prev)]], { silent = true } )
 nmap( "]g", [[<Plug>(coc-diagnostic-next)]], { silent = true } )
 
 -- GoTo code navigation.
-nmap( "gd", [[<Plug>(coc-definition)]], { silent = true } )
+--nmap( "gd", [[<Plug>(coc-definition)]], { silent = true } )
 nmap( "gy", [[<Plug>(coc-type-definition)]], { silent = true } )
 nmap( "gi", [[<Plug>(coc-implementation)]], { silent = true } )
 nmap( "gr", [[<Plug>(coc-references)]], { silent = true } )

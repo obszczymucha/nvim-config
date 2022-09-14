@@ -6,6 +6,7 @@ local inoremap = keymap.inoremap
 local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 local cnoremap = keymap.cnoremap
+local nmap = keymap.nmap
 
 -- netrw
 local netrw = function( functionName )
@@ -113,6 +114,16 @@ inoremap( "<C-c>", "<Esc>" )
 cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
 cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
+
+function M.go_to_definition()
+  if vim.bo.filetype == "scala" then
+    vim.cmd( "lua vim.lsp.buf.definition()" )
+  else
+    vim.cmd( [[:execute "normal \<Plug>(coc-definition)"]] )
+  end
+end
+
+nmap( "gd", "<cmd>lua require( 'obszczymucha.remap' ).go_to_definition()<CR>", { silent = true } )
 
 return M
 

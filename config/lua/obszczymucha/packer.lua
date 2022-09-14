@@ -26,7 +26,9 @@ return require( 'packer' ).startup( function( use )
   use { 'ThePrimeagen/harpoon' }
   use { 'jenterkin/vim-autosource' }
   use { 'preservim/nerdcommenter' }
---  use 'kyazdani42/nvim-web-devicons'
+
+  use { "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip" } }
+  use { "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" } }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
