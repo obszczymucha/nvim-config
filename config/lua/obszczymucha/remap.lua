@@ -1,5 +1,6 @@
 local M = {}
 
+local prequire = require( "obszczymucha.common" ).prequire
 local keymap = require( "obszczymucha.keymap" )
 local nnoremap = keymap.nnoremap
 local inoremap = keymap.inoremap
@@ -92,18 +93,20 @@ local function smart_page_up()
   end
 end
 
---local function test()
-  --local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
-  --local current = line( "." )
-  --local top = line( "w0" )
-  --local bottom = line( "w$" )
-  --local height = vim.api.nvim_win_get_height( 0 )
-  --local middle = math.ceil( height / 2 )
-  --local relative = current - top + 1
+function M.bind( modname )
+  local filetype = vim.bo.filetype
+  local module = prequire( string.format( "obszczymucha.keymaps.%s", filetype ) )
 
-  --print( string.format( "current: %s, top: %s, bottom: %s, height: %s, middle: %s, relative: %s", current, top, bottom, height, middle, relative ) )
---end
---nnoremap( "<C-a>", function() return test() end )
+  if module and module[ modname ] then
+    module[ modname ]()
+    return
+  end
+
+  local f = require( "obszczymucha.keymaps.coc" )[ modname ]
+  if f then f() end
+end
+
+nnoremap( "<C-a>", function() return test() end )
 
 nnoremap( "<C-d>", function() return smart_page_down() end )
 nnoremap( "<C-u>", function() return smart_page_up() end )
@@ -115,15 +118,8 @@ cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
 cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
 
-function M.go_to_definition()
-  if vim.bo.filetype == "scala" then
-    vim.cmd( "lua vim.lsp.buf.definition()" )
-  else
-    vim.cmd( [[:execute "normal \<Plug>(coc-definition)"]] )
-  end
-end
-
-nmap( "gd", "<cmd>lua require( 'obszczymucha.remap' ).go_to_definition()<CR>", { silent = true } )
+-- Filetype-based mappings. See obszczymucha/kemaps
+nmap( "gd", "<cmd>lua require( 'obszczymucha.remap' ).bind( 'go_to_definition' )<CR>", { silent = true } )
 
 return M
 
