@@ -73,17 +73,14 @@ inoremap( "<c-space>", [[coc#refresh()]], { silent = true, expr = true } )
 
 -- Use `[g` and `]g` to navigate diagnostics
 -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap( "[g", [[<Plug>(coc-diagnostic-prev)]], { silent = true } )
-nmap( "]g", [[<Plug>(coc-diagnostic-next)]], { silent = true } )
+--nmap( "[g", [[<Plug>(coc-diagnostic-prev)]], { silent = true } )
+--nmap( "]g", [[<Plug>(coc-diagnostic-next)]], { silent = true } )
 
 -- GoTo code navigation.
 --nmap( "gd", [[<Plug>(coc-definition)]], { silent = true } )
 nmap( "gy", [[<Plug>(coc-type-definition)]], { silent = true } )
 nmap( "gi", [[<Plug>(coc-implementation)]], { silent = true } )
 nmap( "gr", [[<Plug>(coc-references)]], { silent = true } )
-
--- Use K to show documentation in preview window.
-nnoremap( "K", "<cmd>call ShowDocumentation()<CR>", { silent = true } )
 
 api.nvim_exec( [[
 function! ShowDocumentation()
@@ -98,18 +95,12 @@ endfunction
 -- Highlight the symbol and its references when holding the cursor.
 cmd( "autocmd CursorHold * silent call CocActionAsync( 'highlight' )" )
 
--- Symbol renaming.
-nmap( "<leader>rn", [[<Plug>(coc-rename)]] )
-
 -- Formatting selected code.
 xmap( "<leader>f", [[<Plug>(coc-format-selected)]] )
 nmap( "<leader>f", [[<Plug>(coc-format-selected)]] )
 
 -- Add `:Format` command to format current buffer.
 cmd( [[command! -nargs=0 Format :call CocActionAsync('format')]] )
-
--- Formatting the entire file.
-nnoremap( "<leader>F", "<cmd>Format<CR>", { silent = true } )
 
 cmd( [[
 augroup mygroup
@@ -124,15 +115,15 @@ augroup end
 -- Applying codeAction to the selected region.
 -- Example: `<leader>aap` for current paragraph
 xmap( "<leader>a", [[<Plug>(coc-codeaction-selected)]] )
-nmap( "<leader>a", [[<Plug>(coc-codeaction-selected)]] )
+--nmap( "<leader>a", [[<Plug>(coc-codeaction-selected)]] )
 
--- Remap keys for a pplying codeAction to the current buffer.
-nmap( "<leader>ac", [[<Plug>(coc-codeaction)]] )
+-- Remap keys for applying codeAction to the current buffer.
+--nmap( "<leader>ac", [[<Plug>(coc-codeaction)]] )
 -- Apply AutoFix to problem on the current line.
 nmap( "<leader>qf", [[<Plug>(coc-fix-current)]] )
 
 -- Run the Code Lens action on the current line.
-nmap( "<leader>cl", [[<Plug>(coc-codelens-action)]] )
+--nmap( "<leader>cl", [[<Plug>(coc-codelens-action)]] )
 
 -- Map function and class text objects
 -- NOTE: Requires 'textDocument.documentSymbol' support from the language server.

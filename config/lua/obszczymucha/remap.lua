@@ -106,8 +106,6 @@ function M.bind( modname )
   if f then f() end
 end
 
-nnoremap( "<C-a>", function() return test() end )
-
 nnoremap( "<C-d>", function() return smart_page_down() end )
 nnoremap( "<C-u>", function() return smart_page_up() end )
 
@@ -118,8 +116,29 @@ cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
 cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
 
+local function remap( name )
+  return string.format( string.format( "<cmd>lua require( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
+end
+
 -- Filetype-based mappings. See obszczymucha/kemaps
-nmap( "gd", "<cmd>lua require( 'obszczymucha.remap' ).bind( 'go_to_definition' )<CR>", { silent = true } )
+nmap( "gd", remap( "go_to_definition" ), { silent = true } )
+nmap( "K", remap( "show_documentation" ), { silent = true } )
+nmap( "<leader>rn", remap( "rename" ), { silent = true } )
+nmap( "<leader>F", remap( "format" ), { silent = true } )
+nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
+nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
+
+vim.keymap.del( "n", "<leader>a" )
+nmap( "<leader>ac", remap( "code_action" ), { silent = true } )
+
+vim.keymap.del( "n", "<leader>c" )
+nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
+
+local function test()
+  print( "Princess Kenny" )
+end
+
+nnoremap( "<C-a>", function() return test() end )
 
 return M
 
