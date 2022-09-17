@@ -93,16 +93,16 @@ local function smart_page_up()
   end
 end
 
-function M.bind( modname )
+function M.bind( binding_name )
   local filetype = vim.bo.filetype
   local module = prequire( string.format( "obszczymucha.keymaps.%s", filetype ) )
 
-  if module and module[ modname ] then
-    module[ modname ]()
+  if module and module[ binding_name ] then
+    module[ binding_name ]()
     return
   end
 
-  local f = require( "obszczymucha.keymaps.coc" )[ modname ]
+  local f = require( "obszczymucha.keymaps.coc" )[ binding_name ]
   if f then f() end
 end
 
@@ -124,7 +124,7 @@ end
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
 nmap( "K", remap( "show_documentation" ), { silent = true } )
 nmap( "<leader>rn", remap( "rename" ), { silent = true } )
-nmap( "<leader>F", remap( "format" ), { silent = true } )
+nmap( "<leader>F", remap( "format_file" ), { silent = true } )
 nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
 nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
 
