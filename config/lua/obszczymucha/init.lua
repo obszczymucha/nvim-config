@@ -6,4 +6,5 @@ require( "obszczymucha.netrw" )
 require( "obszczymucha.macros" )
 require( "obszczymucha.telescope" )
 require( "obszczymucha.metals" )
+require( "obszczymucha.dap-ui" )
 

@@ -27,6 +27,7 @@ return require( 'packer' ).startup( function( use )
   use { 'preservim/nerdcommenter' }
 
   use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-vsnip', 'hrsh7th/vim-vsnip' } }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use { 'scalameta/nvim-metals', requires = { 'nvim-lua/plenary.nvim', 'mfussenegger/nvim-dap' } }
 
   -- Automatically set up your configuration after cloning packer.nvim
