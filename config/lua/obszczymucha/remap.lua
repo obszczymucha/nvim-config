@@ -108,6 +108,8 @@ end
 
 nnoremap( "<C-d>", function() return smart_page_down() end )
 nnoremap( "<C-u>", function() return smart_page_up() end )
+nnoremap( "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
+nnoremap( "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 
 inoremap( "<C-c>", "<Esc>" )
 
