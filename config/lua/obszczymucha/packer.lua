@@ -19,6 +19,7 @@ return require( 'packer' ).startup( function( use )
     }
   }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter-context' }
   use { 'neoclide/coc.nvim', branch = 'release' }
   use { 'tpope/vim-vinegar' }
   use { 'nvim-lua/plenary.nvim' }
