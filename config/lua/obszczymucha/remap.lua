@@ -140,7 +140,11 @@ local function test()
   print( "Princess Kenny" )
 end
 
-nnoremap( "<C-a>", function() return test() end )
+nnoremap( "<leader>t", function() return test() end )
+
+-- Tab navigation
+nnoremap( "<C-h>", "<cmd>tabp<CR>", { silent = true } )
+nnoremap( "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 return M
 
