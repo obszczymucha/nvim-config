@@ -5,11 +5,13 @@ function M.go_to_definition()
 end
 
 function M.show_documentation()
-  vim.cmd( "lua vim.lsp.buf.hover()" )
+  --vim.cmd( "lua vim.lsp.buf.hover()" )
+  vim.cmd( "Lspsaga hover_doc" )
 end
 
 function M.rename()
-  vim.cmd( "lua vim.lsp.buf.rename()" )
+  --vim.cmd( "lua vim.lsp.buf.rename()" )
+  vim.cmd( "Lspsaga rename" )
 end
 
 function M.format_file()
@@ -25,7 +27,8 @@ function M.prev_diagnostic()
 end
 
 function M.code_action()
-  vim.cmd( "lua vim.lsp.buf.code_action()" )
+  --vim.cmd( "lua vim.lsp.buf.code_action()" )
+  vim.cmd( "Lspsaga code_action" )
 end
 
 function M.code_lens()
