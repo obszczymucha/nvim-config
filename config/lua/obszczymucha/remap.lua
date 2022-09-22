@@ -126,9 +126,10 @@ end
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
 nmap( "K", remap( "show_documentation" ), { silent = true } )
 nmap( "<leader>rn", remap( "rename" ), { silent = true } )
-nmap( "<leader>F", remap( "format_file" ), { silent = true } )
+nmap( "<leader>F", remap( "format_file" ), { silent = true, nowait = true } )
 nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
 nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
+nmap( "<leader>o", remap( "outline" ), { silent = true, nowait = true } )
 
 vim.keymap.del( "n", "<leader>a" )
 nmap( "<leader>ac", remap( "code_action" ), { silent = true } )

@@ -32,5 +32,8 @@ function M.code_lens()
   vim.cmd( [[:execute "normal \<Plug>(coc-codelens-action)"]] )
 end
 
-return M
+function M.outline()
+  vim.cmd( "CocList outline" )
+end
 
+return M

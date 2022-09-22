@@ -171,7 +171,7 @@ nnoremap( "<space>e", [[:<C-u>CocList extensions<cr>]], { silent = true, nowait 
 -- Show commands.
 nnoremap( "<space>c", [[:<C-u>CocList commands<cr>]], { silent = true, nowait = true } )
 -- Find symbol of current document.
-nnoremap( "<space>o", [[:<C-u>CocList outline<cr>]], { silent = true, nowait = true } )
+--nnoremap( "<space>o", [[:<C-u>CocList outline<cr>]], { silent = true, nowait = true } )
 -- Search workspace symbols.
 nnoremap( "<space>s", [[:<C-u>CocList -I symbols<cr>]], { silent = true, nowait = true } )
 -- Do default action for next item.
