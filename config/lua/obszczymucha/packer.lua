@@ -27,6 +27,7 @@ return require( "packer" ).startup( function( use )
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use { "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" } }
   use { "neovim/nvim-lspconfig" }
+  use { "nvim-lua/lsp-status.nvim" }
   use { "glepnir/lspsaga.nvim", branch = "main" }
   use { "kevinhwang91/nvim-bqf", ft = "qf" }
 

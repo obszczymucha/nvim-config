@@ -110,8 +110,8 @@ end
 local function lsp_status()
   local status = require( "lsp-status" ).status()
 
-  if status and status ~= "" then
-    return status:sub( 4 ) .. " | "
+  if status and status ~= "" and not status:match("^%s*$") then
+    return status .. " | "
   else
     return ""
   end
