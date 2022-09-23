@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 local config = {
   options = {
     icons_enabled = true,
@@ -18,7 +19,7 @@ local config = {
     }
   },
   sections = {
-    lualine_a = { "mode" },
+    lualine_a = {},
     lualine_b = { "branch", "diff", "diagnostics" },
     lualine_c = {},
     --lualine_x = { "filetype", "encoding", { "fileformat", icons_enabled = false } },
@@ -40,7 +41,11 @@ local config = {
   extensions = {}
 }
 
-local function ins_left( component )
+local function ins_left_a( component )
+  table.insert( config.sections.lualine_a, component )
+end
+
+local function ins_left_c( component )
   table.insert( config.sections.lualine_c, component )
 end
 
@@ -93,13 +98,37 @@ local filetype_separator = {
   padding = { left = 0, right = 0 }
 }
 
-ins_left "filename"
+local function is_tmuxed()
+  local tmux = os.getenv( "TMUX" )
+  if tmux and tmux ~= "" then
+    return " "
+  else
+    return ""
+  end
+end
+
+local function lsp_status()
+  local status = require( "lsp-status" ).status()
+
+  if status and status ~= "" then
+    return status:sub( 4 ) .. " | "
+  else
+    return ""
+  end
+end
+
+local no_padding = { left = 0, right = 0 }
+
+ins_left_a { is_tmuxed, padding = no_padding, color = { fg = "#cfcfcf", bg = "#405075" } }
+ins_left_a "mode"
+ins_left_c "filename"
+ins_right { lsp_status, padding = no_padding }
 ins_right { scala_diagnostics }
-ins_right { "filetype", padding = { left = 0, right = 0 } }
+ins_right { "filetype", padding = no_padding }
 ins_right( filetype_separator )
 ins_right { "encoding", padding = { left = 0, right = 1 } }
-ins_right { function() return "[" end, padding = { left = 0, right = 0 } }
-ins_right { "fileformat", icons_enabled = false, padding = { left = 0, right = 0 } }
+ins_right { function() return "[" end, padding = no_padding }
+ins_right { "fileformat", icons_enabled = false, padding = no_padding }
 ins_right { function() return "]" end, padding = { left = 0, right = 1 } }
 
 require( "lualine" ).setup( config )
