@@ -82,10 +82,21 @@ local function scala_diagnostics()
   end
 end
 
+local filetype_separator = {
+  function()
+    if vim.bo.ft and vim.bo.ft ~= "" then
+      return " | "
+    else
+      return ""
+    end
+  end,
+  padding = { left = 0, right = 0 }
+}
+
 ins_left "filename"
 ins_right { scala_diagnostics }
 ins_right { "filetype", padding = { left = 0, right = 0 } }
-ins_right { function() return " |" end, padding = { left = 0, right = 1 } }
+ins_right( filetype_separator )
 ins_right { "encoding", padding = { left = 0, right = 1 } }
 ins_right { function() return "[" end, padding = { left = 0, right = 0 } }
 ins_right { "fileformat", icons_enabled = false, padding = { left = 0, right = 0 } }
