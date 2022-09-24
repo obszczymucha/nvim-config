@@ -1,3 +1,5 @@
+local is_blank = require( "obszczymucha.common" ).is_blank
+
 ---@diagnostic disable: unused-local
 local config = {
   options = {
@@ -81,7 +83,7 @@ local diagnostics = {
 local function scala_diagnostics()
   if vim.bo.filetype == "scala" then
     local status = vim.g[ "metals_status" ]
-    return status and status .. " |" or ""
+    return not is_blank( status ) and status .. " |" or ""
   else
     return ""
   end
@@ -110,7 +112,7 @@ end
 local function lsp_status()
   local status = require( "lsp-status" ).status()
 
-  if status and status ~= "" and not status:match("^%s*$") then
+  if status and status ~= "" and not is_blank( status ) then
     return status .. " | "
   else
     return ""

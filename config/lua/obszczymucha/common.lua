@@ -13,4 +13,8 @@ M.princess_kenny = function()
   return "Princess Kenny"
 end
 
+M.is_blank = function( s )
+  return not s or s:match( "^%s*$" ) ~= nil
+end
+
 return M
