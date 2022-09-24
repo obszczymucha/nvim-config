@@ -1,5 +1,4 @@
-* snippets for scala: https://youtu.be/ihKdrhPaZjg?t=5798
-* running tests in scala
 * debugging in scala
-* add lua lsp status to statusline
+* add json support
+* add yaml support
 
