@@ -6,7 +6,32 @@ lsp_status.config( {
 
 lsp_status.register_progress()
 
-require 'lspconfig'.hls.setup( {
-  on_attach = lsp_status.on_attach,
-  capabilities = lsp_status.capabilities
-} )
+require 'lspconfig'.hls.setup {}
+
+require 'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file( "", true ),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+
+require 'lspconfig'.bashls.setup {
+  cmd_env = { GLOB_PATTERN = "*@(.sh|.inc|.bash|.command|.zshrc)" },
+  filetypes = { "sh", "zsh" }
+}

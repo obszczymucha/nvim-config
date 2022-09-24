@@ -102,8 +102,9 @@ function M.bind( binding_name )
     return
   end
 
-  local f = require( "obszczymucha.keymaps.coc" )[ binding_name ]
-  if f then f() end
+  print( "No mapping found." )
+  --local f = require( "obszczymucha.keymaps.coc" )[ binding_name ]
+  --if f then f() end
 end
 
 nnoremap( "<C-d>", function() return smart_page_down() end )
@@ -131,10 +132,10 @@ nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
 nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
 nmap( "<leader>o", remap( "outline" ), { silent = true, nowait = true } )
 
-vim.keymap.del( "n", "<leader>a" )
+--vim.keymap.del( "n", "<leader>a" )
 nmap( "<leader>ac", remap( "code_action" ), { silent = true } )
 
-vim.keymap.del( "n", "<leader>c" )
+--vim.keymap.del( "n", "<leader>c" )
 nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
 
 local function test()
@@ -149,4 +150,3 @@ nnoremap( "<C-h>", "<cmd>tabp<CR>", { silent = true } )
 nnoremap( "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 return M
-
