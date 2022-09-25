@@ -1,10 +1,15 @@
 local M = {}
 
-function M.go_to_definition()
-  vim.cmd( "lua vim.lsp.buf.definition()" )
+function M.peek_definition()
+  --vim.cmd( "lua vim.lsp.buf.definition()" )
+  vim.cmd( "Lspsaga peek_definition" )
 end
 
-function M.show_documentation()
+function M.references()
+  vim.cmd( "lua vim.lsp.buf.references()" )
+end
+
+function M.documentation()
   --vim.cmd( "lua vim.lsp.buf.hover()" )
   vim.cmd( "Lspsaga hover_doc" )
 end

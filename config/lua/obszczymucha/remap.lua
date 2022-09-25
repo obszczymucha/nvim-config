@@ -102,9 +102,8 @@ function M.bind( binding_name )
     return
   end
 
-  print( "No mapping found." )
-  --local f = require( "obszczymucha.keymaps.coc" )[ binding_name ]
-  --if f then f() end
+  local f = require( "obszczymucha.keymaps.default" )[ binding_name ]
+  if f then f() end
 end
 
 nnoremap( "<C-d>", function() return smart_page_down() end )
@@ -124,18 +123,15 @@ local function remap( name )
 end
 
 -- Filetype-based mappings. See obszczymucha/kemaps
-nmap( "gd", remap( "go_to_definition" ), { silent = true } )
-nmap( "K", remap( "show_documentation" ), { silent = true } )
+nmap( "gd", remap( "peek_definition" ), { silent = true } )
+nmap( "gr", remap( "references" ), { silent = true } )
+nmap( "K", remap( "documentation" ), { silent = true } )
 nmap( "<leader>rn", remap( "rename" ), { silent = true } )
 nmap( "<leader>F", remap( "format_file" ), { silent = true, nowait = true } )
 nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
 nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
 nmap( "<leader>o", remap( "outline" ), { silent = true, nowait = true } )
-
---vim.keymap.del( "n", "<leader>a" )
 nmap( "<leader>ac", remap( "code_action" ), { silent = true } )
-
---vim.keymap.del( "n", "<leader>c" )
 nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
 
 local function test()
