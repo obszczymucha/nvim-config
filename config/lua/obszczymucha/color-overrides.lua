@@ -6,5 +6,4 @@ cmd( "autocmd ColorScheme * hi Shebang ctermfg=red ctermbg=black guifg=#ff0000" 
 cmd( "autocmd ColorScheme * syntax match Shebang /#!.*/" )
 
 -- Override lspsaga's colors
-cmd( "autocmd ColorScheme * highlight LspFloatWinNormal guifg=#ffffff" )
-
+cmd( "autocmd ColorScheme * highlight LspFloatWinNormal guibg=NONE" )
