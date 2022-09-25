@@ -1,4 +1,9 @@
-require( "dapui" ).setup( {
+local prequire = require("obszczymucha.common").prequire
+local M = prequire("dapui")
+
+if not M then return end
+
+M.setup( {
   icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
@@ -55,11 +60,11 @@ require( "dapui" ).setup( {
   }
 } )
 
-local dap, dapui = require( "dap" ), require( "dapui" )
+--local dap, dapui = require( "dap" ), require( "dapui" )
 
-dap.listeners.after.event_initialized[ "dapui_config" ] = function()
-  dapui.open()
-end
+--dap.listeners.after.event_initialized[ "dapui_config" ] = function()
+  --dapui.open({})
+--end
 
 --dap.listeners.before.event_terminated[ "dapui_config" ] = function()
 --dapui.close()

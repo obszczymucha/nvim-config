@@ -149,4 +149,11 @@ nnoremap( "<leader>t", "<cmd>tabe<CR>", { silent = true } )
 nnoremap( "<C-h>", "<cmd>tabp<CR>", { silent = true } )
 nnoremap( "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
+-- Debugging
+nnoremap( "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
+nnoremap( "<F7>", [[:lua require'dap'.step_into()<CR>]], { silent = true } )
+nnoremap( "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
+nnoremap( "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true } )
+nnoremap( "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
+
 return M
