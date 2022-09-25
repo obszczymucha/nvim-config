@@ -1,5 +1,9 @@
 local M = {}
 
+function M.go_to_definition()
+  vim.cmd( "lua vim.lsp.buf.definition()" )
+end
+
 function M.peek_definition()
   --vim.cmd( "lua vim.lsp.buf.definition()" )
   vim.cmd( "Lspsaga peek_definition" )

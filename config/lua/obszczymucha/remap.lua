@@ -123,7 +123,8 @@ local function remap( name )
 end
 
 -- Filetype-based mappings. See obszczymucha/kemaps
-nmap( "gd", remap( "peek_definition" ), { silent = true } )
+nmap( "gd", remap( "go_to_definition" ), { silent = true } )
+nmap( "gj", remap( "peek_definition" ), { silent = true } )
 nmap( "gr", remap( "references" ), { silent = true } )
 nmap( "K", remap( "documentation" ), { silent = true } )
 nmap( "<leader>rn", remap( "rename" ), { silent = true } )
