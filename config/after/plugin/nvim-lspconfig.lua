@@ -37,3 +37,16 @@ require 'lspconfig'.bashls.setup {
 }
 
 require 'lspconfig'.tsserver.setup {}
+
+require 'lspconfig'.pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { 'W391' },
+          maxLineLength = 140
+        }
+      }
+    }
+  }
+}
