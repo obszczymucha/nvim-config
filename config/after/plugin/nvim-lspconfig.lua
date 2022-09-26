@@ -35,3 +35,5 @@ require 'lspconfig'.bashls.setup {
   cmd_env = { GLOB_PATTERN = "*@(.sh|.inc|.bash|.command|.zshrc)" },
   filetypes = { "sh", "zsh" }
 }
+
+require 'lspconfig'.tsserver.setup {}
