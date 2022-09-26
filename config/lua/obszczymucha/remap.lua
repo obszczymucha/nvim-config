@@ -42,7 +42,7 @@ nnoremap( "<A-q>", "<cmd>q<CR>" )
 
 -- Harpoon
 nnoremap( "<A-`>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
-nnoremap( "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true }  )
+nnoremap( "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
 nnoremap( "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
 nnoremap( "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
 nnoremap( "<A-3>", [[:lua require( "harpoon.ui" ).nav_file( 3 )<CR>]], { silent = true } )
@@ -68,18 +68,18 @@ vnoremap( "<leader>y", "\"+y" )
 nnoremap( "<leader>d", "\"_d" )
 vnoremap( "<leader>d", "\"_d" )
 
-local function smart_page_down()
+local function smoothie_smart_down()
   local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
   local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
 
   if row < middle then
-    return vim.cmd( [[call smoothie#do( "M" )]] )
+    vim.cmd( [[call smoothie#do( "M" )]] )
   else
-    return vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
+    vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
   end
 end
 
-local function smart_page_up()
+local function smoothie_smart_up()
   local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
   local current = line( "." )
   local top = line( "w0" )
@@ -87,10 +87,18 @@ local function smart_page_up()
   local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
 
   if relative > middle then
-    return vim.cmd( [[call smoothie#do( "M" )]] )
+    vim.cmd( [[call smoothie#do( "M" )]] )
   else
-    return vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
+    vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
   end
+end
+
+local function smoothie_page_down( key )
+  vim.cmd( [[call smoothie#do( "\<C-f>" )]] )
+end
+
+local function smoothie_page_up( key )
+  vim.cmd( [[call smoothie#do( "\<C-b>" )]] )
 end
 
 function M.bind( binding_name )
@@ -106,8 +114,10 @@ function M.bind( binding_name )
   if f then f() end
 end
 
-nnoremap( "<C-d>", function() return smart_page_down() end )
-nnoremap( "<C-u>", function() return smart_page_up() end )
+nnoremap( "<C-d>", function() smoothie_smart_down() end )
+nnoremap( "<C-u>", function() smoothie_smart_up() end )
+nnoremap( "<C-f>", function() smoothie_page_down() end )
+nnoremap( "<C-b>", function() smoothie_page_up() end )
 nnoremap( "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
 nnoremap( "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 nnoremap( "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
