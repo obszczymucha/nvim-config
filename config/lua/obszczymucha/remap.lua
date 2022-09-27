@@ -41,7 +41,7 @@ nnoremap( "<A-l>", "<C-w>l" )
 nnoremap( "<A-q>", "<cmd>q<CR>" )
 
 -- Harpoon
-nnoremap( "<A-`>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
+nnoremap( "<A-a>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
 nnoremap( "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
 nnoremap( "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
 nnoremap( "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
