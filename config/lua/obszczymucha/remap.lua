@@ -166,4 +166,12 @@ nnoremap( "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
 nnoremap( "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true } )
 nnoremap( "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
 
+-- Surround mappings
+vnoremap( "<space>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
+vnoremap( "<space>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
+vnoremap( "<space>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
+vnoremap( "<space>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
+vnoremap( "<space>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
+vnoremap( "<space><BS>", "<Esc>`>x`<x" )
+
 return M
