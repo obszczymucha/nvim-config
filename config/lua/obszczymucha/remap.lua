@@ -180,6 +180,7 @@ vnoremap( "<space>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
 vnoremap( "<space>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
 vnoremap( "<space><BS>", "<Esc>`>x`<x" )
 nnoremap( "<space><BS>", "\"_v%<Esc>`>x`<x" )
-inoremap( "<A-w>", remap( "fast_wrap" ), { silent = true } )
+inoremap( "<A-w>", remap( "fast_continuous_wrap" ), { silent = true } )
+inoremap( "<A-W>", remap( "fast_word_wrap" ), { silent = true } )
 
 return M
