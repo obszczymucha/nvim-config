@@ -38,4 +38,4 @@ api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon
 cmd( "cnoreabbrev H vert bo h" )
 
 g.smoothie_no_default_mappings = true
-g.AutoPairsShortcutFastWrap = "<A-e>"
+g.AutoPairsShortcutFastWrap = "<A-w>"
