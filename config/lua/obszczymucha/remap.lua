@@ -68,6 +68,8 @@ vnoremap( "<leader>y", "\"+y" )
 nnoremap( "<leader>d", "\"_d" )
 vnoremap( "<leader>d", "\"_d" )
 
+nnoremap( "<leader>c", "\"_c" )
+
 local function smoothie_smart_down()
   local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
   local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
@@ -177,5 +179,7 @@ vnoremap( "<space>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
 vnoremap( "<space>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
 vnoremap( "<space>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
 vnoremap( "<space><BS>", "<Esc>`>x`<x" )
+nnoremap( "<space><BS>", "\"_v%<Esc>`>x`<x" )
+inoremap( "<A-w>", remap( "fast_wrap" ), { silent = true } )
 
 return M
