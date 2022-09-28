@@ -137,6 +137,8 @@ end
 
 -- Filetype-based mappings. See obszczymucha/kemaps
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
+nmap( "gi", remap( "go_to_implementation" ), { silent = true } )
+nmap( "<C-k>", remap( "signature_help" ), { silent = true } )
 nmap( "gj", remap( "peek_definition" ), { silent = true } )
 nmap( "gr", remap( "references" ), { silent = true } )
 nmap( "K", remap( "documentation" ), { silent = true } )
@@ -147,6 +149,8 @@ nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
 nmap( "<leader>o", remap( "outline" ), { silent = true, nowait = true } )
 nmap( "<leader>ac", remap( "code_action" ), { silent = true } )
 nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
+nmap( "<leader>tf", remap( "test_file" ), { silent = true } )
+nmap( "<leader>tt", remap( "test_nearest_method" ), { silent = true } )
 
 local function test()
   print( "Princess Kenny" )
@@ -155,7 +159,7 @@ end
 nnoremap( "<leader>q", function() return test() end )
 
 -- Tab navigation
-nnoremap( "<leader>t", "<cmd>tabe<CR>", { silent = true } )
+nnoremap( "<leader>T", "<cmd>tabe<CR>", { silent = true } )
 nnoremap( "<C-h>", "<cmd>tabp<CR>", { silent = true } )
 nnoremap( "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 

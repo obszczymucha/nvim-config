@@ -1,6 +1,15 @@
 local project_name = vim.fn.fnamemodify( vim.fn.getcwd(), ":p:h:t" )
 local dependencies_dir = os.getenv( "NVIM_DEPENDENCIES_DIR" )
 local workspace_dir = os.getenv( "HOME" ) .. "/.jdtls/" .. project_name
+local java_debug_plugin = os.getenv( "JAVA_DEBUG_PLUGIN_DIR" ) ..
+    "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+local vscode_java_test_extension = os.getenv( "VSCODE_JAVA_TEST_EXTENSION_DIR" ) .. "/server/*jar"
+
+local bundles = {
+  vim.fn.glob( java_debug_plugin )
+}
+
+vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -64,9 +73,17 @@ local config = {
   --
   -- If you don"t plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
-    bundles = {}
-  },
+    bundles = bundles
+  }
 }
+
+config[ "on_attach" ] = function( client, bufnr )
+  -- With `hotcodereplace = "auto"` the debug adapter will try to apply code changes
+  -- you make during a debug session immediately.
+  -- Remove the option if you do not want that.
+  require( "jdtls" ).setup_dap( { hotcodereplace = "auto" } )
+end
+
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require( "jdtls" ).start_or_attach( config )
