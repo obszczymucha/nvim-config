@@ -43,9 +43,14 @@ require 'lspconfig'.pylsp.setup {
     pylsp = {
       plugins = {
         pycodestyle = {
-          ignore = { 'W391' },
           maxLineLength = 140
         }
+      },
+      autopep = {
+        enabled = true
+      },
+      yapf = {
+        enabled = false
       }
     }
   }
