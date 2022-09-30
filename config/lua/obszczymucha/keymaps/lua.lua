@@ -1,9 +1,11 @@
+local common = require( "obszczymucha.common" )
 local M = {}
 
 local function wrap( operation )
-  local _, col = unpack( vim.api.nvim_win_get_cursor( 0 ) )
-  local char = string.sub( vim.api.nvim_get_current_line(), col + 1, col + 1 )
-  vim.api.nvim_input( string.format( "<Esc>l\"_xi <Esc>%sa %s<Esc>", operation, char ) )
+  local char = common.get_char_under_cursor()
+  local delete = (char == '"' or char == "'") and "\"_x" or ""
+
+  vim.api.nvim_input( string.format( "<Esc>l\"_xi <Esc>%sa %s<Esc>%s", operation, char, delete ) )
 end
 
 function M.fast_continuous_wrap()
