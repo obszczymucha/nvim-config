@@ -59,6 +59,11 @@ local function filter_diagnostics( diagnostic )
     return true
   end
 
+  -- pyspock's given method
+  if diagnostic.message == '"given" is not accessed' then
+    return false
+  end
+
   -- pyspock's expect method
   if diagnostic.message == '"expect" is not accessed' then
     return false
