@@ -72,7 +72,7 @@ nnoremap( "<leader>c", "\"_c" )
 
 local function smoothie_smart_down()
   local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
-  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
+  local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
 
   if row < middle then
     vim.cmd( [[call smoothie#do( "M" )]] )
