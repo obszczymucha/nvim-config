@@ -8,6 +8,7 @@ local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 local cnoremap = keymap.cnoremap
 local nmap = keymap.nmap
+local imap = keymap.imap
 
 -- netrw
 local netrw = function( functionName )
@@ -141,6 +142,7 @@ end
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
 nmap( "gi", remap( "go_to_implementation" ), { silent = true } )
 nmap( "<C-k>", remap( "signature_help" ), { silent = true } )
+imap( "<C-k>", remap( "signature_help" ), { silent = true } )
 nmap( "gj", remap( "peek_definition" ), { silent = true } )
 nmap( "gr", remap( "references" ), { silent = true } )
 nmap( "K", remap( "documentation" ), { silent = true } )
