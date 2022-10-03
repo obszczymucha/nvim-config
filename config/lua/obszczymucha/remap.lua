@@ -70,6 +70,7 @@ nnoremap( "<leader>d", "\"_d" )
 vnoremap( "<leader>d", "\"_d" )
 
 nnoremap( "<leader>c", "\"_c" )
+nnoremap( "<leader>x", "\"_x" )
 
 local function smoothie_smart_down()
   local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
