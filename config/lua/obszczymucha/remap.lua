@@ -30,9 +30,9 @@ nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )
 
 -- Window management
 nnoremap( "<A-v>", "<C-w>v<C-w>w" )
-nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>Telescope find_files<CR>" )
+nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
 nnoremap( "<A-s>", "<C-w>s<C-w>w" )
-nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>Telescope find_files<CR>" )
+nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
 nnoremap( "<A-j>", "<C-w>j" )
 nnoremap( "<A-k>", "<C-w>k" )
 nnoremap( "<A-h>", "<C-w>h" )
