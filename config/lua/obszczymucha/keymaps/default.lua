@@ -33,7 +33,7 @@ function M.rename()
 end
 
 function M.format_file()
-  vim.cmd( "lua vim.lsp.buf.formatting()" )
+  vim.cmd( "lua vim.lsp.buf.format { async = true }" )
 end
 
 function M.next_diagnostic()
