@@ -61,7 +61,7 @@ end
 
 local function wrap( operation )
   local char = common.get_char_under_cursor()
-  local delete = (char == '"' or char == "'") and "\"_x" or ""
+  local delete = (char == '"' or char == "'" or char == "`") and "\"_x" or ""
 
   vim.api.nvim_input( string.format( "<Esc>l\"_x<Esc>%sa%s<Esc>%s", operation, char, delete ) )
 end
