@@ -74,10 +74,16 @@ nnoremap( "<leader>c", "\"_c" )
 nnoremap( "<leader>x", "\"_x" )
 
 local function smoothie_smart_down()
-  local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
-  local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
+  --local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
+  --local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
 
-  if row < middle then
+  local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
+  local current = line( "." )
+  local top = line( "w0" )
+  local relative = current - top + 1
+  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
+
+  if relative < middle then
     vim.cmd( [[call smoothie#do( "M" )]] )
   else
     vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
@@ -98,11 +104,20 @@ local function smoothie_smart_up()
   end
 end
 
-local function smoothie_page_down( key )
+local function smoothie_down()
+  vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
+end
+
+local function smoothie_up()
+  vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
+end
+
+
+local function smoothie_page_down()
   vim.cmd( [[call smoothie#do( "\<C-f>" )]] )
 end
 
-local function smoothie_page_up( key )
+local function smoothie_page_up()
   vim.cmd( [[call smoothie#do( "\<C-b>" )]] )
 end
 
@@ -119,8 +134,10 @@ function M.bind( binding_name )
   if f then f() end
 end
 
-nnoremap( "<C-d>", function() smoothie_smart_down() end )
-nnoremap( "<C-u>", function() smoothie_smart_up() end )
+nnoremap( "<A-d>", function() smoothie_smart_down() end )
+nnoremap( "<A-u>", function() smoothie_smart_up() end )
+nnoremap( "<C-d>", function() smoothie_down() end )
+nnoremap( "<C-u>", function() smoothie_up() end )
 nnoremap( "<C-f>", function() smoothie_page_down() end )
 nnoremap( "<C-b>", function() smoothie_page_up() end )
 nnoremap( "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
@@ -128,6 +145,9 @@ nnoremap( "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 nnoremap( "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
 nnoremap( "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
 nnoremap( "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
+nnoremap( "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
+nnoremap( "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
+nnoremap( "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
 
 inoremap( "<C-c>", "<Esc>" )
 
