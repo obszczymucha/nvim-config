@@ -81,7 +81,8 @@ local function smoothie_smart_down()
   local current = line( "." )
   local top = line( "w0" )
   local relative = current - top + 1
-  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
+  local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
+  --print(string.format("middle: %s, relative: %s", middle, relative))
 
   if relative < middle then
     vim.cmd( [[call smoothie#do( "M" )]] )
