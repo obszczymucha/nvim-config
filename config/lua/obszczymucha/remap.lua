@@ -25,6 +25,7 @@ nnoremap( "<leader>fG", "<cmd>lua require( 'obszczymucha.telescope' ).live_grep(
 nnoremap( "<leader>fb", "<cmd>Telescope buffers<CR>" )
 nnoremap( "<leader>fh", "<cmd>Telescope help_tags<CR>" )
 nnoremap( "<leader>fH", "<cmd>Telescope highlights<CR>" )
+nnoremap( "<leader>fd", "<cmd>Telescope diagnostics<CR>" )
 
 -- Create a file under cursor
 nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )
