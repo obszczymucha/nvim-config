@@ -23,13 +23,10 @@ o.expandtab = true
 o.smarttab = true
 o.hlsearch = false
 o.incsearch = true
-
 o.smartindent = true
-
 o.wrap = false
 
 g.mapleader = " "
-
 g.airline_theme = "deus"
 g.airline_symbols = { colnr = "c:", linenr = " l:" }
 g.airline_powerline_fonts = 1
@@ -39,3 +36,6 @@ cmd( "cnoreabbrev H vert bo h" )
 
 g.smoothie_no_default_mappings = true
 g.AutoPairsShortcutFastWrap = ""
+
+cmd( "autocmd BufWinLeave *.* mkview" )
+cmd( "autocmd BufWinEnter *.* silent loadview" )
