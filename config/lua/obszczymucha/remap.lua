@@ -15,7 +15,7 @@ local netrw = function( functionName )
   return string.format( '<cmd>lua require( "obszczymucha.netrw" ).%s()<CR>', functionName )
 end
 
-nnoremap( "<M-Esc>", netrw( "toggle_netrw" ) )
+nnoremap( "-", netrw( "toggle_netrw" ) )
 
 -- Telescope
 nnoremap( "<leader>ff", "<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
