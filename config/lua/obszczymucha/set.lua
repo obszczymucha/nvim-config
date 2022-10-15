@@ -37,5 +37,6 @@ cmd( "cnoreabbrev H vert bo h" )
 g.smoothie_no_default_mappings = true
 g.AutoPairsShortcutFastWrap = ""
 
---cmd( "autocmd BufWinLeave *.* mkview" )
---cmd( "autocmd BufWinEnter *.* silent loadview" )
+cmd( "set viewoptions-=options" )
+cmd( "autocmd BufWinLeave *.* mkview" )
+cmd( "autocmd BufWinEnter *.* silent loadview" )
