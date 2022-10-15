@@ -2,4 +2,5 @@
 * add ctrl+j/ctrl+k keybinds for autocompletion navigation
 * add json support
 * add yaml support
+* add nvim-jdtls messages into lualine
 
