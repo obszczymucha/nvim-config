@@ -58,7 +58,7 @@ metals_config.init_options.statusBarProvider = "on"
 
 -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-metals_config.capabilities = require( "cmp_nvim_lsp" ).update_capabilities( capabilities )
+metals_config.capabilities = require( "cmp_nvim_lsp" ).default_capabilities( capabilities )
 
 -- Debug settings if you're using nvim-dap
 --local dap = require("dap")
