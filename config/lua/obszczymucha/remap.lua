@@ -179,6 +179,7 @@ nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
 nmap( "<leader>tf", remap( "test_file" ), { silent = true } )
 nmap( "<leader>tt", remap( "test_nearest_method" ), { silent = true } )
 nmap( "<leader>O", remap( "organize_imports" ), { silent = true, nowait = true } )
+nmap( "<leader>fc", remap( "compile" ), { silent = true, nowait = true } )
 
 local function test()
   print( "Princess Kenny" )
