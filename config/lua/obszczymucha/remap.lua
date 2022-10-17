@@ -114,7 +114,6 @@ local function smoothie_up()
   vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
 end
 
-
 local function smoothie_page_down()
   vim.cmd( [[call smoothie#do( "\<C-f>" )]] )
 end
@@ -152,21 +151,44 @@ nnoremap( "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 nnoremap( "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
 
 inoremap( "<C-c>", "<Esc>" )
+local function remap( name )
+  return string.format( string.format( "<cmd>lua require( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
+end
+
+local function completion_down()
+  local cmp = prequire( "cmp" )
+  if not cmp then return end
+
+  if cmp.visible() then
+    cmp.select_next_item()
+  end
+end
+
+local function completion_up_or( orFunction )
+  local cmp = prequire( "cmp" )
+  if not cmp then return end
+
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif orFunction then
+    orFunction()
+  end
+end
+
+inoremap( "<C-j>", function() completion_down() end )
+inoremap( "<A-j>", function() completion_down() end )
+inoremap( "<C-k>", function() completion_up_or( function() remap( "signature_help" ) end ) end )
+inoremap( "<A-k>", function() completion_up_or() end )
 
 -- wildmenu is the completion menu in the command line
 cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
 cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
 
-local function remap( name )
-  return string.format( string.format( "<cmd>lua require( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
-end
-
 -- Filetype-based mappings. See obszczymucha/kemaps
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
 nmap( "gi", remap( "go_to_implementation" ), { silent = true } )
 nmap( "<C-k>", remap( "signature_help" ), { silent = true } )
-imap( "<C-k>", remap( "signature_help" ), { silent = true } )
 nmap( "gj", remap( "peek_definition" ), { silent = true } )
 nmap( "gr", remap( "references" ), { silent = true } )
 nmap( "K", remap( "documentation" ), { silent = true } )
