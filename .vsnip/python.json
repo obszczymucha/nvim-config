@@ -1,0 +1,16 @@
+{
+  "GivenWhenThen": {
+    "prefix": [
+      "gwt"
+    ],
+    "body": [
+      "# Given",
+      "$0",
+      "",
+      "# When",
+      "",
+      "# Then"
+    ],
+    "description": "Given / When / Then"
+  }
+}
