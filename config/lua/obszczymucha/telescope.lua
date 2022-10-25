@@ -7,7 +7,18 @@ local options = {
   layout_strategy = "vertical",
   layout_config = {
     preview_cutoff = 1
-  }
+  },
+  attach_mappings = function( _, map )
+    map( "i", "<A-j>", function( _prompt_bufnr )
+      require( "telescope.actions" ).move_selection_next( _prompt_bufnr )
+    end )
+
+    map( "i", "<A-k>", function( _prompt_bufnr )
+      require( "telescope.actions" ).move_selection_previous( _prompt_bufnr )
+    end )
+
+    return true
+  end
 }
 
 require( "telescope" ).setup {
