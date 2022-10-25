@@ -8,6 +8,7 @@ local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 local cnoremap = keymap.cnoremap
 local nmap = keymap.nmap
+local vmap = keymap.vmap
 
 -- netrw
 local netrw = function( functionName )
@@ -202,6 +203,10 @@ nmap( "<leader>tf", remap( "test_file" ), { silent = true } )
 nmap( "<leader>tt", remap( "test_nearest_method" ), { silent = true } )
 nmap( "<leader>O", remap( "organize_imports" ), { silent = true, nowait = true } )
 nmap( "<leader>fc", remap( "compile" ), { silent = true, nowait = true } )
+nmap( "<leader>j", ":%!jq<CR>", { silent = true, nowait = true } )
+nmap( "<leader>J", ":%!jq -c<CR>", { silent = true, nowait = true } )
+vmap( "<leader>j", ":'<,'>%!jq<CR>", { silent = true, nowait = true } )
+vmap( "<leader>J", ":'<,'>%!jq -c<CR>", { silent = true, nowait = true } )
 
 local function test()
   print( "Princess Kenny" )
