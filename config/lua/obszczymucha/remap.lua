@@ -8,7 +8,6 @@ local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 local cnoremap = keymap.cnoremap
 local nmap = keymap.nmap
-local imap = keymap.imap
 
 -- netrw
 local netrw = function( functionName )
