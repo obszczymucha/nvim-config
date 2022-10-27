@@ -3,22 +3,24 @@ local telescope = require( "telescope.builtin" )
 local previewers = require( "telescope.previewers" )
 local M = {}
 
+local mappings = function( _, map )
+  map( "i", "<A-j>", function( _prompt_bufnr )
+    require( "telescope.actions" ).move_selection_next( _prompt_bufnr )
+  end )
+
+  map( "i", "<A-k>", function( _prompt_bufnr )
+    require( "telescope.actions" ).move_selection_previous( _prompt_bufnr )
+  end )
+
+  return true
+end
+
 local options = {
   layout_strategy = "vertical",
   layout_config = {
     preview_cutoff = 1
   },
-  attach_mappings = function( _, map )
-    map( "i", "<A-j>", function( _prompt_bufnr )
-      require( "telescope.actions" ).move_selection_next( _prompt_bufnr )
-    end )
-
-    map( "i", "<A-k>", function( _prompt_bufnr )
-      require( "telescope.actions" ).move_selection_previous( _prompt_bufnr )
-    end )
-
-    return true
-  end
+  attach_mappings = mappings
 }
 
 require( "telescope" ).setup {
@@ -43,6 +45,22 @@ end
 
 function M.live_grep( no_ignore )
   no_ignore_wrapper( telescope.live_grep, { glob_pattern = "*" }, no_ignore )
+end
+
+function M.buffers()
+  telescope.buffers( { layout_strategy = "vertical", attach_mappings = mappings } )
+end
+
+function M.help_tags()
+  telescope.help_tags( { layout_strategy = "vertical", attach_mappings = mappings } )
+end
+
+function M.highlights()
+  telescope.highlights( { attach_mappings = mappings } )
+end
+
+function M.diagnostics()
+  telescope.diagnostics( { layout_strategy = "vertical", attach_mappings = mappings } )
 end
 
 return M
