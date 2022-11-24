@@ -31,6 +31,7 @@ return require( "packer" ).startup( function( use )
   use { "kevinhwang91/nvim-bqf", ft = "qf" }
   use { "jiangmiao/auto-pairs" }
   use { "mfussenegger/nvim-jdtls" }
+  use { "mfussenegger/nvim-treehopper" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

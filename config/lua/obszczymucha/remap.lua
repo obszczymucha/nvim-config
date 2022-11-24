@@ -9,6 +9,7 @@ local xnoremap = keymap.xnoremap
 local cnoremap = keymap.cnoremap
 local nmap = keymap.nmap
 local vmap = keymap.vmap
+local omap = keymap.omap
 
 -- netrw
 local netrw = function( functionName )
@@ -234,5 +235,9 @@ vnoremap( "<space><BS>", "<Esc>`>x`<x" )
 nnoremap( "<space><BS>", "\"_v%<Esc>`>x`<x" )
 inoremap( "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
 inoremap( "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
+
+-- Treehopper
+omap( "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { silent = true } )
+xnoremap( "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
 
 return M
