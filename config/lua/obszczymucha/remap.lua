@@ -175,15 +175,13 @@ local function completion_up_or( orFunction )
   end
 end
 
-inoremap( "<C-j>", function() completion_down() end )
 inoremap( "<A-j>", function() completion_down() end )
-inoremap( "<C-k>", function() completion_up_or( function() remap( "signature_help" ) end ) end )
 inoremap( "<A-k>", function() completion_up_or() end )
+inoremap( "<C-k>", remap( "signature_help" ), { silent = true } )
 
 -- wildmenu is the completion menu in the command line
-cnoremap( "<C-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
-cnoremap( "<C-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
-cnoremap( "<CR>", [[wildmenumode() ? "\<Up>" : "\<CR>"]], { expr = true } )
+cnoremap( "<A-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
+cnoremap( "<A-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 
 -- Filetype-based mappings. See obszczymucha/kemaps
 nmap( "gd", remap( "go_to_definition" ), { silent = true } )
