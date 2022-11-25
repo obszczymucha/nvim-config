@@ -33,6 +33,7 @@ return require( "packer" ).startup( function( use )
   use { "jiangmiao/auto-pairs" }
   use { "mfussenegger/nvim-jdtls" }
   use { "mfussenegger/nvim-treehopper" }
+  use { "nvim-telescope/telescope-file-browser.nvim" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

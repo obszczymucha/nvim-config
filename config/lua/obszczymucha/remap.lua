@@ -11,12 +11,7 @@ local nmap = keymap.nmap
 local vmap = keymap.vmap
 local omap = keymap.omap
 
--- netrw
-local netrw = function( functionName )
-  return string.format( '<cmd>lua require( "obszczymucha.netrw" ).%s()<CR>', functionName )
-end
-
-nnoremap( "-", netrw( "toggle_netrw" ) )
+nnoremap( "-", [[:Telescope file_browser<CR>]], { silent = true } )
 
 -- Telescope
 nnoremap( "<leader>ff", "<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
