@@ -11,7 +11,6 @@ local nmap = keymap.nmap
 local vmap = keymap.vmap
 local omap = keymap.omap
 
-nnoremap( "-", [[:Telescope file_browser<CR>]], { silent = true } )
 
 -- Telescope
 nnoremap( "<leader>ff", "<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
@@ -22,6 +21,7 @@ nnoremap( "<leader>fb", "<cmd>lua require( 'obszczymucha.telescope' ).buffers()<
 nnoremap( "<leader>fh", "<cmd>lua require( 'obszczymucha.telescope' ).help_tags()<CR>" )
 nnoremap( "<leader>fH", "<cmd>lua require( 'obszczymucha.telescope' ).highlights()<CR>" )
 nnoremap( "<leader>fd", "<cmd>lua require( 'obszczymucha.telescope' ).diagnostics()<CR>" )
+nnoremap( "-", "<cmd>lua require( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Create a file under cursor
 nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )

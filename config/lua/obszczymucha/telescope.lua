@@ -1,35 +1,43 @@
 local g = vim.g
 local telescope = require( "telescope.builtin" )
 local previewers = require( "telescope.previewers" )
+local actions = require( "telescope.actions" )
 local M = {}
 
-local mappings = function( _, map )
-  map( "i", "<A-j>", function( _prompt_bufnr )
-    require( "telescope.actions" ).move_selection_next( _prompt_bufnr )
-  end )
-
-  map( "i", "<A-k>", function( _prompt_bufnr )
-    require( "telescope.actions" ).move_selection_previous( _prompt_bufnr )
-  end )
-
-  return true
-end
+local mappings = {
+  i = {
+    ["<A-j>"] = actions.move_selection_next,
+    ["<A-k>"] = actions.move_selection_previous,
+    ["<Esc>"] = actions.close,
+    ["<C-u>"] = false
+  }
+}
 
 local options = {
   layout_strategy = "vertical",
   layout_config = {
     preview_cutoff = 1
-  },
-  attach_mappings = mappings
+  }
 }
 
 require( "telescope" ).setup {
   defaults = {
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
-    qflist_previewer = previewers.vim_buffer_qflist.new
-  }
+    qflist_previewer = previewers.vim_buffer_qflist.new,
+    mappings = mappings
+  },
+  extensions = {
+    file_browser = {
+      --theme = "ivy",
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = mappings
+    },
+  },
 }
+
+require( "telescope" ).load_extension "file_browser"
 
 local function no_ignore_wrapper( f, opts, override )
   if override or g.telescope_no_ignore then
@@ -61,6 +69,14 @@ end
 
 function M.diagnostics()
   telescope.diagnostics( { layout_strategy = "vertical", attach_mappings = mappings } )
+end
+
+function M.file_browser()
+  local opts = {
+    -- TODO: figure out how to shrink picker and extend previewer
+  }
+
+  require( "telescope" ).extensions.file_browser.file_browser( opts )
 end
 
 return M
