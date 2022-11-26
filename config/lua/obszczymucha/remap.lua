@@ -131,6 +131,8 @@ function M.bind( binding_name )
   if f then f() end
 end
 
+nnoremap( "<A-e>", "<C-e>j" )
+nnoremap( "<A-y>", "<C-y>k" )
 nnoremap( "<A-d>", function() smoothie_smart_down() end )
 nnoremap( "<A-u>", function() smoothie_smart_up() end )
 nnoremap( "<C-d>", function() smoothie_down() end )
