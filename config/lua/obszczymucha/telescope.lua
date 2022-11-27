@@ -73,7 +73,9 @@ end
 
 function M.file_browser()
   local opts = {
-    -- TODO: figure out how to shrink picker and extend previewer
+    layout_config = {
+      preview_width = 0.6
+    }
   }
 
   require( "telescope" ).extensions.file_browser.file_browser( opts )
