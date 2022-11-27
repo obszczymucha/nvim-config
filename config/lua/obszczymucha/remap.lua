@@ -11,26 +11,25 @@ local nmap = keymap.nmap
 local vmap = keymap.vmap
 local omap = keymap.omap
 
-
 -- Telescope
-nnoremap( "<leader>ff", "<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
-nnoremap( "<leader>fg", "<cmd>lua require( 'obszczymucha.telescope' ).live_grep()<CR>" )
-nnoremap( "<leader>fF", "<cmd>lua require( 'obszczymucha.telescope' ).find_files( true )<CR>" )
-nnoremap( "<leader>fG", "<cmd>lua require( 'obszczymucha.telescope' ).live_grep( true )<CR>" )
-nnoremap( "<leader>fb", "<cmd>lua require( 'obszczymucha.telescope' ).buffers()<CR>" )
-nnoremap( "<leader>fh", "<cmd>lua require( 'obszczymucha.telescope' ).help_tags()<CR>" )
-nnoremap( "<leader>fH", "<cmd>lua require( 'obszczymucha.telescope' ).highlights()<CR>" )
-nnoremap( "<leader>fd", "<cmd>lua require( 'obszczymucha.telescope' ).diagnostics()<CR>" )
-nnoremap( "-", "<cmd>lua require( 'obszczymucha.telescope' ).file_browser()<CR>" )
+nnoremap( "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
+nnoremap( "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>" )
+nnoremap( "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>" )
+nnoremap( "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>" )
+nnoremap( "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>" )
+nnoremap( "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>" )
+nnoremap( "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
+nnoremap( "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
+nnoremap( "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Create a file under cursor
 nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )
 
 -- Window management
 nnoremap( "<A-v>", "<C-w>v<C-w>w" )
-nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
+nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
 nnoremap( "<A-s>", "<C-w>s<C-w>w" )
-nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>lua require( 'obszczymucha.telescope' ).find_files()<CR>" )
+nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
 nnoremap( "<A-j>", "<C-w>j" )
 nnoremap( "<A-k>", "<C-w>k" )
 nnoremap( "<A-h>", "<C-w>h" )
@@ -150,7 +149,7 @@ nnoremap( "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
 
 inoremap( "<C-c>", "<Esc>" )
 local function remap( name )
-  return string.format( string.format( "<cmd>lua require( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
+  return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
 end
 
 local function completion_down()
@@ -236,5 +235,13 @@ inoremap( "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
 -- Treehopper
 omap( "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { silent = true } )
 xnoremap( "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
+
+
+function M.reload()
+  R( "obszczymucha.remap" )
+  print( "Mappings reloaded." )
+end
+
+nnoremap( "<leader>asdf", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
 
 return M
