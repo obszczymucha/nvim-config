@@ -6,10 +6,10 @@ local M = {}
 
 local mappings = {
   i = {
-    ["<A-j>"] = actions.move_selection_next,
-    ["<A-k>"] = actions.move_selection_previous,
-    ["<Esc>"] = actions.close,
-    ["<C-u>"] = false
+    [ "<A-j>" ] = actions.move_selection_next,
+    [ "<A-k>" ] = actions.move_selection_previous,
+    [ "<Esc>" ] = actions.close,
+    [ "<C-u>" ] = false
   }
 }
 
@@ -56,19 +56,19 @@ function M.live_grep( no_ignore )
 end
 
 function M.buffers()
-  telescope.buffers( { layout_strategy = "vertical", attach_mappings = mappings } )
+  telescope.buffers( { layout_strategy = "vertical" } )
 end
 
 function M.help_tags()
-  telescope.help_tags( { layout_strategy = "vertical", attach_mappings = mappings } )
+  telescope.help_tags( { layout_strategy = "vertical" } )
 end
 
 function M.highlights()
-  telescope.highlights( { attach_mappings = mappings } )
+  telescope.highlights()
 end
 
 function M.diagnostics()
-  telescope.diagnostics( { layout_strategy = "vertical", attach_mappings = mappings } )
+  telescope.diagnostics( { layout_strategy = "vertical" } )
 end
 
 function M.file_browser()
