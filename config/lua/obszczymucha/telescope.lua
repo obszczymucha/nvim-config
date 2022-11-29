@@ -75,7 +75,8 @@ function M.file_browser()
   local opts = {
     layout_config = {
       preview_width = 0.6
-    }
+    },
+    path = "%:p:h" -- This opens current buffer's directory.
   }
 
   require( "telescope" ).extensions.file_browser.file_browser( opts )
