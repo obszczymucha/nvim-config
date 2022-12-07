@@ -9,7 +9,8 @@ local mappings = {
     [ "<A-j>" ] = actions.move_selection_next,
     [ "<A-k>" ] = actions.move_selection_previous,
     [ "<Esc>" ] = actions.close,
-    [ "<C-u>" ] = false
+    [ "<C-u>" ] = false,
+    [ "<C-k>" ] = actions.which_key,
   }
 }
 
