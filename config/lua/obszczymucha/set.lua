@@ -36,6 +36,7 @@ cmd( "cnoreabbrev H vert bo h" )
 
 g.smoothie_no_default_mappings = true
 g.AutoPairsShortcutFastWrap = ""
+g.AutoPairsShortcutToggle = "<C-p>"
 
 -- Broken - throws errors on some files.
 --cmd( "set viewoptions-=options" )

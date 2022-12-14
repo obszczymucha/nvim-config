@@ -63,6 +63,11 @@ xnoremap( "<leader>p", "\"_dP" )
 nnoremap( "<leader>y", "\"+y" )
 vnoremap( "<leader>y", "\"+y" )
 
+nnoremap( "<A-p>", "\"+p" )
+vnoremap( "<A-p>", "\"+p" )
+nnoremap( "<A-S-p>", "\"+P" )
+vnoremap( "<A-S-p>", "\"+P" )
+
 nnoremap( "<leader>d", "\"_d" )
 vnoremap( "<leader>d", "\"_d" )
 
