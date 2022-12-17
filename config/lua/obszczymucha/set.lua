@@ -42,3 +42,8 @@ g.AutoPairsShortcutToggle = "<C-p>"
 --cmd( "set viewoptions-=options" )
 --cmd( "autocmd BufWinLeave *.* mkview" )
 --cmd( "autocmd BufWinEnter *.* silent loadview" )
+
+o.swapfile = false
+o.backup = false
+o.undodir = os.getenv( "HOME" ) .. "/.vim/undodir"
+o.undofile = true
