@@ -34,6 +34,7 @@ return require( "packer" ).startup( function( use )
   use { "mfussenegger/nvim-jdtls" }
   use { "mfussenegger/nvim-treehopper" }
   use { "nvim-telescope/telescope-file-browser.nvim" }
+  use { "https://github.com/mbbill/undotree" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
