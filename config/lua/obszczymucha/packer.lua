@@ -26,7 +26,13 @@ return require( "packer" ).startup( function( use )
   use { "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip" } }
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use { "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" } }
-  use { "neovim/nvim-lspconfig" }
+  use { "neovim/nvim-lspconfig",
+    requires = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "j-hui/fidget.nvim"
+    }
+  }
   use { "nvim-lua/lsp-status.nvim" }
   use { "glepnir/lspsaga.nvim", branch = "main" }
   use { "kevinhwang91/nvim-bqf", ft = "qf" }
