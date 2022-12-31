@@ -106,12 +106,20 @@ local function smoothie_smart_up()
   end
 end
 
-local function smoothie_down()
+function M.smoothie_down()
   vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
 end
 
-local function smoothie_up()
+function M.smoothie_up()
   vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
+end
+
+function M.smoothie_down2()
+  vim.cmd( [[call smoothie#do( "M\<C-d>" )]] )
+end
+
+function M.smoothie_up2()
+  vim.cmd( [[call smoothie#do( "M\<C-u>" )]] )
 end
 
 local function smoothie_page_down()
@@ -137,10 +145,12 @@ end
 
 nnoremap( "<A-e>", "<C-e>j" )
 nnoremap( "<A-y>", "<C-y>k" )
-nnoremap( "<A-d>", function() smoothie_smart_down() end )
-nnoremap( "<A-u>", function() smoothie_smart_up() end )
-nnoremap( "<C-d>", function() smoothie_down() end )
-nnoremap( "<C-u>", function() smoothie_up() end )
+--nnoremap( "<A-d>", function() smoothie_smart_down() end )
+--nnoremap( "<A-u>", function() smoothie_smart_up() end )
+nnoremap( "<A-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down2()<CR>" )
+nnoremap( "<A-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up2()<CR>" )
+nnoremap( "<C-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down()<CR>" )
+nnoremap( "<C-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up()<CR>" )
 nnoremap( "<C-f>", function() smoothie_page_down() end )
 nnoremap( "<C-b>", function() smoothie_page_up() end )
 nnoremap( "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
