@@ -30,10 +30,10 @@ nnoremap( "<A-v>", "<C-w>v<C-w>w" )
 nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
 nnoremap( "<A-s>", "<C-w>s<C-w>w" )
 nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
-nnoremap( "<A-j>", "<C-w>j" )
-nnoremap( "<A-k>", "<C-w>k" )
-nnoremap( "<A-h>", "<C-w>h" )
-nnoremap( "<A-l>", "<C-w>l" )
+nnoremap( "<S-A-j>", "<C-w>j" )
+nnoremap( "<S-A-k>", "<C-w>k" )
+nnoremap( "<S-A-h>", "<C-w>h" )
+nnoremap( "<S-A-l>", "<C-w>l" )
 
 -- Quit
 nnoremap( "<A-q>", "<cmd>q<CR>" )
@@ -49,12 +49,12 @@ nnoremap( "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent 
 nnoremap( "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
 
 -- Moving lines
-nnoremap( "<A-S-j>", "<cmd>m .+1<CR>==" )
-nnoremap( "<A-S-k>", "<cmd>m .-2<CR>==" )
-inoremap( "<A-S-j>", "<Esc><cmd>m .+1<CR>==gi" )
-inoremap( "<A-S-k>", "<Esc><cmd>m .-2<CR>==gi" )
-vnoremap( "<A-S-j>", ":m '>+1<CR>gv=gv" )
-vnoremap( "<A-S-k>", ":m '<-2<CR>gv=gv" )
+nnoremap( "<C-A-j>", "<cmd>m .+1<CR>==" )
+nnoremap( "<C-A-k>", "<cmd>m .-2<CR>==" )
+inoremap( "<C-A-j>", "<Esc><cmd>m .+1<CR>==gi" )
+inoremap( "<C-A-k>", "<Esc><cmd>m .-2<CR>==gi" )
+vnoremap( "<C-A-j>", ":m '>+1<CR>gv=gv" )
+vnoremap( "<C-A-k>", ":m '<-2<CR>gv=gv" )
 
 -- greatest remap ever : ThePrimeagen
 xnoremap( "<leader>p", "\"_dP" )
@@ -145,6 +145,8 @@ end
 
 nnoremap( "<A-e>", "<C-e>j" )
 nnoremap( "<A-y>", "<C-y>k" )
+nnoremap( "<A-j>", "<C-e>j" )
+nnoremap( "<A-k>", "<C-y>k" )
 --nnoremap( "<A-d>", function() smoothie_smart_down() end )
 --nnoremap( "<A-u>", function() smoothie_smart_up() end )
 nnoremap( "<A-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down2()<CR>" )
@@ -167,12 +169,14 @@ local function remap( name )
   return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
 end
 
-local function completion_down()
+local function completion_down_or( orFunction )
   local cmp = prequire( "cmp" )
   if not cmp then return end
 
   if cmp.visible() then
     cmp.select_next_item()
+  elseif orFunction then
+    orFunction()
   end
 end
 
@@ -187,7 +191,7 @@ local function completion_up_or( orFunction )
   end
 end
 
-inoremap( "<A-j>", function() completion_down() end )
+inoremap( "<A-j>", function() completion_down_or() end )
 inoremap( "<A-k>", function() completion_up_or() end )
 inoremap( "<C-k>", remap( "signature_help" ), { silent = true } )
 
