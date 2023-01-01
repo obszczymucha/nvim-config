@@ -266,4 +266,16 @@ end
 
 nnoremap( "<leader>asdf", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
 
+-- This automatically closes the find references window when e is pressd. I've no idea how this works.
+vim.api.nvim_create_autocmd( "FileType", {
+  callback = function()
+    local bufnr = vim.fn.bufnr( '%' )
+    vim.keymap.set( "n", "e", function()
+      vim.api.nvim_command( [[execute "normal! \<cr>"]] )
+      vim.api.nvim_command( bufnr .. 'bd' )
+    end, { buffer = bufnr } )
+  end,
+  pattern = "qf",
+} )
+
 return M
