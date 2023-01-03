@@ -13,6 +13,7 @@ local omap = keymap.omap
 
 -- Telescope
 nnoremap( "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
+nnoremap( "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>" )
 nnoremap( "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>" )
 nnoremap( "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>" )
 nnoremap( "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>" )

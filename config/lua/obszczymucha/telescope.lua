@@ -83,4 +83,8 @@ function M.file_browser()
   require( "telescope" ).extensions.file_browser.file_browser( opts )
 end
 
+function M.resume()
+  telescope.resume()
+end
+
 return M
