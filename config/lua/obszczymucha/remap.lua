@@ -21,6 +21,8 @@ nnoremap( "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>" )
 nnoremap( "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>" )
 nnoremap( "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
 nnoremap( "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
+nnoremap( "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
+vnoremap( "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
 nnoremap( "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Create a file under cursor
@@ -245,13 +247,13 @@ nnoremap( "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true
 nnoremap( "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
 
 -- Surround mappings
-vnoremap( "<space>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
-vnoremap( "<space>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
-vnoremap( "<space>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
-vnoremap( "<space>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
-vnoremap( "<space>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
-vnoremap( "<space><BS>", "<Esc>`>x`<x" )
-nnoremap( "<space><BS>", "\"_v%<Esc>`>x`<x" )
+vnoremap( "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
+vnoremap( "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
+vnoremap( "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
+vnoremap( "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
+vnoremap( "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
+vnoremap( "<leader><BS>", "<Esc>`>x`<x" )
+nnoremap( "<leader><BS>", "\"_v%<Esc>`>x`<x" )
 inoremap( "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
 inoremap( "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
 

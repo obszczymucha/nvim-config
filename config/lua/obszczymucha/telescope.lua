@@ -87,4 +87,8 @@ function M.resume()
   telescope.resume()
 end
 
+function M.registers()
+  telescope.registers()
+end
+
 return M
