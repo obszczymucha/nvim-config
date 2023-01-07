@@ -281,4 +281,16 @@ vim.api.nvim_create_autocmd( "FileType", {
   pattern = "qf",
 } )
 
+nnoremap( "<Esc>", function()
+  for _, id in pairs( vim.api.nvim_list_wins() ) do
+    local buf = vim.api.nvim_win_get_buf( id )
+    local filetype = vim.api.nvim_buf_get_option( buf, "filetype" )
+
+    if filetype == "qf" then
+      vim.api.nvim_win_close( id, false )
+      return
+    end
+  end
+end, { silent = true } )
+
 return M
