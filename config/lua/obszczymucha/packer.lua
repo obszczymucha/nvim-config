@@ -36,7 +36,7 @@ return require( "packer" ).startup( function( use )
   use { "nvim-lua/lsp-status.nvim" }
   use { "glepnir/lspsaga.nvim", branch = "main" }
   use { "kevinhwang91/nvim-bqf", ft = "qf" }
-  use { "jiangmiao/auto-pairs" }
+  use { "windwp/nvim-autopairs" }
   use { "mfussenegger/nvim-jdtls" }
   use { "mfussenegger/nvim-treehopper" }
   use { "nvim-telescope/telescope-file-browser.nvim" }
