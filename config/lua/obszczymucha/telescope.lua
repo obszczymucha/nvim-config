@@ -91,4 +91,12 @@ function M.registers()
   telescope.registers()
 end
 
+function M.git_commits()
+  telescope.git_commits()
+end
+
+function M.git_branches()
+  telescope.git_branches()
+end
+
 return M

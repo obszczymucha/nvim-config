@@ -22,7 +22,8 @@ nnoremap( "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>"
 nnoremap( "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
 nnoremap( "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
 nnoremap( "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
-vnoremap( "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
+nnoremap( "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>" )
+nnoremap( "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
 nnoremap( "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Create a file under cursor
