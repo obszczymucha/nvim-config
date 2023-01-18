@@ -1,16 +1,17 @@
-package.path = package.path .. ";../../../lua/obszczymucha/?.lua"
+package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
+
 local lu = require( "luaunit" )
 local common = require( "common" )
 local princess_kenny = common.princess_kenny
 local is_blank = common.is_blank
 
----@diagnostic disable-next-line: lowercase-global
-function test_clean_hls_message()
+CommonSpec = {}
+
+function CommonSpec:should_princess_kenny()
   lu.assertEquals( princess_kenny(), "Princess Kenny" )
 end
 
----@diagnostic disable-next-line: lowercase-global
-function test_is_blank()
+function CommonSpec:should_determine_if_input_is_blank()
   lu.assertEquals( is_blank( nil ), true )
   lu.assertEquals( is_blank( "" ), true )
   lu.assertEquals( is_blank( "a" ), false )
@@ -18,6 +19,4 @@ function test_is_blank()
   lu.assertEquals( is_blank( "  " ), true )
 end
 
-local runner = lu.LuaUnit.new()
-runner:setOutputType( "text" )
-os.exit( runner:runSuite() )
+lu.LuaUnit.run()

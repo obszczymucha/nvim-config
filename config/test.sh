@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-LISTENING_DIRS=("after" "lua" "test")
+
+set -o pipefail
+
+LISTENING_DIRS=(".")
 CHANGE_REGEX="\.lua$"
 
 WHITE_COLOR="\033[0;37m"
 GREEN_COLOR="\033[0;32m"
 RED_COLOR="\033[0;31m"
 NO_COLOR="\033[0m"
+
+TEST_FAILED=0
 
 run_test() {
   local full_file="$1"
@@ -17,29 +22,48 @@ run_test() {
   dir=$(dirname "$full_file")
   
   pushd "$dir" > /dev/null || return
-  lua "$file" -v | awk '{ gsub("^OK$", "\033[1;32m&\033[0m");
+  local params=(-v -T Spec -m should -o text)
+
+  if [[ "$#" -ne 1 ]]; then
+    params=("${@:2}")
+  fi
+
+  lua "$file" "${params[@]}" | awk '{ gsub("^OK$", "\033[1;32m&\033[0m");
                           gsub("Ok$", "\033[1;32m&\033[0m");
                           gsub("^Failed tests:$", "\033[1;31m&\033[0m");
                           gsub("FAIL$", "\033[1;31m&\033[0m");
+                          gsub("ERROR$", "\033[1;31m&\033[0m");
                           print }'
 
+  TEST_FAILED=$?
   popd > /dev/null || return
 }
 
 run_all_tests() {
-  echo "Runnin tests..."
+  echo "Running tests..."
   find . -name "*_test.lua" | while read -r file; do {
     echo
     echo "Testing $file..."
-    run_test "$file"
+    run_test "$file" "$@"
+
+    if [[ $TEST_FAILED -ne 0 ]]; then
+      return
+    fi
   }; done
 
-  exit $?
+  return $?
 }
 
 listen() {
   echo "Listening..."
-  when-changed -1 -r "${LISTENING_DIRS[@]}" -c "$0 %f"
+  inotifywait -mqre close_write --format "%w%f" . | while read -r FILENAME; do
+    local filename
+    filename=$(echo "$FILENAME" | sed -E 's/^(\.\/)*(.*)\/\.(.*\.lua)(\..{6})*$/\2\/\3/g')
+
+    if [[ "$filename" =~ .*lua$ ]]; then
+      on_change "$filename"
+    fi
+  done
 }
 
 print_usage() {
@@ -52,7 +76,7 @@ on_change() {
   full_file=$(echo "$1" | sed -E "s|(~)$||") # when-changed adds '~' to the filename.
 
   if ! echo "$full_file" | grep -E "$CHANGE_REGEX" > /dev/null; then
-    exit 0
+    return
   fi
 
   local pwdp
@@ -69,38 +93,19 @@ on_change() {
     echo "Changed: $file. Running it."
     run_test "$file"
   else
-    local base
-    base=$(echo "$file" | sed -E "s|^(.+)\.lua$|\1|g")
-
-    local dir
-    dir=$(dirname "$file")
-
-    local test_filename="${base}_test.lua"
-    local test_file="test/$test_filename"
-
-    if [[ -f "$test_file" ]]; then
-      printf "${WHITE_COLOR}Changed: ${NO_COLOR}%s.\n" "$file"
-      printf "${WHITE_COLOR}Running test: ${NO_COLOR}%s\n" "$test_file"
-      run_test "$test_file"
-    else
-      echo "Test file: $test_file"
-      echo "Changed: $file. No test found."
-    fi
+    run_all_tests
   fi
-
-  exit 0
 }
 
 run() {
-  if [[ $# == 0 ]]; then
-    run_all_tests
-  elif [[ $1 == "listen" ]]; then
+  if [[ $1 == "listen" ]]; then
+    "$0"
     listen
   elif [[ $1 == "--help" ]]; then
     print_usage
     exit 1
   else
-    on_change "$1"
+    run_all_tests "$@"
   fi
 }
 
