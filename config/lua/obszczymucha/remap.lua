@@ -294,4 +294,6 @@ nnoremap( "<Esc>", function()
   end
 end, { silent = true } )
 
+nnoremap( "<leader>x", ":so %<CR>" )
+
 return M
