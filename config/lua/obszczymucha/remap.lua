@@ -169,7 +169,9 @@ vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "n", [[:call smoothie#do( "nzz" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "N", [[:call smoothie#do( "Nzz" )<CR>]], { silent = true } )
 
+-- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
+
 local function remap( name )
   return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
 end

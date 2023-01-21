@@ -24,7 +24,8 @@ return require( "packer" ).startup( function( use )
   use { "ThePrimeagen/harpoon" }
   use { "jenterkin/vim-autosource" }
   use { "preservim/nerdcommenter" }
-  use { "hrsh7th/nvim-cmp", requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip" } }
+  use { "hrsh7th/nvim-cmp",
+    requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip", "hrsh7th/cmp-nvim-lua" } }
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use { "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" } }
   use { "neovim/nvim-lspconfig",

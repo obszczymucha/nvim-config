@@ -48,7 +48,9 @@ function M.run_tests()
 end
 
 function M.setup()
-  --vim.api.nvim_create_user_command( "TSDebug", M.treesitter_debug, {} )
+  vim.api.nvim_create_user_command( "LuaTest", function()
+    --vim.api.nvim
+  end, {} )
 end
 
 M.setup()
