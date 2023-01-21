@@ -29,6 +29,11 @@ require 'lspconfig'.sumneko_lua.setup {
       },
     },
   },
+  on_attach = function()
+    -- Documentation
+    vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
+    vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
+  end
 }
 
 require 'lspconfig'.bashls.setup {

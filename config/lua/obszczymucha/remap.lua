@@ -17,6 +17,9 @@ vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_c
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
 vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
+-- Treesitter
+vim.keymap.set( "n", "<leader>td", "<cmd>lua R( 'obszczymucha.treesitter' ).debug()<CR>" )
+
 -- Create a file under cursor
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )
 
@@ -231,9 +234,9 @@ end
 vim.keymap.set( "n", "<leader>q", function() return test() end )
 
 -- Tab navigation
-vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
-vim.keymap.set( "n", "<C-h>", "<cmd>tabp<CR>", { silent = true } )
-vim.keymap.set( "n", "<C-l>", "<cmd>tabn<CR>", { silent = true } )
+--vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
+--vim.keymap.set( "n", "<C-h>", "<cmd>tabp<CR>", { silent = true } )
+--vim.keymap.set( "n", "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 -- Debugging
 vim.keymap.set( "n", "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
