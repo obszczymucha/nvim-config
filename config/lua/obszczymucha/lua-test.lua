@@ -2,7 +2,6 @@ local q = require( "vim.treesitter.query" )
 
 local M = {}
 
-local output_bufnr = 5
 local test_bufnr = 11
 
 local tests = {}
@@ -47,10 +46,38 @@ function M.run_tests()
   end
 end
 
+function M.run( bufnr )
+  if not bufnr then
+    print( "chuj" )
+    return
+  end
+
+  local function append_data( _, data )
+    if not data then return end
+
+    print( "xbufnr: " .. (bufnr or "chuj") )
+    if not bufnr then return end
+    vim.api.nvim_buf_set_lines( bufnr, -1, -1, false, data )
+  end
+
+  local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
+  vim.api.nvim_buf_set_lines( bufnr, 0, -1, false, {} )
+  vim.fn.jobstart( command, {
+    stdout_buffered = true,
+    on_stdout = append_data,
+    on_stderr = append_data
+  } )
+end
+
 function M.setup()
-  vim.api.nvim_create_user_command( "LuaTest", function()
-    --vim.api.nvim
-  end, {} )
+  vim.api.nvim_create_user_command( "LuaTest", function( opts )
+    vim.api.nvim_create_augroup( "AutoLuaTest", { clear = true } )
+    vim.api.nvim_create_autocmd( "BufWrite", {
+      group = "AutoLuaTest",
+      pattern = { "*.lua" },
+      callback = function() M.run( tonumber( opts.args ) ) end
+    } )
+  end, { nargs = 1 } )
 end
 
 M.setup()

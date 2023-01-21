@@ -25,6 +25,7 @@ o.hlsearch = false
 o.incsearch = true
 o.smartindent = true
 o.wrap = false
+o.splitright = true
 
 g.mapleader = " "
 g.airline_theme = "deus"

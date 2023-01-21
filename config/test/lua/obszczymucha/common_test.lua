@@ -8,7 +8,7 @@ local is_blank = common.is_blank
 CommonSpec = {}
 
 function CommonSpec:should_princess_kenny()
-  lu.assertEquals( princess_kenny(), "Princess Kenny" )
+  lu.assertEquals( princess_kenny(), "Prncess Kenny" )
 end
 
 function CommonSpec:should_determine_if_input_is_blank()
