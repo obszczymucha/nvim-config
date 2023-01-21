@@ -1,87 +1,80 @@
 local M = {}
 
 local prequire = require( "obszczymucha.common" ).prequire
-local keymap = require( "obszczymucha.keymap" )
-local nnoremap = keymap.nnoremap
-local inoremap = keymap.inoremap
-local vnoremap = keymap.vnoremap
-local xnoremap = keymap.xnoremap
-local cnoremap = keymap.cnoremap
-local nmap = keymap.nmap
-local vmap = keymap.vmap
-local omap = keymap.omap
 
 -- Telescope
-nnoremap( "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
-nnoremap( "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>" )
-nnoremap( "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>" )
-nnoremap( "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>" )
-nnoremap( "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>" )
-nnoremap( "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>" )
-nnoremap( "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>" )
-nnoremap( "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
-nnoremap( "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
-nnoremap( "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
-nnoremap( "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>" )
-nnoremap( "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
-nnoremap( "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
+vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
+vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>" )
+vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>" )
+vim.keymap.set( "n", "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>" )
+vim.keymap.set( "n", "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>" )
+vim.keymap.set( "n", "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>" )
+vim.keymap.set( "n", "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>" )
+vim.keymap.set( "n", "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
+vim.keymap.set( "n", "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
+vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
+vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>" )
+vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
+vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Create a file under cursor
-nnoremap( "<leader>gf", "<cmd>e <cfile><CR>" )
+vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )
 
 -- Window management
-nnoremap( "<A-v>", "<C-w>v<C-w>w" )
-nnoremap( "<A-V>", "<C-w>v<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
-nnoremap( "<A-s>", "<C-w>s<C-w>w" )
-nnoremap( "<A-S>", "<C-w>s<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
-nnoremap( "<S-A-j>", "<C-w>j" )
-nnoremap( "<S-A-k>", "<C-w>k" )
-nnoremap( "<S-A-h>", "<C-w>h" )
-nnoremap( "<S-A-l>", "<C-w>l" )
+vim.keymap.set( "n", "<A-v>", "<C-w>v<C-w>w" )
+vim.keymap.set( "n", "<A-V>", "<C-w>v<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
+vim.keymap.set( "n", "<A-s>", "<C-w>s<C-w>w" )
+vim.keymap.set( "n", "<A-S>", "<C-w>s<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
+vim.keymap.set( "n", "<S-A-j>", "<C-w>j" )
+vim.keymap.set( "n", "<S-A-k>", "<C-w>k" )
+vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
+vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
 
 -- Quit
-nnoremap( "<A-q>", "<cmd>q<CR>" )
+vim.keymap.set( "n", "<A-q>", "<cmd>q<CR>" )
 
 -- Harpoon
-nnoremap( "<A-a>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
-nnoremap( "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
-nnoremap( "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
-nnoremap( "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
-nnoremap( "<A-3>", [[:lua require( "harpoon.ui" ).nav_file( 3 )<CR>]], { silent = true } )
-nnoremap( "<A-4>", [[:lua require( "harpoon.ui" ).nav_file( 4 )<CR>]], { silent = true } )
-nnoremap( "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent = true } )
-nnoremap( "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-a>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-3>", [[:lua require( "harpoon.ui" ).nav_file( 3 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-4>", [[:lua require( "harpoon.ui" ).nav_file( 4 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
 
 -- Moving lines
-nnoremap( "<C-A-j>", "<cmd>m .+1<CR>==" )
-nnoremap( "<C-A-k>", "<cmd>m .-2<CR>==" )
-inoremap( "<C-A-j>", "<Esc><cmd>m .+1<CR>==gi" )
-inoremap( "<C-A-k>", "<Esc><cmd>m .-2<CR>==gi" )
-vnoremap( "<C-A-j>", ":m '>+1<CR>gv=gv" )
-vnoremap( "<C-A-k>", ":m '<-2<CR>gv=gv" )
+vim.keymap.set( "n", "<C-A-j>", "<cmd>m .+1<CR>==" )
+vim.keymap.set( "n", "<C-A-k>", "<cmd>m .-2<CR>==" )
+vim.keymap.set( "i", "<C-A-j>", "<Esc><cmd>m .+1<CR>==gi" )
+vim.keymap.set( "i", "<C-A-k>", "<Esc><cmd>m .-2<CR>==gi" )
+vim.keymap.set( "v", "<C-A-j>", ":m '>+1<CR>gv=gv" )
+vim.keymap.set( "v", "<C-A-k>", ":m '<-2<CR>gv=gv" )
 
 -- greatest remap ever : ThePrimeagen
-xnoremap( "<leader>p", "\"_dP" )
+vim.keymap.set( "x", "<leader>p", "\"_dP" )
 
 -- next greatest remap ever : asbjornHaland : ThePrimeagen
-nnoremap( "<leader>y", "\"+y" )
-vnoremap( "<leader>y", "\"+y" )
+vim.keymap.set( "n", "<leader>y", "\"+y" )
+vim.keymap.set( "v", "<leader>y", "\"+y" )
 
-nnoremap( "<A-p>", "\"+p" )
-vnoremap( "<A-p>", "\"+p" )
-nnoremap( "<A-S-p>", "\"+P" )
-vnoremap( "<A-S-p>", "\"+P" )
+vim.keymap.set( "n", "<A-p>", "\"+p" )
+vim.keymap.set( "v", "<A-p>", "\"+p" )
+vim.keymap.set( "n", "<A-S-p>", "\"+P" )
+vim.keymap.set( "v", "<A-S-p>", "\"+P" )
 
-nnoremap( "<leader>d", "\"_d" )
-vnoremap( "<leader>d", "\"_d" )
+vim.keymap.set( "n", "<leader>d", "\"_d" )
+vim.keymap.set( "v", "<leader>d", "\"_d" )
 
-nnoremap( "<leader>c", "\"_c" )
-nnoremap( "<leader>x", "\"_x" )
+vim.keymap.set( "n", "<leader>c", "\"_c" )
+vim.keymap.set( "n", "<leader>x", "\"_x" )
 
+---@diagnostic disable-next-line: unused-function, unused-local
 local function smoothie_smart_down()
   --local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
   --local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
 
+  ---@diagnostic disable-next-line: unused-function
   local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
   local current = line( "." )
   local top = line( "w0" )
@@ -96,7 +89,9 @@ local function smoothie_smart_down()
   end
 end
 
+---@diagnostic disable-next-line: unused-local, unused-function
 local function smoothie_smart_up()
+  ---@diagnostic disable-next-line: unused-function
   local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
   local current = line( "." )
   local top = line( "w0" )
@@ -147,31 +142,31 @@ function M.bind( binding_name )
   if f then f() end
 end
 
-nnoremap( "<A-e>", "<C-e>j" )
-nnoremap( "<A-y>", "<C-y>k" )
-nnoremap( "<A-j>", "<C-e>j" )
-nnoremap( "<A-k>", "<C-y>k" )
---nnoremap( "<A-d>", function() smoothie_smart_down() end )
---nnoremap( "<A-u>", function() smoothie_smart_up() end )
-nnoremap( "<A-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down2()<CR>" )
-nnoremap( "<A-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up2()<CR>" )
-nnoremap( "<C-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down()<CR>" )
-nnoremap( "<C-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up()<CR>" )
-nnoremap( "<C-f>", function() smoothie_page_down() end )
-nnoremap( "<C-b>", function() smoothie_page_up() end )
-nnoremap( "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
-nnoremap( "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
-nnoremap( "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
-nnoremap( "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
-nnoremap( "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
-nnoremap( "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
-nnoremap( "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
-nnoremap( "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
-nnoremap( "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
-nnoremap( "n", [[:call smoothie#do( "nzz" )<CR>]], { silent = true } )
-nnoremap( "N", [[:call smoothie#do( "Nzz" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<A-e>", "<C-e>j" )
+vim.keymap.set( "n", "<A-y>", "<C-y>k" )
+vim.keymap.set( "n", "<A-j>", "<C-e>j" )
+vim.keymap.set( "n", "<A-k>", "<C-y>k" )
+--vim.keymap.set( "n", "<A-d>", function() smoothie_smart_down() end )
+--vim.keymap.set( "n", "<A-u>", function() smoothie_smart_up() end )
+vim.keymap.set( "n", "<A-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down2()<CR>" )
+vim.keymap.set( "n", "<A-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up2()<CR>" )
+vim.keymap.set( "n", "<C-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down()<CR>" )
+vim.keymap.set( "n", "<C-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up()<CR>" )
+vim.keymap.set( "n", "<C-f>", function() smoothie_page_down() end )
+vim.keymap.set( "n", "<C-b>", function() smoothie_page_up() end )
+vim.keymap.set( "n", "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "n", [[:call smoothie#do( "nzz" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "N", [[:call smoothie#do( "Nzz" )<CR>]], { silent = true } )
 
-inoremap( "<C-c>", "<Esc>" )
+vim.keymap.set( "i", "<C-c>", "<Esc>" )
 local function remap( name )
   return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
 end
@@ -198,69 +193,69 @@ local function completion_up_or( orFunction )
   end
 end
 
-inoremap( "<A-j>", function() completion_down_or() end )
-inoremap( "<A-k>", function() completion_up_or() end )
-inoremap( "<C-k>", remap( "signature_help" ), { silent = true } )
+vim.keymap.set( "i", "<A-j>", function() completion_down_or() end )
+vim.keymap.set( "i", "<A-k>", function() completion_up_or() end )
+vim.keymap.set( "i", "<C-k>", remap( "signature_help" ), { silent = true } )
 
 -- wildmenu is the completion menu in the command line
-cnoremap( "<A-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
-cnoremap( "<A-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
+vim.keymap.set( "c", "<A-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
+vim.keymap.set( "c", "<A-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
 
 -- Filetype-based mappings. See obszczymucha/kemaps
-nmap( "gd", remap( "go_to_definition" ), { silent = true } )
-nmap( "gi", remap( "go_to_implementation" ), { silent = true } )
-nmap( "<C-k>", remap( "signature_help" ), { silent = true } )
-nmap( "gj", remap( "peek_definition" ), { silent = true } )
-nmap( "gr", remap( "references" ), { silent = true } )
-nmap( "K", remap( "documentation" ), { silent = true } )
-nmap( "<leader>rn", remap( "rename" ), { silent = true } )
-nmap( "<leader>F", remap( "format_file" ), { silent = true, nowait = true } )
-nmap( "]g", remap( "next_diagnostic" ), { silent = true } )
-nmap( "[g", remap( "prev_diagnostic" ), { silent = true } )
-nmap( "<leader>o", remap( "outline" ), { silent = true, nowait = true } )
-nmap( "<leader>ac", remap( "code_action" ), { silent = true } )
-nmap( "<leader>cl", remap( "code_lens" ), { silent = true } )
-nmap( "<leader>tf", remap( "test_file" ), { silent = true } )
-nmap( "<leader>tt", remap( "test_nearest_method" ), { silent = true } )
-nmap( "<leader>O", remap( "organize_imports" ), { silent = true, nowait = true } )
-nmap( "<leader>fc", remap( "compile" ), { silent = true, nowait = true } )
-nmap( "<leader>j", ":%!jq<CR>", { silent = true, nowait = true } )
-nmap( "<leader>J", ":%!jq -c<CR>", { silent = true, nowait = true } )
-vmap( "<leader>j", ":'<,'>%!jq<CR>", { silent = true, nowait = true } )
-vmap( "<leader>J", ":'<,'>%!jq -c<CR>", { silent = true, nowait = true } )
+vim.keymap.set( "n", "gd", remap( "go_to_definition" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "gi", remap( "go_to_implementation" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<C-k>", remap( "signature_help" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "gj", remap( "peek_definition" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "gr", remap( "references" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "K", remap( "documentation" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>rn", remap( "rename" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>F", remap( "format_file" ), { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "]g", remap( "next_diagnostic" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "[g", remap( "prev_diagnostic" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>o", remap( "outline" ), { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>ac", remap( "code_action" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>cl", remap( "code_lens" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>tf", remap( "test_file" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>tt", remap( "test_nearest_method" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<leader>O", remap( "organize_imports" ), { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>fc", remap( "compile" ), { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>j", ":%!jq<CR>", { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>", { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
 
 local function test()
   print( "Princess Kenny" )
 end
 
-nnoremap( "<leader>q", function() return test() end )
+vim.keymap.set( "n", "<leader>q", function() return test() end )
 
 -- Tab navigation
-nnoremap( "<leader>T", "<cmd>tabe<CR>", { silent = true } )
-nnoremap( "<C-h>", "<cmd>tabp<CR>", { silent = true } )
-nnoremap( "<C-l>", "<cmd>tabn<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
+vim.keymap.set( "n", "<C-h>", "<cmd>tabp<CR>", { silent = true } )
+vim.keymap.set( "n", "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 -- Debugging
-nnoremap( "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
-nnoremap( "<F7>", [[:lua require'dap'.step_into()<CR>]], { silent = true } )
-nnoremap( "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
-nnoremap( "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true } )
-nnoremap( "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<F7>", [[:lua require'dap'.step_into()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
 
 -- Surround mappings
-vnoremap( "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
-vnoremap( "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
-vnoremap( "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
-vnoremap( "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
-vnoremap( "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
-vnoremap( "<leader><BS>", "<Esc>`>x`<x" )
-nnoremap( "<leader><BS>", "\"_v%<Esc>`>x`<x" )
-inoremap( "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
-inoremap( "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
+vim.keymap.set( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
+vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
+vim.keymap.set( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
+vim.keymap.set( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
+vim.keymap.set( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
+vim.keymap.set( "v", "<leader><BS>", "<Esc>`>x`<x" )
+vim.keymap.set( "n", "<leader><BS>", "\"_v%<Esc>`>x`<x" )
+vim.keymap.set( "i", "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
+vim.keymap.set( "i", "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
 
 -- Treehopper
-omap( "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { silent = true } )
-xnoremap( "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
+vim.keymap.set( "o", "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { noremap = false, silent = true } )
+vim.keymap.set( "x", "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
 
 
 function M.reload()
@@ -268,7 +263,7 @@ function M.reload()
   print( "Mappings reloaded." )
 end
 
-nnoremap( "<leader>asdf", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>asdf", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
 
 -- This automatically closes the find references window when e is pressd. I've no idea how this works.
 vim.api.nvim_create_autocmd( "FileType", {
@@ -282,7 +277,7 @@ vim.api.nvim_create_autocmd( "FileType", {
   pattern = "qf",
 } )
 
-nnoremap( "<Esc>", function()
+vim.keymap.set( "n", "<Esc>", function()
   for _, id in pairs( vim.api.nvim_list_wins() ) do
     local buf = vim.api.nvim_win_get_buf( id )
     local filetype = vim.api.nvim_buf_get_option( buf, "filetype" )
@@ -294,6 +289,6 @@ nnoremap( "<Esc>", function()
   end
 end, { silent = true } )
 
-nnoremap( "<leader>x", ":so %<CR>" )
+vim.keymap.set( "n", "<leader>x", ":so %<CR>" )
 
 return M

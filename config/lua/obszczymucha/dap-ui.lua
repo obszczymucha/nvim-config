@@ -1,5 +1,5 @@
-local prequire = require("obszczymucha.common").prequire
-local M = prequire("dapui")
+local prequire = require( "obszczymucha.common" ).prequire
+local M = prequire( "dapui" )
 
 if not M then return end
 
@@ -63,7 +63,7 @@ M.setup( {
 --local dap, dapui = require( "dap" ), require( "dapui" )
 
 --dap.listeners.after.event_initialized[ "dapui_config" ] = function()
-  --dapui.open({})
+--dapui.open({})
 --end
 
 --dap.listeners.before.event_terminated[ "dapui_config" ] = function()
@@ -74,8 +74,4 @@ M.setup( {
 --dapui.close()
 --end
 
-local keymap = require( "obszczymucha.keymap" )
-local nnoremap = keymap.nnoremap
-
-nnoremap( "<leader>db", [[:lua require( "dapui" ).toggle( "sidebar" )<CR>]], { silent = true } )
-
+vim.keymap.set( "n", "<leader>db", [[:lua require( "dapui" ).toggle( "sidebar" )<CR>]], { silent = true } )
