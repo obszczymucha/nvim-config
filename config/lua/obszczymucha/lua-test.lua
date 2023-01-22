@@ -65,11 +65,11 @@ local function dump2( o )
 end
 
 function M.run()
-  local tests = {}
+  local test_results = {}
   local index = 0
   local file_name
 
-  local function append_data( _, data )
+  local function collect_results( _, data )
     if not data then return end
 
     for _, line in ipairs( data ) do
@@ -78,34 +78,34 @@ function M.run()
       end
 
       for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
-        local failed = not_ok == ""
-        table.insert( tests, { file_name = file_name, ok = not failed, class_name = class_name, test_name = test_name } )
+        table.insert( test_results, { file_name = file_name, ok = not_ok == "", class_name = class_name, test_name = test_name } )
         index = index + 1
       end
 
       for line_number, expected in string.gmatch( line, ".+:(%d+): expected: \"(.+)\"" ) do
-        tests[ index ].error_line_number = line_number
-        tests[ index ].expected = expected
+        test_results[ index ].error_line_number = line_number
+        test_results[ index ].expected = expected
       end
 
       for actual in string.gmatch( line, ".+actual: \"(.+)\"" ) do
-        tests[ index ].actual = actual
+        test_results[ index ].actual = actual
       end
     end
   end
 
   local function print_tests()
-    for _, result in ipairs( tests ) do
+    for _, result in ipairs( test_results ) do
       debug( dump2( result ) )
     end
   end
 
-  local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
   clear()
+  local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
+
   vim.fn.jobstart( command, {
     stdout_buffered = true,
-    on_stdout = append_data,
-    on_stderr = append_data,
+    on_stdout = collect_results,
+    on_stderr = collect_results,
     on_exit = print_tests
   } )
 end
