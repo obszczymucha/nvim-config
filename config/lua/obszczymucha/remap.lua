@@ -18,7 +18,7 @@ vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_b
 vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
 -- Debug
-vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).show()<CR>" )
+vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>" )
 
 -- Create a file under cursor
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )

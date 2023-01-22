@@ -1,4 +1,6 @@
 local q = require( "vim.treesitter.query" )
+local debug = require( "obszczymucha.debug" ).debug
+local clear = require( "obszczymucha.debug" ).clear
 
 local M = {}
 
@@ -63,27 +65,48 @@ local function dump2( o )
 end
 
 function M.run()
-  local buf = require( "obszczymucha.debug" ).get_buf()
-
-  if not buf then return end
   local tests = {}
+  local index = 0
+  local file_name
 
   local function append_data( _, data )
     if not data then return end
 
-    vim.api.nvim_buf_set_lines( buf, -1, -1, false, { dump( data ) } )
-    --for class_name, test_name in string.gmatch( data, "ok%s+%d+%s+(%w)" ) do
-    --local text = string.format( "Class: %s, test: %s", class_name, test_name )
-    --vim.api.nvim_buf_set_lines( bufnr, -1, -1, false, text )
-    --end
+    for _, line in ipairs( data ) do
+      for filename in string.gmatch( line, "Testing (.+)..." ) do
+        file_name = filename
+      end
+
+      for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
+        local failed = not_ok == ""
+        table.insert( tests, { file_name = file_name, ok = not failed, class_name = class_name, test_name = test_name } )
+        index = index + 1
+      end
+
+      for line_number, expected in string.gmatch( line, ".+:(%d+): expected: \"(.+)\"" ) do
+        tests[ index ].error_line_number = line_number
+        tests[ index ].expected = expected
+      end
+
+      for actual in string.gmatch( line, ".+actual: \"(.+)\"" ) do
+        tests[ index ].actual = actual
+      end
+    end
+  end
+
+  local function print_tests()
+    for _, result in ipairs( tests ) do
+      debug( dump2( result ) )
+    end
   end
 
   local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
-  vim.api.nvim_buf_set_lines( buf, 0, -1, false, {} )
+  clear()
   vim.fn.jobstart( command, {
     stdout_buffered = true,
     on_stdout = append_data,
-    on_stderr = append_data
+    on_stderr = append_data,
+    on_exit = print_tests
   } )
 end
 
