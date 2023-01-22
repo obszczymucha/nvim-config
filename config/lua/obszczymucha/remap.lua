@@ -17,8 +17,8 @@ vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_c
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
 vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 
--- Treesitter
-vim.keymap.set( "n", "<leader>td", "<cmd>lua R( 'obszczymucha.treesitter' ).debug()<CR>" )
+-- Debug
+vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).show()<CR>" )
 
 -- Create a file under cursor
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )
