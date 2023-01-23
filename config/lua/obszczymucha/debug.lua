@@ -2,18 +2,37 @@ local M = {}
 
 local buf
 local win
+local split_command
 
-function M.show()
+local state
+
+function M.set( st )
+  state = st
+end
+
+function M.get()
+  return state
+end
+
+local function create_buffer( callback )
+  if buf and vim.api.nvim_buf_is_valid( buf ) then return end
+
+  buf = vim.api.nvim_create_buf( true, false )
+  vim.api.nvim_buf_set_name( buf, "Debug" )
+  if callback then callback() end
+end
+
+function M.show( split_cmd )
+  local needs_set = false
+  create_buffer( function() needs_set = true end )
+
   if not win or not vim.api.nvim_win_is_valid( win ) then
-    vim.cmd( "vs" )
+    vim.cmd( string.format( "%s#%s", split_cmd or split_command or "70vs", buf ) )
     win = vim.api.nvim_get_current_win()
+    return
   end
 
-  if not buf or not vim.api.nvim_buf_is_valid( buf ) then
-    buf = vim.api.nvim_create_buf( false, false )
-  end
-
-  vim.api.nvim_win_set_buf( win, buf )
+  if needs_set then vim.api.nvim_win_set_buf( win, buf ) end
 end
 
 function M.toggle()
@@ -26,20 +45,31 @@ function M.toggle()
 end
 
 function M.setup()
-  vim.api.nvim_create_user_command( "Debug", function()
+  local function cleanup()
     if win and vim.api.nvim_win_is_valid( win ) then
       vim.api.nvim_win_close( win, true )
+      win = nil
     end
 
     if buf and vim.api.nvim_buf_is_valid( buf ) then
       vim.api.nvim_buf_delete( buf, { force = true } )
+      buf = nil
     end
+  end
 
-    R( "obszczymucha.debug" ).init()
+  vim.api.nvim_create_user_command( "Dbg", function()
+    cleanup()
+    R( "obszczymucha.debug" ).init( "70vs" )
+  end, { nargs = 0 } )
+
+  vim.api.nvim_create_user_command( "Dbgh", function()
+    cleanup()
+    R( "obszczymucha.debug" ).init( "bel 10sp" )
   end, { nargs = 0 } )
 end
 
-function M.init()
+function M.init( split_cmd )
+  split_command = split_cmd
   M.show()
 
   vim.api.nvim_create_autocmd( "BufWritePost", {
@@ -49,6 +79,7 @@ function M.init()
   } )
 end
 
+---@diagnostic disable-next-line: unused-function
 local function dump2( o )
   local entries = 0
 
@@ -76,10 +107,7 @@ local function is_buf_empty( buffer )
 end
 
 function M.debug( text )
-  if not buf or not vim.api.nvim_buf_is_valid( buf ) then
-    print( "No debug buffer available." )
-    return
-  end
+  create_buffer()
 
   vim.api.nvim_buf_set_lines( buf, is_buf_empty( buf ) and 0 or -1, -1, false,
     type( text ) == "table" and text or { text } )

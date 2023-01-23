@@ -9,5 +9,6 @@ require( "obszczymucha.metals" )
 require( "obszczymucha.dap-ui" )
 require( "obszczymucha.lua-test" )
 require( "obszczymucha.documentation" )
-require( "obszczymucha.debug" )
+---@diagnostic disable-next-line: lowercase-global
+dbg = require( "obszczymucha.debug" ).debug
 require( "obszczymucha.cmp" )

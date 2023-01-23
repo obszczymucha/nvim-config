@@ -64,6 +64,29 @@ local function dump2( o )
   end
 end
 
+function M.opts( bufnr )
+  local v = vim.bo[ bufnr ]
+  local all_options = vim.api.nvim_get_all_options_info()
+  local result = ""
+
+  for key, val in pairs( all_options ) do
+    if val.global_local == false and val.scope == "buf" then
+      result = result .. "|" .. key .. "=" .. tostring( v[ key ] or "<not set>" )
+    end
+  end
+
+  debug( result )
+end
+
+local function buf_exists( name )
+  for _, bufnr in ipairs( vim.api.nvim_list_bufs() ) do
+    local bufname = vim.api.nvim_buf_get_name( bufnr )
+    if bufname == name then return true end
+  end
+
+  return false
+end
+
 function M.run()
   local test_results = {}
   local index = 0
@@ -78,7 +101,8 @@ function M.run()
       end
 
       for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
-        table.insert( test_results, { file_name = file_name, ok = not_ok == "", class_name = class_name, test_name = test_name } )
+        table.insert( test_results,
+          { file_name = file_name, ok = not_ok == "", class_name = class_name, test_name = test_name } )
         index = index + 1
       end
 
@@ -97,10 +121,23 @@ function M.run()
     for _, result in ipairs( test_results ) do
       debug( dump2( result ) )
     end
+
   end
 
   clear()
   local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
+
+  local bufname = "/home/alien/.projects/nvim/nvim-config/config/test/lua/obszczymucha/common_test.lua"
+
+  if not buf_exists( bufname ) then
+    local bufx = vim.api.nvim_create_buf( true, false )
+    vim.api.nvim_buf_set_option( bufx, "filetype", "lua" )
+    vim.api.nvim_buf_set_name( bufx, bufname )
+    vim.api.nvim_buf_call( bufx, vim.cmd.edit )
+  end
+  --vim.fn.bufload( bufx )
+  --local loaded = vim.fn.bufloaded( bufx )
+  --debug( dump2( loaded ) )
 
   vim.fn.jobstart( command, {
     stdout_buffered = true,
