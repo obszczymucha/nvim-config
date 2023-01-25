@@ -17,7 +17,7 @@ end
 local function create_buffer( callback )
   if buf and vim.api.nvim_buf_is_valid( buf ) then return end
 
-  buf = vim.api.nvim_create_buf( true, false )
+  buf = vim.api.nvim_create_buf( true, true )
   vim.api.nvim_buf_set_name( buf, "Debug" )
   if callback then callback() end
 end
