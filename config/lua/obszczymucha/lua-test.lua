@@ -78,13 +78,13 @@ function M.opts( bufnr )
   debug( result )
 end
 
-local function buf_exists( name )
+local function find_buffer( name )
   for _, bufnr in ipairs( vim.api.nvim_list_bufs() ) do
     local bufname = vim.api.nvim_buf_get_name( bufnr )
-    if bufname == name then return true end
+    if bufname == name then return bufnr end
   end
 
-  return false
+  return nil
 end
 
 function M.run()
@@ -106,8 +106,8 @@ function M.run()
         index = index + 1
       end
 
-      for line_number, expected in string.gmatch( line, ".+:(%d+): expected: \"(.+)\"" ) do
-        test_results[ index ].error_line_number = line_number
+      for line_number, expected in string.gmatch( line, ".+:(%d+): expected: (.+)" ) do
+        test_results[ index ].error_line_number = tonumber( line_number )
         test_results[ index ].expected = expected
       end
 
@@ -117,24 +117,79 @@ function M.run()
     end
   end
 
-  local function print_tests()
-    for _, result in ipairs( test_results ) do
-      debug( dump2( result ) )
+  local function create_buffer( bufname )
+    debug( "creating buf" )
+    local bufnr = vim.api.nvim_create_buf( false, false )
+    vim.api.nvim_buf_set_option( bufnr, "filetype", "lua" )
+    vim.api.nvim_buf_set_name( bufnr, bufname )
+    vim.api.nvim_buf_call( bufnr, vim.cmd.edit )
+
+    return bufnr
+  end
+
+  local function get_buffers_from_results()
+    local cwd = vim.fn.getcwd()
+    local result = {}
+
+    for _, test_result in ipairs( test_results ) do
+      local bufname = string.format( "%s/%s", cwd, test_result.file_name:sub( 3 ) )
+
+      if not result[ bufname ] then
+        result[ bufname ] = find_buffer( bufname ) or create_buffer( bufname )
+      end
     end
 
+    return result
+  end
+
+  local function print_tests()
+    local namespace = vim.api.nvim_create_namespace( "LuaTestResults" )
+    local cwd = vim.fn.getcwd()
+    local buffers = get_buffers_from_results()
+    local all_errors = {}
+
+    for _, result in ipairs( test_results ) do
+      --debug( dump2( result ) )
+      if not result.ok then
+        local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
+        local bufnr = buffers[ bufname ]
+        all_errors[ bufnr ] = all_errors[ bufnr ] or {}
+
+        table.insert( all_errors[ bufnr ], {
+          bufnr = bufnr,
+          lnum = result.error_line_number - 1,
+          col = 0,
+          severity = vim.diagnostic.severity.ERROR,
+          message = "Test failed",
+          source = "luaunit",
+          user_data = {}
+        } )
+
+        debug( string.format( "FAILED: %s", bufname ) )
+      end
+
+    end
+
+    for _, bufnr in pairs( buffers ) do
+      if all_errors[ bufnr ] then
+        vim.diagnostic.set( namespace, bufnr, all_errors[ bufnr ] )
+      else
+        vim.diagnostic.set( namespace, bufnr, {} )
+      end
+    end
   end
 
   clear()
   local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
 
-  local bufname = "/home/alien/.projects/nvim/nvim-config/config/test/lua/obszczymucha/common_test.lua"
+  --local bufname = "/home/alien/.projects/nvim/nvim-config/config/test/lua/obszczymucha/common_test.lua"
 
-  if not buf_exists( bufname ) then
-    local bufx = vim.api.nvim_create_buf( true, false )
-    vim.api.nvim_buf_set_option( bufx, "filetype", "lua" )
-    vim.api.nvim_buf_set_name( bufx, bufname )
-    vim.api.nvim_buf_call( bufx, vim.cmd.edit )
-  end
+  --if not buf_exists( bufname ) then
+  --local bufnr = vim.api.nvim_create_buf( true, false )
+  --vim.api.nvim_buf_set_option( bufnr, "filetype", "lua" )
+  --vim.api.nvim_buf_set_name( bufnr, bufname )
+  --vim.api.nvim_buf_call( bufnr, vim.cmd.edit )
+  --end
   --vim.fn.bufload( bufx )
   --local loaded = vim.fn.bufloaded( bufx )
   --debug( dump2( loaded ) )

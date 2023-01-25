@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
 
 local lu = require( "luaunit" )
@@ -8,7 +9,7 @@ local is_blank = common.is_blank
 CommonSpec = {}
 
 function CommonSpec:should_princess_kenny()
-  lu.assertEquals( princess_kenny(), "Prncess Kenny" )
+  lu.assertEquals( princess_kenny(), "Princess Kenny" )
 end
 
 function CommonSpec:should_determine_if_input_is_blank()
