@@ -1,6 +1,6 @@
 --local q = require( "vim.treesitter.query" )
---local debug = require( "obszczymucha.debug" ).debug
---local clear = require( "obszczymucha.debug" ).clear
+local debug = require( "obszczymucha.debug" ).debug
+local clear = require( "obszczymucha.debug" ).clear
 
 local M = {}
 
@@ -61,6 +61,7 @@ function M.run()
 
   local function collect_results( _, data )
     if not data then return end
+    debug( data )
 
     for _, line in ipairs( data ) do
       for filename in string.gmatch( line, "Testing (.+)..." ) do
@@ -73,7 +74,7 @@ function M.run()
         index = index + 1
       end
 
-      for line_number, expected in string.gmatch( line, ".+:(%d+): expected: (.+)" ) do
+      for line_number, expected in string.gmatch( line, ".+:(%d+): expected:%s*(.+)" ) do
         test_results[ index ].error_line_number = tonumber( line_number )
         test_results[ index ].expected = expected
       end
@@ -146,6 +147,7 @@ function M.run()
   end
 
   local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
+  clear()
 
   vim.fn.jobstart( command, {
     stdout_buffered = true,

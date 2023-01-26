@@ -113,11 +113,7 @@ function M.count()
 end
 
 function M.clear()
-  if not buf or not vim.api.nvim_buf_is_valid( buf ) then
-    print( "No debug buffer available." )
-    return
-  end
-
+  if not buf or not vim.api.nvim_buf_is_valid( buf ) then return end
   vim.api.nvim_buf_set_lines( buf, 0, -1, false, {} )
 end
 
