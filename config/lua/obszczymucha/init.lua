@@ -11,6 +11,3 @@ require( "obszczymucha.lua-test" )
 require( "obszczymucha.documentation" )
 require( "obszczymucha.debug" )
 require( "obszczymucha.cmp" )
-
----@diagnostic disable-next-line: lowercase-global
-dbg = function( ... ) require( "obszczymucha.debug" ).debug( ... ) end

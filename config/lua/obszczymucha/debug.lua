@@ -71,12 +71,6 @@ end
 function M.init( split_cmd )
   split_command = split_cmd
   M.show()
-
-  vim.api.nvim_create_autocmd( "BufWritePost", {
-    group = vim.api.nvim_create_augroup( "MyDebug", { clear = true } ),
-    pattern = { "*.lua" },
-    callback = function() R( "obszczymucha.lua-test" ).run() end
-  } )
 end
 
 ---@diagnostic disable-next-line: unused-function
