@@ -1,6 +1,7 @@
 --local q = require( "vim.treesitter.query" )
 local debug = require( "obszczymucha.debug" ).debug
 local clear = require( "obszczymucha.debug" ).clear
+local common = require( "obszczymucha.common" )
 
 local M = {}
 
@@ -57,31 +58,55 @@ end
 function M.run()
   local test_results = {}
   local index = 0
-  local file_name
+  local full_filename
+  local filename
+  local States = { Start = 0, Ok = 1, NotOk = 2 }
+  local state = States.Start
 
   local function collect_results( _, data )
     if not data then return end
     debug( data )
 
     for _, line in ipairs( data ) do
-      for filename in string.gmatch( line, "Testing (.+)..." ) do
-        file_name = filename
-      end
+      (function()
+        for name in string.gmatch( line, "Testing (.+)..." ) do
+          full_filename = name
+          filename = common.get_filename( full_filename )
+          return
+        end
 
-      for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
-        table.insert( test_results,
-          { file_name = file_name, ok = not_ok == "", class_name = class_name, test_name = test_name } )
-        index = index + 1
-      end
+        for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
+          table.insert( test_results,
+            { file_name = full_filename, ok = not_ok == "", class_name = class_name, test_name = test_name } )
+          index = index + 1
 
-      for line_number, expected in string.gmatch( line, ".+:(%d+): expected:%s*(.+)" ) do
-        test_results[ index ].error_line_number = tonumber( line_number )
-        test_results[ index ].expected = expected
-      end
+          if not_ok == "" then
+            state = States.Ok
+          else
+            state = States.NotOk
+          end
 
-      for actual in string.gmatch( line, ".+actual: \"(.+)\"" ) do
-        test_results[ index ].actual = actual
-      end
+          return
+        end
+
+        if state ~= States.NotOk then return end
+        if test_results[ index ].error_line_number then return end
+
+        local escaped_filename = common.escape_dots( filename )
+        local pattern = "#%s*" .. escaped_filename .. ":(%d+):.*"
+
+        for line_number in string.gmatch( line, pattern ) do
+          test_results[ index ].error_line_number = tonumber( line_number )
+          --test_results[ index ].expected = expected
+          return
+        end
+
+        for actual in string.gmatch( line, ".+actual: \"(.+)\"" ) do
+          test_results[ index ].actual = actual
+
+          return
+        end
+      end)()
     end
   end
 
@@ -116,7 +141,7 @@ function M.run()
     local all_errors = {}
 
     for _, result in ipairs( test_results ) do
-      --debug( dump2( result ) )
+      debug( dump( result ) )
       if not result.ok then
         local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
         local bufnr = buffers[ bufname ]

@@ -27,4 +27,8 @@ function M.get_filename( path )
   return path:gsub( "(.*/)", "" )
 end
 
+function M.escape_dots( text )
+  return text:gsub( "(%.)", "%%." )
+end
+
 return M
