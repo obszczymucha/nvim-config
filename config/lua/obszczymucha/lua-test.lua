@@ -62,13 +62,29 @@ function M.run()
   local filename
   local States = { Start = 0, Ok = 1, NotOk = 2 }
   local state = States.Start
+  local buffer = {}
+
+  local function flush()
+    for _, v in ipairs( buffer ) do
+      debug( v )
+    end
+
+    buffer = {}
+  end
 
   local function collect_results( _, data )
     if not data then return end
-    debug( data )
 
     for _, line in ipairs( data ) do
       (function()
+        if state == States.NotOk then
+          table.insert( buffer, line )
+        end
+
+        if #buffer > 0 and state == States.NotOk then
+          flush()
+        end
+
         for name in string.gmatch( line, "Testing (.+)..." ) do
           full_filename = name
           filename = common.get_filename( full_filename )
@@ -83,6 +99,7 @@ function M.run()
           if not_ok == "" then
             state = States.Ok
           else
+            table.insert( buffer, line )
             state = States.NotOk
           end
 
@@ -108,6 +125,8 @@ function M.run()
         end
       end)()
     end
+
+    flush()
   end
 
   local function create_buffer( bufname )
@@ -141,7 +160,7 @@ function M.run()
     local all_errors = {}
 
     for _, result in ipairs( test_results ) do
-      debug( dump( result ) )
+      --debug( dump( result ) )
       if not result.ok then
         local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
         local bufnr = buffers[ bufname ]
