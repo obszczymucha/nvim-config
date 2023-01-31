@@ -174,6 +174,8 @@ vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "n", [[:call smoothie#do( "nzz" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "N", [[:call smoothie#do( "Nzz" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "<C-o>", "<C-o>zz" )
+vim.keymap.set( "n", "<C-i>", "<C-i>zz" )
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
