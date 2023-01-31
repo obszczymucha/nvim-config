@@ -96,3 +96,4 @@ end
 vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = vim.lsp.with( custom_on_publish_diagnostics, {} )
 
 require 'lspconfig'.rust_analyzer.setup {}
+require 'lspconfig'.clangd.setup {}
