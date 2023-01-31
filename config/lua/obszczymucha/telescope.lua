@@ -99,4 +99,8 @@ function M.git_branches()
   telescope.git_branches()
 end
 
+function M.noice()
+  require( "telescope" ).extensions.noice.noice( options )
+end
+
 return M
