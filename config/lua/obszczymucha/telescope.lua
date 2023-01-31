@@ -103,4 +103,8 @@ function M.noice()
   require( "telescope" ).extensions.noice.noice( options )
 end
 
+function M.notify()
+  require( "telescope" ).extensions.notify.notify( options )
+end
+
 return M

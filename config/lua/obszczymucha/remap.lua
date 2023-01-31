@@ -15,9 +15,9 @@ vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).regis
 vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>" )
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
 vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
-vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).noice()<CR>" )
+vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
 -- For Mac
-vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).noice()<CR>" )
+vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
 
 -- Notifications
 vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
