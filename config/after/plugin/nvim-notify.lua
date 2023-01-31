@@ -1,4 +1,5 @@
 require( "notify" ).setup( {
+  minimum_width = 15,
   render = "minimal",
   stages = "fade_in_slide_out",
   timeout = 2000,
