@@ -54,7 +54,7 @@ return {
   { "hrsh7th/cmp-nvim-lua" },
   { "hrsh7th/cmp-vsnip" },
   { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/vim-vsnip" },
+  { "hrsh7th/vim-vsnip", lazy = false },
   { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" },
   { "jenterkin/vim-autosource" },
