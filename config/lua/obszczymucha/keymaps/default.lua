@@ -1,8 +1,16 @@
 local common = require( "obszczymucha.common" )
 local M = {}
+local util = vim.lsp.util
 
 function M.go_to_definition()
-  vim.cmd( "lua vim.lsp.buf.definition()" )
+  local params = util.make_position_params()
+  local handler = function( ... )
+    local default_handler = require( "vim.lsp.handlers" )[ "textDocument/definition" ]
+    default_handler( ... )
+    vim.api.nvim_input( "zz" )
+  end
+
+  vim.lsp.buf_request( 0, "textDocument/definition", params, handler )
 end
 
 function M.go_to_implementation()

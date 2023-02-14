@@ -237,11 +237,11 @@ vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>", { noremap = false, silent = tr
 vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>", { noremap = false, silent = true, nowait = true } )
 vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
 
-local function test()
+function M.test()
   print( "Princess Kenny" )
 end
 
-vim.keymap.set( "n", "<leader>q", function() return test() end )
+vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR>" )
 
 -- Tab navigation
 --vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
