@@ -19,6 +19,9 @@ vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<C
 -- For Mac
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
 
+-- Git
+vim.keymap.set( "n", "<leader>gt", "<cmd>GitBlameToggle<CR>" )
+
 -- Notifications
 vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
 

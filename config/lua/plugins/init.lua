@@ -27,19 +27,19 @@ return {
         hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
         dim_inactive = false, -- dims inactive windows
         lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
-
         -- You can override specific color groups to use other groups or a hex color
         -- fucntion will be called with a ColorScheme table
         --@param colors ColorScheme
         ---@diagnostic disable-next-line: unused-local
-        on_colors = function( colors ) end,
-
+        on_colors = function( colors )
+        end,
         -- You can override specific highlights to use other groups or a hex color
         -- function will be called with a Highlights and ColorScheme table
         --@param highlights Highlights
         --@param colors ColorScheme
         ---@diagnostic disable-next-line: unused-local
-        on_highlights = function( highlights, colors ) end,
+        on_highlights = function( highlights, colors )
+        end,
       } )
 
       -- load the colorscheme here
@@ -48,14 +48,15 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
+  { "f-person/git-blame.nvim",                     lazy = false },
   { "folke/noice.nvim" },
-  { "glepnir/lspsaga.nvim", version = "main" },
+  { "glepnir/lspsaga.nvim",                        version = "main" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
   { "hrsh7th/cmp-vsnip" },
   { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/vim-vsnip", lazy = false },
-  { "https://github.com/mbbill/undotree", lazy = false },
+  { "hrsh7th/vim-vsnip",                           lazy = false },
+  { "https://github.com/mbbill/undotree",          lazy = false },
   { "j-hui/fidget.nvim" },
   { "jenterkin/vim-autosource" },
   { "kevinhwang91/nvim-bqf" },
@@ -70,13 +71,13 @@ return {
   { "nvim-lualine/lualine.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim" },
-  { "nvim-telescope/telescope.nvim", version = "0.1.1" },
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  { "nvim-telescope/telescope.nvim",               version = "0.1.1" },
+  { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
   { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate", lazy = false },
   { "nvim-treesitter/playground" },
-  { "preservim/nerdcommenter", lazy = false },
-  { "psliwka/vim-smoothie", lazy = false },
+  { "preservim/nerdcommenter",                     lazy = false },
+  { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui" },
   { "rcarriga/nvim-notify" },
   { "scalameta/nvim-metals" },
