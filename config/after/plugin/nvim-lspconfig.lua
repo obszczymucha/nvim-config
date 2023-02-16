@@ -1,6 +1,6 @@
 require( "mason" ).setup()
 require( "mason-lspconfig" ).setup {
-  ensure_installed = { "clangd", "rust_analyzer", "pyright", "tsserver", "lua_ls", "gopls", "bashls" }
+  ensure_installed = { "clangd", "rust_analyzer", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls" }
 }
 
 local lsp_status = require( "lsp-status" )
@@ -48,7 +48,8 @@ lspconfig.bashls.setup {
 }
 
 lspconfig.tsserver.setup {}
-lspconfig.pyright.setup {}
+--lspconfig.pyright.setup {}
+lspconfig.ruff_lsp.setup {}
 
 local function filter( arr, func )
   -- Filter in place
