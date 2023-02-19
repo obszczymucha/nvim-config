@@ -32,6 +32,7 @@ require( "telescope" ).setup {
     file_browser = {
       --theme = "ivy",
       -- disables netrw and use telescope-file-browser in its place
+      display_stat = { date = false, size = true },
       hijack_netrw = true,
       mappings = mappings
     },
@@ -74,9 +75,14 @@ end
 
 function M.file_browser()
   local opts = {
+    layout_strategy = "vertical",
     layout_config = {
-      preview_width = 0.6
+      preview_cutoff = 1
     },
+    --layout_config = {
+    --width = 0.9,
+    --preview_width = 0.6
+    --},
     path = "%:p:h" -- This opens current buffer's directory.
   }
 
