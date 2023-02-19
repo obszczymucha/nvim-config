@@ -75,7 +75,7 @@ return {
   { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
   { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate", lazy = false },
-  { "nvim-treesitter/playground" },
+  { "nvim-treesitter/playground",                  lazy = false },
   { "preservim/nerdcommenter",                     lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui" },
