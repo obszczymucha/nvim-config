@@ -53,7 +53,7 @@ return {
   { "glepnir/lspsaga.nvim",                        version = "main" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
-  { "hrsh7th/cmp-vsnip" },
+  { "hrsh7th/cmp-vsnip",                           lazy = false },
   { "hrsh7th/nvim-cmp" },
   { "hrsh7th/vim-vsnip",                           lazy = false },
   { "https://github.com/mbbill/undotree",          lazy = false },
