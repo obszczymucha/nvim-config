@@ -10,6 +10,12 @@ saga.setup( {
     quit = '<A-q>',
     in_select = true
   },
+  code_action = {
+    keys = {
+      quit = { "q", "<Esc>" },
+      exec = "<CR>"
+    }
+  },
   ui = {
     -- currently only round theme
     theme = 'round',

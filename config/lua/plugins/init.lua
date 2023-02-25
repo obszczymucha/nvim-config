@@ -50,7 +50,7 @@ return {
   { "ThePrimeagen/harpoon" },
   { "f-person/git-blame.nvim",                     lazy = false },
   { "folke/noice.nvim" },
-  { "glepnir/lspsaga.nvim",                        version = "main" },
+  { "glepnir/lspsaga.nvim",                        event = "BufRead",   version = "main" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
   { "hrsh7th/cmp-vsnip",                           lazy = false },
