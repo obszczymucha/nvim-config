@@ -235,7 +235,7 @@ vim.keymap.set( "n", "<leader>tf", remap( "test_file" ), { noremap = false, sile
 vim.keymap.set( "n", "<leader>tt", remap( "test_nearest_method" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "<leader>O", remap( "organize_imports" ), { noremap = false, silent = true, nowait = true } )
 vim.keymap.set( "n", "<leader>fc", remap( "compile" ), { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "n", "<leader>j", ":%!jq<CR>", { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>j", ":%!jq --sort-keys<CR>", { noremap = false, silent = true, nowait = true } )
 vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
 vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>", { noremap = false, silent = true, nowait = true } )
 vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
