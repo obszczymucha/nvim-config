@@ -81,6 +81,7 @@ return {
   { "rcarriga/nvim-dap-ui" },
   { "rcarriga/nvim-notify" },
   { "scalameta/nvim-metals" },
+  { "tpope/vim-fugitive",                          lazy = false },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
   { "windwp/nvim-autopairs" }
