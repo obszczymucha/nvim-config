@@ -48,19 +48,29 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  { "f-person/git-blame.nvim",                     lazy = false },
+  { "f-person/git-blame.nvim",            lazy = false },
   { "folke/noice.nvim" },
-  { "glepnir/lspsaga.nvim",                        event = "LspAttach" },
+  { "glepnir/lspsaga.nvim",               event = "LspAttach" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
-  { "hrsh7th/cmp-vsnip",                           lazy = false },
+  { "hrsh7th/cmp-vsnip",                  lazy = false },
   { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/vim-vsnip",                           lazy = false },
-  { "https://github.com/mbbill/undotree",          lazy = false },
+  { "hrsh7th/vim-vsnip",                  lazy = false },
+  { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" },
   { "jenterkin/vim-autosource" },
   { "kevinhwang91/nvim-bqf" },
   { "kyazdani42/nvim-web-devicons" },
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      require( "nvim-surround" ).setup( {
+        -- Configuration here, or leave empty to use defaults
+      } )
+    end
+  },
   { "mfussenegger/nvim-dap" },
   { "mfussenegger/nvim-jdtls" },
   { "mfussenegger/nvim-treehopper" },
