@@ -1,5 +1,6 @@
 local M = {}
 local prequire = require( "obszczymucha.common" ).prequire
+local is_wsl = os.getenv( "WSL_DISTRO_NAME" )
 
 -- Telescope
 vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
@@ -16,6 +17,7 @@ vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_c
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
 vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
 vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
+
 -- For Mac
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
 
@@ -67,11 +69,23 @@ vim.keymap.set( "v", "<C-A-k>", ":m '<-2<CR>gv=gv" )
 vim.keymap.set( "x", "<leader>p", "\"_dP" )
 vim.keymap.set( "n", "<leader>y", "\"+y" )
 vim.keymap.set( "v", "<leader>y", "\"+y" )
-vim.keymap.set( "n", "<A-p>", "\"+p" )
-vim.keymap.set( "v", "<A-p>", "\"+p" )
-vim.keymap.set( "n", "<A-S-p>", "\"+P" )
-vim.keymap.set( "v", "<A-S-p>", "\"+P" )
-vim.keymap.set( "v", "<A-C-p>", ':<c-u>\'<,\'>s/\\r/\\r/g<cr>' )
+
+if is_wsl then
+  vim.keymap.set( "n", "<A-p>", ":r!pbpaste<CR>", { silent = true } )
+  vim.keymap.set( "v", "<A-p>", ":<c-u>'<,'>delete | set paste | execute \"normal i\".system(\"pbpaste\") | set nopaste<CR>", { silent = true } )
+
+  --local npaste_cmd = ":set paste | execute \"normal a\".system(\"pbpaste\") | set nopaste<CR>"
+  --vim.keymap.set( "n", "<A-S-p>", npaste_cmd, { silent = true } )
+  local vpaste_cmd = ":<c-u>'<,'>delete | set paste | execute \"normal i\".system(\"pbpaste\") | set nopaste<CR>"
+  vim.keymap.set( "v", "<A-S-p>", vpaste_cmd, { silent = true } )
+else
+  vim.keymap.set( "n", "<A-p>", "\"+p" )
+  vim.keymap.set( "v", "<A-p>", "\"+p" )
+  vim.keymap.set( "n", "<A-S-p>", "\"+P" )
+  vim.keymap.set( "v", "<A-S-p>", "\"+P" )
+  vim.keymap.set( "v", "<A-C-p>", ':<c-u>\'<,\'>s/\\r/\\r/g<cr>' )
+end
+
 vim.keymap.set( "n", "<leader>d", "\"_d" )
 vim.keymap.set( "v", "<leader>d", "\"_d" )
 vim.keymap.set( "n", "<leader>c", "\"_c" )
