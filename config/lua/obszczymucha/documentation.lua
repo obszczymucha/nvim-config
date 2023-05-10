@@ -1,6 +1,5 @@
 local M = {}
 
-local q = require( "vim.treesitter.query" )
 local ts_utils = require( "nvim-treesitter.ts_utils" )
 
 function M.show_function_help()
@@ -19,7 +18,7 @@ function M.show_function_help()
 
   if not expr then return end
 
-  local query = vim.treesitter.parse_query( "lua", [[
+  local query = vim.treesitter.query.parse( "lua", [[
     name: (dot_index_expression
       field: (identifier) @field
     )
@@ -29,7 +28,7 @@ function M.show_function_help()
 
   for _, match, _ in query:iter_matches( expr, buf, expr:start(), expr:end_() + 1 ) do
     local node = match[ 1 ]
-    local function_name = q.get_node_text( node, buf )
+    local function_name = vim.treesitter.get_node_text( node, buf )
     vim.cmd( "h " .. function_name )
   end
 end

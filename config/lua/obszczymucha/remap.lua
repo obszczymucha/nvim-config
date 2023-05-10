@@ -63,24 +63,21 @@ vim.keymap.set( "i", "<C-A-k>", "<Esc><cmd>m .-2<CR>==gi" )
 vim.keymap.set( "v", "<C-A-j>", ":m '>+1<CR>gv=gv" )
 vim.keymap.set( "v", "<C-A-k>", ":m '<-2<CR>gv=gv" )
 
--- greatest remap ever : ThePrimeagen
+-- Copy / paste
 vim.keymap.set( "x", "<leader>p", "\"_dP" )
-
--- next greatest remap ever : asbjornHaland : ThePrimeagen
 vim.keymap.set( "n", "<leader>y", "\"+y" )
 vim.keymap.set( "v", "<leader>y", "\"+y" )
-
 vim.keymap.set( "n", "<A-p>", "\"+p" )
 vim.keymap.set( "v", "<A-p>", "\"+p" )
 vim.keymap.set( "n", "<A-S-p>", "\"+P" )
 vim.keymap.set( "v", "<A-S-p>", "\"+P" )
-
+vim.keymap.set( "v", "<A-C-p>", ':<c-u>\'<,\'>s/\\r/\\r/g<cr>' )
 vim.keymap.set( "n", "<leader>d", "\"_d" )
 vim.keymap.set( "v", "<leader>d", "\"_d" )
-
 vim.keymap.set( "n", "<leader>c", "\"_c" )
 vim.keymap.set( "n", "<leader>x", "\"_x" )
 
+-- Smoothie
 ---@diagnostic disable-next-line: unused-function, unused-local
 local function smoothie_smart_down()
   --local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
@@ -241,7 +238,7 @@ vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>", { noremap = false, silent = 
 vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
 
 function M.test()
-  print( "Princess Kenny" )
+  print( "Hello!" )
 end
 
 vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR>" )
@@ -274,14 +271,6 @@ vim.keymap.set( "i", "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
 vim.keymap.set( "o", "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { noremap = false, silent = true } )
 vim.keymap.set( "x", "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
 
-
-function M.reload()
-  R( "obszczymucha.remap" )
-  print( "Mappings reloaded." )
-end
-
-vim.keymap.set( "n", "<leader>asdf", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
-
 -- This automatically closes the find references window when e is pressd. I've no idea how this works.
 vim.api.nvim_create_autocmd( "FileType", {
   callback = function()
@@ -306,6 +295,14 @@ vim.keymap.set( "n", "<Esc>", function()
   end
 end, { silent = true } )
 
-vim.keymap.set( "n", "<leader>x", ":so %<CR>" )
+-- Reloading
+function M.reload()
+  R( "obszczymucha.remap" )
+  print( "Mappings reloaded." )
+end
+
+vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
+vim.keymap.set( "n", "<A-r>", ":so % | echo \"File reloaded.\"<CR>", { silent = true } )
+vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :echo \"LSP restarted.\"<CR>", { silent = true } )
 
 return M

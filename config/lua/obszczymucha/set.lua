@@ -48,3 +48,5 @@ o.swapfile = false
 o.backup = false
 o.undodir = os.getenv( "HOME" ) .. "/.vim/undodir"
 o.undofile = true
+
+vim.cmd [[command! HarpoonFirst lua require( "harpoon.ui" ).nav_file( 1 )]]
