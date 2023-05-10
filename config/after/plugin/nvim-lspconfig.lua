@@ -47,7 +47,12 @@ lspconfig.bashls.setup {
   filetypes = { "sh", "zsh" }
 }
 
-lspconfig.tsserver.setup {}
+lspconfig.tsserver.setup {
+  on_attach = function(client, bufnr)
+    require("twoslash-queries").attach(client, bufnr)
+  end
+}
+
 --lspconfig.pyright.setup {}
 lspconfig.ruff_lsp.setup {}
 

@@ -71,6 +71,7 @@ return {
       } )
     end
   },
+  { "marilari88/twoslash-queries.nvim" },
   { "mfussenegger/nvim-dap" },
   { "mfussenegger/nvim-jdtls" },
   { "mfussenegger/nvim-treehopper" },
