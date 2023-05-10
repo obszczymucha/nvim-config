@@ -143,6 +143,29 @@ function M.run()
     return result
   end
 
+  local function toJsValue( value )
+    if not value then return nil end
+
+    if type( value ) == "table" then
+      local result = "["
+      local i = 0
+
+      for _, v in ipairs( value ) do
+        if i > 0 then
+          result = result .. ","
+        end
+
+        result = result .. toJsValue( v )
+      end
+
+      result = result .. "]"
+
+      return result
+    end
+
+    return value
+  end
+
   local function print_tests()
     local namespace = vim.api.nvim_create_namespace( "JestTestResults" )
     local buffers = get_buffers_from_results()
@@ -155,9 +178,10 @@ function M.run()
         local bufnr = buffers[ bufname ]
         all_errors[ bufnr ] = all_errors[ bufnr ] or {}
 
-        local details = result.details and result.details.expected and result.details.actual
-        local message = details and
-            string.format( "Expected: %s  actual: %s", result.details.expected, result.details.actual ) or "Test failed"
+        local expected = toJsValue( result and result.details and result.details.expected or nil )
+        local actual = toJsValue( result and result.details and result.details.actual or nil )
+        local details = result.details and expected and actual
+        local message = details and string.format( "Expected: %s  actual: %s", expected, actual ) or "Test failed"
         local severity = details and vim.diagnostic.severity.INFO or vim.diagnostic.severity.ERROR
 
         table.insert( all_errors[ bufnr ], {
