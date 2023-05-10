@@ -252,6 +252,7 @@ vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR
 --vim.keymap.set( "n", "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 -- Debugging
+vim.keymap.set( "n", "<leader>dt", [[:lua require'dapui'.toggle()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<F7>", [[:lua require'dap'.step_into()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
