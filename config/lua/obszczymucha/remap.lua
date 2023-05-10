@@ -302,7 +302,7 @@ function M.reload()
 end
 
 vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
-vim.keymap.set( "n", "<A-r>", ":so % | echo \"File reloaded.\"<CR>", { silent = true } )
+vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
 vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :echo \"LSP restarted.\"<CR>", { silent = true } )
 
 return M

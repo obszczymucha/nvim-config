@@ -19,4 +19,9 @@ function M.fast_word_wrap()
   wrap( "e" )
 end
 
+function M.reload()
+  vim.api.nvim_command( "so %" )
+  print( "File reinterpreted." )
+end
+
 return M
