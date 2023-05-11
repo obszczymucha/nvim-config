@@ -240,12 +240,19 @@ function M.run()
       end
     end
 
+    local all_tests_passed = true
+
     for _, bufnr in pairs( buffers ) do
       if all_errors[ bufnr ] then
+        all_tests_passed = false
         vim.diagnostic.set( namespace, bufnr, all_errors[ bufnr ] )
       else
         vim.diagnostic.set( namespace, bufnr, {} )
       end
+    end
+
+    if all_tests_passed then
+      debug( "All tests passed." )
     end
   end
 
