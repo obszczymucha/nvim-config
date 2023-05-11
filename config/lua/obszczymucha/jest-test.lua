@@ -143,10 +143,21 @@ function M.run()
     return result
   end
 
-  local function toJsValue( value )
-    if not value then return nil end
+  local function is_array( tbl )
+    local max = 0
+    for k, _ in pairs( tbl ) do
+      if type( k ) ~= "number" then
+        return false
+      end
+      if k > max then
+        max = k
+      end
+    end
+    return #tbl == max
+  end
 
-    if type( value ) == "table" then
+  local function toJsValue( value )
+    local function to_array()
       local result = "["
       local i = 0
 
@@ -156,6 +167,7 @@ function M.run()
         end
 
         result = result .. toJsValue( v )
+        i = i + 1
       end
 
       result = result .. "]"
@@ -163,7 +175,37 @@ function M.run()
       return result
     end
 
-    return value
+    local function to_object()
+      local result = "{"
+      local i = 0
+
+      for k, v in pairs( value ) do
+        if i > 0 then
+          result = result .. ","
+        end
+
+        result = result .. string.format( "\"%s\":%s", k, toJsValue( v ) )
+        i = i + 1
+      end
+
+      result = result .. "}"
+
+      return result
+    end
+
+    if not value then return nil end
+
+    if type( value ) == "string" then
+      return string.format( "\"%s\"", value )
+    elseif type( value ) ~= "table" then
+      return value
+    end
+
+    if is_array( value ) then
+      return to_array()
+    else
+      return to_object()
+    end
   end
 
   local function print_tests()
@@ -210,11 +252,16 @@ function M.run()
   local buf_filename = vim.fn.expand( "%:t" )
   local command = { "jest", "--json", "--testLocationInResults" }
 
-  if is_test( buf_filename ) then
-    table.insert( command, buf_filename )
-  end
-
   clear()
+
+  if is_test( buf_filename ) then
+    debug( "Running a single test..." )
+    table.insert( command, buf_filename )
+    table.insert( command, "--maxWorkers=1" )
+  else
+    debug( "Running all tests..." )
+    table.insert( command, "--maxWorkers=4" )
+  end
 
   vim.fn.jobstart( command, {
     stdout_buffered = true,
