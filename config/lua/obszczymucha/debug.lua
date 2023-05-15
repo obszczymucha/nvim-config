@@ -27,7 +27,7 @@ function M.show( split_cmd )
   create_buffer( function() needs_set = true end )
 
   if not win or not vim.api.nvim_win_is_valid( win ) then
-    vim.cmd( string.format( "%s#%s", split_cmd or split_command or "100vs", buf ) )
+    vim.cmd( string.format( "%s#%s", split_cmd or split_command or "70vs", buf ) )
     win = vim.api.nvim_get_current_win()
     return
   end
