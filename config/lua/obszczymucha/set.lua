@@ -32,7 +32,10 @@ g.airline_theme = "deus"
 g.airline_symbols = { colnr = "c:", linenr = " l:" }
 g.airline_powerline_fonts = 1
 
-api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon.ui' ).nav_file( 1 )", {} )
+if not is_wsl then
+  api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon.ui' ).nav_file( 1 )", {} )
+end
+
 cmd( "cnoreabbrev H vert bo h" )
 
 g.smoothie_no_default_mappings = true
@@ -46,7 +49,11 @@ g.AutoPairsShortcutToggle = "<C-p>"
 
 o.swapfile = false
 o.backup = false
-o.undodir = os.getenv( "HOME" ) .. "/.vim/undodir"
+
+if not is_wsl then
+  o.undodir = os.getenv( "HOME" ) .. "/.vim/undodir"
+end
+
 o.undofile = true
 
 vim.cmd [[command! HarpoonFirst lua require( "harpoon.ui" ).nav_file( 1 )]]

@@ -35,3 +35,7 @@ dump = function( o )
     return tostring( o )
   end
 end
+
+---@diagnostic disable-next-line: lowercase-global
+is_wsl = os.getenv( "WSL_DISTRO_NAME" )
+

@@ -1,6 +1,5 @@
 local M = {}
 local prequire = require( "obszczymucha.common" ).prequire
-local is_wsl = os.getenv( "WSL_DISTRO_NAME" )
 
 -- Telescope
 vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
