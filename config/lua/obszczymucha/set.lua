@@ -26,13 +26,14 @@ o.incsearch = true
 o.smartindent = true
 o.wrap = false
 o.splitright = true
+o.fileformats = { 'unix', 'dos', 'mac' }
 
 g.mapleader = " "
 g.airline_theme = "deus"
 g.airline_symbols = { colnr = "c:", linenr = " l:" }
 g.airline_powerline_fonts = 1
 
-if not is_wsl then
+if not is_windows then
   api.nvim_create_user_command( "Conf", "cd ~/.config/nvim | lua require( 'harpoon.ui' ).nav_file( 1 )", {} )
 end
 
@@ -50,7 +51,7 @@ g.AutoPairsShortcutToggle = "<C-p>"
 o.swapfile = false
 o.backup = false
 
-if not is_wsl then
+if not is_windows then
   o.undodir = os.getenv( "HOME" ) .. "/.vim/undodir"
 end
 

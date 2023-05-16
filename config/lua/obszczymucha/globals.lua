@@ -39,3 +39,6 @@ end
 ---@diagnostic disable-next-line: lowercase-global
 is_wsl = os.getenv( "WSL_DISTRO_NAME" )
 
+---@diagnostic disable-next-line: lowercase-global
+is_windows = os.getenv( "OS" ) == "Windows_NT"
+
