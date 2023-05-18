@@ -164,6 +164,21 @@ function M.bind( binding_name )
   if f then f() end
 end
 
+function M.jumplist_count( key )
+  local count = vim.v.count
+
+  if count > 1 then
+    vim.cmd( "normal! m'" )
+    vim.cmd( "normal! " .. count .. key )
+    vim.cmd( "normal! zz" )
+  else
+    vim.cmd( "normal! " .. key )
+  end
+end
+
+-- Navigation
+vim.keymap.set( 'n', 'k', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'k' )<CR>" )
+vim.keymap.set( 'n', 'j', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'j' )<CR>" )
 vim.keymap.set( "n", "<A-e>", "<C-e>j" )
 vim.keymap.set( "n", "<A-y>", "<C-y>k" )
 vim.keymap.set( "n", "<A-j>", "<C-e>j" )
