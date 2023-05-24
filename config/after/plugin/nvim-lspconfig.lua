@@ -13,6 +13,13 @@ lsp_status.register_progress()
 
 local lspconfig = require( "lspconfig" )
 lspconfig.hls.setup {}
+
+-- Temporary fix for lua-language-server
+local lua_libs = vim.api.nvim_get_runtime_file( "", true )
+local lua_libexec = vim.loop.os_homedir() ..
+    "/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/5393ac01"
+table.insert(lua_libs, lua_libexec)
+
 lspconfig.lua_ls.setup {
   settings = {
     Lua = {
@@ -26,7 +33,7 @@ lspconfig.lua_ls.setup {
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file( "", true ),
+        library = lua_libs,
         checkThirdParty = false
       },
       -- Do not send telemetry data containing a randomized but unique identifier
@@ -36,6 +43,12 @@ lspconfig.lua_ls.setup {
     },
   },
   on_attach = function()
+    local stat = vim.loop.fs_stat( lua_libexec )
+
+    if not stat or stat.type ~= "directory" then
+      vim.notify( "lua_libexec not found. Update nvim-lspconfig.lua!", vim.log.levels.ERROR )
+    end
+
     -- Documentation
     vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
     vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
@@ -48,8 +61,8 @@ lspconfig.bashls.setup {
 }
 
 lspconfig.tsserver.setup {
-  on_attach = function(client, bufnr)
-    require("twoslash-queries").attach(client, bufnr)
+  on_attach = function( client, bufnr )
+    require( "twoslash-queries" ).attach( client, bufnr )
   end
 }
 
