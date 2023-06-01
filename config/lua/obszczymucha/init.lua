@@ -1,4 +1,5 @@
 require( "obszczymucha.globals" )
+require( "obszczymucha.user-config" )
 require( "obszczymucha.common" )
 require( "obszczymucha.set" )
 require( "obszczymucha.color-overrides" )
