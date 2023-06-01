@@ -1,5 +1,6 @@
 local M = {}
 local prequire = require( "obszczymucha.common" ).prequire
+local config = require( "obszczymucha.user-config" )
 
 -- Telescope
 vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
@@ -171,7 +172,10 @@ function M.jumplist_count( key )
   if count > 1 then
     vim.cmd( "normal! m'" )
     vim.cmd( "normal! " .. count .. key )
-    vim.cmd( "normal! zz" )
+
+    if config.auto_center() then
+      vim.cmd( "normal! zz" )
+    end
   else
     vim.cmd( "normal! " .. key )
   end
@@ -333,5 +337,8 @@ end
 vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
 vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
 vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :echo \"LSP restarted.\"<CR>", { silent = true } )
+
+-- Custom persistable settings
+vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center )
 
 return M
