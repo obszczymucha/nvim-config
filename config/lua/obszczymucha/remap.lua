@@ -181,9 +181,21 @@ function M.jumplist_count( key )
   end
 end
 
-local function smart_center( template )
+local function smart_center_next( template )
   return function()
-    return vim.cmd( string.format( template, config.auto_center() and "zz" or "" ) )
+    local ok, result = pcall( vim.api.nvim_command, string.format( template, config.auto_center() and "zz" or "" ) )
+
+    if not ok then
+      local pattern = "E486: "
+      local index = string.find( result, pattern )
+
+      if index then
+        local message = string.sub( result, index + string.len( pattern ) )
+        vim.notify( message, vim.log.levels.INFO )
+      else
+        vim.notify( result, vim.log.levels.ERROR )
+      end
+    end
   end
 end
 
@@ -211,8 +223,8 @@ vim.keymap.set( "n", "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } 
 vim.keymap.set( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "n", smart_center( "call smoothie#do( 'n%s' )" ), { silent = true } )
-vim.keymap.set( "n", "N", smart_center( "call smoothie#do( 'N%s' )" ), { silent = true } )
+vim.keymap.set( "n", "n", smart_center_next( "call smoothie#do( 'n%s' )" ), { silent = true } )
+vim.keymap.set( "n", "N", smart_center_next( "call smoothie#do( 'N%s' )" ), { silent = true } )
 vim.keymap.set( "n", "<C-o>", function() return config.auto_center() and "<C-o>zz" or "<C-o>" end, { expr = true } )
 vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>zz" or "<C-i>" end, { expr = true } )
 
