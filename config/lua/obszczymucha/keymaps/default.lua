@@ -27,7 +27,8 @@ function M.peek_definition()
 end
 
 function M.references()
-  vim.cmd( "lua vim.lsp.buf.references()" )
+  --vim.cmd( "lua vim.lsp.buf.references()" )
+  vim.cmd( "Lspsaga lsp_finder" )
 end
 
 function M.documentation()
