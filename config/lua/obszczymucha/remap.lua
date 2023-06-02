@@ -181,6 +181,12 @@ function M.jumplist_count( key )
   end
 end
 
+local function smart_center( template )
+  return function()
+    return vim.cmd( string.format( template, config.auto_center() and "zz" or "" ) )
+  end
+end
+
 -- Navigation
 vim.keymap.set( 'n', 'k', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'k' )<CR>" )
 vim.keymap.set( 'n', 'j', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'j' )<CR>" )
@@ -205,10 +211,10 @@ vim.keymap.set( "n", "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } 
 vim.keymap.set( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "n", [[:call smoothie#do( "nzz" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "N", [[:call smoothie#do( "Nzz" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<C-o>", "<C-o>zz" )
-vim.keymap.set( "n", "<C-i>", "<C-i>zz" )
+vim.keymap.set( "n", "n", smart_center( "call smoothie#do( 'n%s' )" ), { silent = true } )
+vim.keymap.set( "n", "N", smart_center( "call smoothie#do( 'N%s' )" ), { silent = true } )
+vim.keymap.set( "n", "<C-o>", function() return config.auto_center() and "<C-o>zz" or "<C-o>" end, { expr = true } )
+vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>zz" or "<C-i>" end, { expr = true } )
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
