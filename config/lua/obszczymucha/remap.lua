@@ -359,4 +359,8 @@ vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :echo \"LSP restarted.\"<CR>"
 -- Custom persistable settings
 vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center )
 
+-- Custom search
+vim.keymap.set( 'n', '/', [[<cmd>lua require( "obszczymucha.custom-search" ).forward()<CR>]] )
+vim.keymap.set( 'n', '?', [[<cmd>lua require( "obszczymucha.custom-search" ).backward()<CR>]] )
+
 return M

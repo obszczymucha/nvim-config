@@ -12,6 +12,7 @@ require( "obszczymucha.jest-test" )
 require( "obszczymucha.documentation" )
 require( "obszczymucha.debug" )
 require( "obszczymucha.cmp" )
+require( "obszczymucha.custom-search" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
