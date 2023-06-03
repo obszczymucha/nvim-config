@@ -1,4 +1,5 @@
-local saga = require( "lspsaga" )
+local saga = prequire( "lspsaga" )
+if not saga then return end
 
 saga.setup( {
   border_style = "single",

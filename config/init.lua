@@ -16,6 +16,9 @@ vim.opt.rtp:prepend( lazypath )
 vim.g.mapleader = " "
 vim.g.gitblame_enabled = 0
 
+---@diagnostic disable-next-line: lowercase-global
+prequire = require( "obszczymucha.common" ).prequire
+
 require( "lazy" ).setup( "plugins", {
   defaults = {
     lazy = true

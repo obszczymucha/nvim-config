@@ -1,4 +1,7 @@
-require( "noice" ).setup( {
+local noice = prequire( "noice" )
+if not noice then return end
+
+noice.setup( {
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {

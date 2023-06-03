@@ -1,3 +1,6 @@
+local lualine = prequire( "lualine" )
+if not lualine then return end
+
 local is_blank = require( "obszczymucha.common" ).is_blank
 
 local diagnostics = {
@@ -133,4 +136,4 @@ ins_right { function() return "[" end, padding = no_padding }
 ins_right { "fileformat", icons_enabled = false, padding = no_padding }
 ins_right { function() return "]" end, padding = { left = 0, right = 1 } }
 
-require("lualine").setup( config )
+lualine.setup( config )

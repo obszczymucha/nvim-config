@@ -1,5 +1,4 @@
 local M = {}
-local prequire = require( "obszczymucha.common" ).prequire
 local config = require( "obszczymucha.user-config" )
 
 -- Telescope

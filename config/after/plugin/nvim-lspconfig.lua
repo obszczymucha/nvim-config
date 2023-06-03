@@ -1,24 +1,36 @@
-require( "mason" ).setup()
-require( "mason-lspconfig" ).setup {
-  ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls" }
-}
+local mason = prequire( "mason" )
+if mason then
+  mason.setup()
+end
 
-local lsp_status = require( "lsp-status" )
-lsp_status.config( {
-  status_symbol = "",
-  indicator_ok = ""
-} )
+local mason_lspconfig = prequire( "mason-lspconfig" )
+if mason_lspconfig then
+  mason_lspconfig.setup {
+    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls" }
+  }
+end
 
-lsp_status.register_progress()
+local lsp_status = prequire( "lsp-status" )
+if lsp_status then
+  lsp_status.config( {
+    status_symbol = "",
+    indicator_ok = ""
+  } )
 
-local lspconfig = require( "lspconfig" )
+  lsp_status.register_progress()
+end
+
+
+local lspconfig = prequire( "lspconfig" )
+if not lspconfig then return end
+
 lspconfig.hls.setup {}
 
 -- Temporary fix for lua-language-server
 local lua_libs = vim.api.nvim_get_runtime_file( "", true )
 local lua_libexec = vim.loop.os_homedir() ..
     "/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/5393ac01"
-table.insert(lua_libs, lua_libexec)
+table.insert( lua_libs, lua_libexec )
 
 lspconfig.lua_ls.setup {
   settings = {

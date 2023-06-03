@@ -1,2 +1,5 @@
-require( "nvim-autopairs" ).setup {
+local autopairs = prequire( "nvim-autopairs" )
+if not autopairs then return end
+
+autopairs.setup {
 }
