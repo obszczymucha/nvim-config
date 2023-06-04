@@ -85,7 +85,7 @@ end
 
 function M.reload()
   vim.api.nvim_command( "e" )
-  print( "File reloaded." )
+  vim.notify( "File reloaded." )
 end
 
 return M

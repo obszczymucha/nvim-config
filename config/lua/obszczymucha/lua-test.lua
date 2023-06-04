@@ -209,7 +209,7 @@ function M.setup()
       callback = function() R( "obszczymucha.lua-test" ).run() end
     } )
 
-    print( "LuaTest hooked." )
+    vim.notify( "LuaTest hooked." )
   end, { nargs = 0 } )
 end
 

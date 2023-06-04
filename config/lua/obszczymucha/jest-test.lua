@@ -286,7 +286,7 @@ function M.setup()
       callback = function() R( "obszczymucha.jest-test" ).run() end
     } )
 
-    print( "JestTest hooked." )
+    vim.notify( "JestTest hooked." )
   end, { nargs = 0 } )
 end
 

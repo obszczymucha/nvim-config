@@ -21,7 +21,7 @@ end
 
 function M.reload()
   vim.api.nvim_command( "so %" )
-  print( "File reinterpreted." )
+  vim.notify( "File reinterpreted." )
 end
 
 return M

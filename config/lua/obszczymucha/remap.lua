@@ -348,12 +348,12 @@ end, { silent = true } )
 -- Reloading
 function M.reload()
   R( "obszczymucha.remap" )
-  print( "Mappings reloaded." )
+  vim.notify( "Mappings reloaded." )
 end
 
 vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
 vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
-vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :echo \"LSP restarted.\"<CR>", { silent = true } )
+vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :lua vim.notify( \"LSP restarted.\" )<CR>", { silent = true } )
 
 -- Custom persistable settings
 vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center )
