@@ -6,7 +6,7 @@ end
 local mason_lspconfig = prequire( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
-    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls" }
+    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls", "sqlls" }
   }
 end
 
@@ -133,3 +133,4 @@ vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = vim.lsp.with( custom_on_
 
 lspconfig.rust_analyzer.setup {}
 lspconfig.clangd.setup {}
+lspconfig.sqlls.setup {}
