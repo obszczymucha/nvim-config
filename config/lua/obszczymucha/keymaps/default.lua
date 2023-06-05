@@ -3,14 +3,16 @@ local M = {}
 local util = vim.lsp.util
 
 function M.go_to_definition()
-  local params = util.make_position_params()
-  local handler = function( ... )
-    local default_handler = require( "vim.lsp.handlers" )[ "textDocument/definition" ]
-    default_handler( ... )
-    vim.api.nvim_input( "zz" )
-  end
+  -- TODO: see if removing this causes any issues, if not, then remove the comment.
+  --local params = util.make_position_params()
+  --local handler = function( ... )
+    --local default_handler = require( "vim.lsp.handlers" )[ "textDocument/definition" ]
+    --default_handler( ... )
+    --vim.api.nvim_input( "zz" )
+  --end
 
-  vim.lsp.buf_request( 0, "textDocument/definition", params, handler )
+  --vim.lsp.buf_request( 0, "textDocument/definition", params, handler )
+  vim.cmd( "Lspsaga goto_definition" )
 end
 
 function M.go_to_implementation()
