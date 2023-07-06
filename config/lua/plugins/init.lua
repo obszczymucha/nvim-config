@@ -81,7 +81,24 @@ return {
   { "nvim-lualine/lualine.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim" },
-  { "nvim-telescope/telescope.nvim",               version = "0.1.1" },
+  { "nvim-telescope/telescope.nvim",             version = "0.1.1" },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      name = "nvim-tree-web-devicons"
+    },
+    config = function()
+      require( "nvim-tree" ).setup {
+        view = {
+          number = true,
+          relativenumber = true
+        }
+      }
+    end,
+  },
   { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
   { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate", lazy = false },

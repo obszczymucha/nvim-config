@@ -30,6 +30,9 @@ vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
 vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>" )
 vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>" )
 
+-- nvim-tree
+vim.keymap.set( "n", "<leader>dw", ":NvimTreeToggle<CR>", { silent = true } )
+
 -- Create a file under cursor
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )
 

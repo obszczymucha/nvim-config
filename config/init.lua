@@ -13,6 +13,8 @@ end
 
 vim.opt.rtp:prepend( lazypath )
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.gitblame_enabled = 0
 
