@@ -368,4 +368,30 @@ vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center )
 --vim.keymap.set( 'n', '/', [[<cmd>lua require( "obszczymucha.custom-search" ).forward()<CR>]] )
 --vim.keymap.set( 'n', '?', [[<cmd>lua require( "obszczymucha.custom-search" ).backward()<CR>]] )
 
+function M.jump_to_mark_and_center()
+  local mark = vim.fn.getchar()
+  if type( mark ) == "number" then mark = string.char( mark ) end
+
+  local success, errorMsg = pcall( function()
+    vim.cmd( "normal! '" .. mark )
+  end )
+
+  if success then
+    vim.cmd( "normal! zz" )
+  else
+    vim.notify( string.format( "Mapping %s not set.", mark ) )
+  end
+end
+
+function M.define_a_mark()
+  local mark = vim.fn.getchar()
+  if type( mark ) == "number" then mark = string.char( mark ) end
+
+  vim.cmd( "normal! m" .. mark )
+  vim.notify( string.format( "Mark %s defined.", mark ) )
+end
+
+vim.keymap.set( "n", "'", ":lua require('obszczymucha.remap').jump_to_mark_and_center()<CR>", { silent = true } )
+vim.keymap.set( "n", "m", ":lua require('obszczymucha.remap').define_a_mark()<CR>", { silent = true } )
+
 return M
