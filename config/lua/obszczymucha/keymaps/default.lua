@@ -30,7 +30,7 @@ end
 
 function M.references()
   --vim.cmd( "lua vim.lsp.buf.references()" )
-  vim.cmd( "Lspsaga lsp_finder" )
+  vim.cmd( "Lspsaga finder" )
 end
 
 function M.documentation()
