@@ -32,7 +32,16 @@ saga.setup( {
       close_in_preview = '<ESC>',
     },
   },
+  lightbulb = {
+    enable = true,
+    sign = false,
+    debounce = 10,
+    sign_priority = 40,
+    virtual_text = true,
+    enable_in_insert = false
+  },
   ui = {
+    debounce = 30,
     -- currently only round theme
     theme = 'round',
     -- border type can be single,double,rounded,solid,shadow.
