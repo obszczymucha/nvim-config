@@ -378,7 +378,7 @@ function M.jump_to_mark_and_center()
   local mark = vim.fn.getchar()
   if type( mark ) == "number" then mark = string.char( mark ) end
 
-  local success, errorMsg = pcall( function()
+  local success = pcall( function()
     vim.cmd( "normal! '" .. mark )
   end )
 
