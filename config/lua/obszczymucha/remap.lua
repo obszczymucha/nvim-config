@@ -1,3 +1,5 @@
+require( "obszczymucha.globals" )
+
 local M = {}
 local config = require( "obszczymucha.user-config" )
 
@@ -24,7 +26,11 @@ vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<
 vim.keymap.set( "n", "<leader>gt", "<cmd>GitBlameToggle<CR>" )
 
 -- Notifications
-vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
+if is_wsl then
+  vim.keymap.set( "n", "<F38>", "<cmd>lua require('notify').dismiss()<CR>" )
+else
+  vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
+end
 
 -- Debug
 vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>" )
