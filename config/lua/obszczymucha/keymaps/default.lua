@@ -67,7 +67,7 @@ function M.code_lens()
 end
 
 function M.outline()
-  vim.cmd( "LSoutlineToggle" )
+  vim.cmd( "Lspsaga outline" )
 end
 
 local function wrap( operation )
