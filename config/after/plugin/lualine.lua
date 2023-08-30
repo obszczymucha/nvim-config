@@ -18,14 +18,14 @@ local diagnostics = {
   diagnostics_color = {
     -- Same values as the general color option can be used here.
     error = "DiagnosticError", -- Changes diagnostics' error color.
-    warn  = "DiagnosticWarn", -- Changes diagnostics' warn color.
-    info  = "DiagnosticInfo", -- Changes diagnostics' info color.
-    hint  = "DiagnosticHint", -- Changes diagnostics' hint color.
+    warn  = "DiagnosticWarn",  -- Changes diagnostics' warn color.
+    info  = "DiagnosticInfo",  -- Changes diagnostics' info color.
+    hint  = "DiagnosticHint",  -- Changes diagnostics' hint color.
   },
   symbols = { error = "E", warn = "W", info = "I", hint = "H" },
-  colored = true, -- Displays diagnostics status in color if set to true.
+  colored = true,           -- Displays diagnostics status in color if set to true.
   update_in_insert = false, -- Update diagnostics in insert mode.
-  always_visible = false, -- Show diagnostics even if there are none.
+  always_visible = false,   -- Show diagnostics even if there are none.
 }
 
 ---@diagnostic disable: unused-local
@@ -135,5 +135,8 @@ ins_right { "encoding", padding = { left = 0, right = 1 } }
 ins_right { function() return "[" end, padding = no_padding }
 ins_right { "fileformat", icons_enabled = false, padding = no_padding }
 ins_right { function() return "]" end, padding = { left = 0, right = 1 } }
+
+table.insert( config.sections.lualine_y, { require( "recorder" ).displaySlots } )
+table.insert( config.sections.lualine_z, { require( "recorder" ).recordingStatus } )
 
 lualine.setup( config )
