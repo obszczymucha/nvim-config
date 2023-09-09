@@ -44,6 +44,15 @@ function M.toggle()
   M.show()
 end
 
+function M.toggle_horizontal()
+  if win and vim.api.nvim_win_is_valid( win ) then
+    vim.api.nvim_win_close( win, true )
+    return
+  end
+
+  M.show( "belo 12sp" )
+end
+
 function M.setup()
   local function cleanup()
     if win and vim.api.nvim_win_is_valid( win ) then
