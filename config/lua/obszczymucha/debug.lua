@@ -29,10 +29,12 @@ function M.show( split_cmd )
   if not win or not vim.api.nvim_win_is_valid( win ) then
     vim.cmd( string.format( "%s#%s", split_cmd or split_command or "70vs", buf ) )
     win = vim.api.nvim_get_current_win()
+    vim.api.nvim_input( "<C-W>p" )
     return
   end
 
   if needs_set then vim.api.nvim_win_set_buf( win, buf ) end
+  vim.api.nvim_input( "<C-W>p" )
 end
 
 function M.toggle()
