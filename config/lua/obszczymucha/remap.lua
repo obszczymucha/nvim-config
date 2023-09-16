@@ -35,6 +35,7 @@ end
 -- Debug
 vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>" )
 vim.keymap.set( "n", "<leader>dQ", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizontal()<CR>" )
+vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>" )
 vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>" )
 
 -- nvim-tree

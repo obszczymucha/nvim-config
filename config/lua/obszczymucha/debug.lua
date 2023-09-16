@@ -2,9 +2,9 @@ local M = {}
 
 local buf
 local win
-local split_command
 
 local state
+local is_vertical
 
 function M.set( st )
   state = st
@@ -22,12 +22,19 @@ local function create_buffer( callback )
   if callback then callback() end
 end
 
-function M.show( split_cmd )
+function M.show( split_cmd, split_prefix )
   local needs_set = false
   create_buffer( function() needs_set = true end )
 
+  local split = split_cmd or "vs"
+  is_vertical = split == "vs"
+  local prefix = split_prefix and string.format( "%s ", split_prefix ) or ""
+  local width = config.debug.width or 70
+  local height = config.debug.height or 12
+  local size = is_vertical and width or height
+
   if not win or not vim.api.nvim_win_is_valid( win ) then
-    vim.cmd( string.format( "%s#%s", split_cmd or split_command or "70vs", buf ) )
+    vim.cmd( string.format( "%s%s%s#%s", prefix or "", size, split, buf ) )
     win = vim.api.nvim_get_current_win()
     vim.api.nvim_input( "<C-W>p" )
     return
@@ -37,9 +44,17 @@ function M.show( split_cmd )
   vim.api.nvim_input( "<C-W>p" )
 end
 
+function M.is_visible()
+  return win and vim.api.nvim_win_is_valid( win )
+end
+
+function M.hide()
+  vim.api.nvim_win_close( win, true )
+end
+
 function M.toggle()
-  if win and vim.api.nvim_win_is_valid( win ) then
-    vim.api.nvim_win_close( win, true )
+  if M.is_visible() then
+    M.hide()
     return
   end
 
@@ -47,12 +62,21 @@ function M.toggle()
 end
 
 function M.toggle_horizontal()
-  if win and vim.api.nvim_win_is_valid( win ) then
-    vim.api.nvim_win_close( win, true )
+  if M.is_visible() then
+    M.hide()
     return
   end
 
-  M.show( "belo 12sp" )
+  M.show( "sp", "bel" )
+end
+
+function M.flip()
+  M.hide()
+  if is_vertical then
+    M.toggle_horizontal()
+  else
+    M.toggle()
+  end
 end
 
 function M.setup()
@@ -70,18 +94,13 @@ function M.setup()
 
   vim.api.nvim_create_user_command( "Dbg", function()
     cleanup()
-    R( "obszczymucha.debug" ).init( "70vs" )
+    R( "obszczymucha.debug" ).show()
   end, { nargs = 0 } )
 
   vim.api.nvim_create_user_command( "Dbgh", function()
     cleanup()
-    R( "obszczymucha.debug" ).init( "bel 10sp" )
+    R( "obszczymucha.debug" ).show( "sp", "bel" )
   end, { nargs = 0 } )
-end
-
-function M.init( split_cmd )
-  split_command = split_cmd
-  M.show()
 end
 
 ---@diagnostic disable-next-line: unused-function
