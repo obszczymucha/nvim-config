@@ -36,8 +36,22 @@ dump = function( o )
   end
 end
 
+local function read_proc()
+  local f = io.open( "/proc/version", "r" )
+  if not f then return false end
+
+  local content = f:read( "*a" )
+  f:close()
+
+  if content:find( "WSL" ) then
+    return true
+  else
+    return false
+  end
+end
+
 ---@diagnostic disable-next-line: lowercase-global
-is_wsl = os.getenv( "WSL_DISTRO_NAME" )
+is_wsl = read_proc()
 
 ---@diagnostic disable-next-line: lowercase-global
 is_windows = os.getenv( "OS" ) == "Windows_NT"
