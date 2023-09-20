@@ -14,6 +14,7 @@ require( "obszczymucha.documentation" )
 require( "obszczymucha.debug" )
 require( "obszczymucha.cmp" )
 require( "obszczymucha.custom-search" )
+require( "obszczymucha.autocmds" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
