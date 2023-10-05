@@ -18,10 +18,7 @@
       "fn"
     ],
     "body": [
-      "function$1($2)",
-      "  $0",
-      "end",
-      ""
+      "function$1($2)$0 end"
     ],
     "description": "function"
   },
@@ -30,8 +27,7 @@
       "lfn"
     ],
     "body": [
-      "local function$1($2)",
-      "  $0",
+      "local function$1($2)$0",
       "end",
       ""
     ],
