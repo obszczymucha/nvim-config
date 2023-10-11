@@ -43,7 +43,7 @@ nvim_treesitter_configs.setup {
     },
   },
   -- A list of parser names, or "all"
-  ensure_installed = { "c", "lua", "rust", "javascript", "scala", "haskell", "java", "query", "regex", "markdown_inline", "vim" },
+  ensure_installed = { "c", "lua", "rust", "javascript", "scala", "haskell", "java", "query", "regex", "markdown_inline", "vim", "markdown" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
