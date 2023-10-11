@@ -86,7 +86,7 @@ return {
   { "nvim-lualine/lualine.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim" },
-  { "nvim-telescope/telescope.nvim",             version = "0.1.4" },
+  { "nvim-telescope/telescope.nvim",             version = "0.1.x" },
   {
     "nvim-tree/nvim-tree.lua",
     version = "*",
