@@ -6,7 +6,7 @@ end
 local mason_lspconfig = prequire( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
-    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls", "sqlls", "cssls" }
+    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "gopls", "bashls", "sqlls", "cssls", "html" }
   }
 end
 
@@ -125,5 +125,9 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 require'lspconfig'.cssls.setup {
+  capabilities = capabilities,
+}
+
+require'lspconfig'.html.setup {
   capabilities = capabilities,
 }
