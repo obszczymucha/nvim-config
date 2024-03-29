@@ -1,6 +1,15 @@
 local project_name = vim.fn.fnamemodify( vim.fn.getcwd(), ":p:h:t" )
 local jdtls_dir = os.getenv( "HOME" ) .. "/.local/share/nvim/mason/packages/jdtls"
 local workspace_dir = os.getenv( "HOME" ) .. "/.jdtls/" .. project_name
+local java_debug_plugin = os.getenv( "JAVA_DEBUG_PLUGIN_DIR" ) ..
+    "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+local vscode_java_test_extension = os.getenv( "VSCODE_JAVA_TEST_EXTENSION_DIR" ) .. "/server/*jar"
+
+local bundles = {
+  vim.fn.glob( java_debug_plugin )
+}
+
+vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -30,7 +39,7 @@ local config = {
 
     -- 💀
     "-configuration",
-    string.format( "%s/config_linux", jdtls_dir ),
+    string.format( "%s/%s", jdtls_dir, os.getenv( "JDTLS_CONFIG" ) ),
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
