@@ -6,7 +6,7 @@ end
 local mason_lspconfig = prequire( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
-    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "bashls", "sqlls", "cssls", "html", "jdtls" }
+    ensure_installed = { "clangd", "rust_analyzer", "pyright", "ruff_lsp", "tsserver", "lua_ls", "bashls", "sqlls", "cssls", "html", "jdtls", "jsonls" }
   }
 end
 
@@ -129,5 +129,9 @@ require 'lspconfig'.cssls.setup {
 }
 
 require 'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
+
+require 'lspconfig'.jsonls.setup {
   capabilities = capabilities,
 }
