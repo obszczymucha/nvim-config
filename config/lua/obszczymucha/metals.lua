@@ -1,5 +1,8 @@
+local metals = prequire( "metals" )
+if not metals then return end
+
 local api = vim.api
-local metals_config = require( "metals" ).bare_config()
+local metals_config = metals.bare_config()
 
 -- Example of settings
 metals_config.settings = {
