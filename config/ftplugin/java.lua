@@ -1,15 +1,24 @@
+local home = os.getenv( "HOME" )
 local project_name = vim.fn.fnamemodify( vim.fn.getcwd(), ":p:h:t" )
-local jdtls_dir = os.getenv( "HOME" ) .. "/.local/share/nvim/mason/packages/jdtls"
-local workspace_dir = os.getenv( "HOME" ) .. "/.jdtls/" .. project_name
-local java_debug_plugin = os.getenv( "JAVA_DEBUG_PLUGIN_DIR" ) ..
+local workspace_dir = home .. "/.jdtls/" .. project_name
+local debug_plugin_dir = os.getenv( "JAVA_DEBUG_PLUGIN_DIR" ) or ""
+local test_extension_dir = os.getenv( "VSCODE_JAVA_TEST_EXTENSION_DIR" ) or ""
+local java_debug_plugin = debug_plugin_dir ..
     "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-local vscode_java_test_extension = os.getenv( "VSCODE_JAVA_TEST_EXTENSION_DIR" ) .. "/server/*jar"
+local vscode_java_test_extension = test_extension_dir .. "/server/*jar"
 
 local bundles = {
-  vim.fn.glob( java_debug_plugin )
+  vim.fn.glob( java_debug_plugin, 1 )
 }
 
 vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
+
+local jdtls_dir = home .. "/.local/share/nvim/mason/packages/jdtls"
+local platform_config =
+    vim.fn.has( "mac" ) == 1 and "config_mac"
+    or vim.fn.has( "win32" ) == 1 and "config_win"
+    or "config_linux"
+local jdtls_config = string.format( "%s/%s", jdtls_dir, platform_config )
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -32,14 +41,13 @@ local config = {
     -- 💀
     "-jar",
     vim.fn.glob( string.format( "%s/plugins/org.eclipse.equinox.launcher_*.jar", jdtls_dir ) ),
-    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
+   -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
     -- Must point to the                                                     Change this to
     -- eclipse.jdt.ls installation                                           the actual version
 
 
     -- 💀
-    "-configuration",
-    string.format( "%s/%s", jdtls_dir, os.getenv( "JDTLS_CONFIG" ) ),
+    "-configuration", jdtls_config,
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
@@ -75,11 +83,27 @@ local config = {
   }
 }
 
+local java_cmds = vim.api.nvim_create_augroup( 'java_cmds', { clear = true } )
+local function enable_codelens( bufnr )
+  pcall( vim.lsp.codelens.refresh )
+
+  vim.api.nvim_create_autocmd( 'BufWritePost', {
+    buffer = bufnr,
+    group = java_cmds,
+    desc = 'refresh codelens',
+    callback = function()
+      pcall( vim.lsp.codelens.refresh )
+    end,
+  } )
+end
+
 config[ "on_attach" ] = function( client, bufnr )
   -- With `hotcodereplace = "auto"` the debug adapter will try to apply code changes
   -- you make during a debug session immediately.
   -- Remove the option if you do not want that.
   require( "jdtls" ).setup_dap( { hotcodereplace = "auto" } )
+  require( "jdtls.dap" ).setup_dap_main_class_configs()
+  enable_codelens( bufnr )
 end
 
 -- This starts a new client & server,
