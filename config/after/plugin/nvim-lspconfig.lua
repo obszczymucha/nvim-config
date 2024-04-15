@@ -3,6 +3,11 @@ if mason then
   mason.setup()
 end
 
+-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+require( "neodev" ).setup( {
+  -- add any options here, or leave empty to use the default settings
+} )
+
 local mason_lspconfig = prequire( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
@@ -20,7 +25,6 @@ if lsp_status then
   lsp_status.register_progress()
 end
 
-
 local lspconfig = prequire( "lspconfig" )
 if not lspconfig then return end
 
@@ -31,6 +35,9 @@ if lspconfig.lua_ls then
   lspconfig.lua_ls.setup {
     settings = {
       Lua = {
+        completion = {
+          callSnippet = "Replace"
+        },
         runtime = {
           -- Tell the language server which version of Lua you"re using (most likely LuaJIT in the case of Neovim)
           version = "LuaJIT",
