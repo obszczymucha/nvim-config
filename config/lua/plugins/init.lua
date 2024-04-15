@@ -55,6 +55,7 @@ return {
   { "ThePrimeagen/harpoon" },
   { "f-person/git-blame.nvim",            lazy = false },
   { "folke/noice.nvim" },
+  { "folke/neodev.nvim",                  opts = {} },
   { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
