@@ -24,60 +24,70 @@ end
 local lspconfig = prequire( "lspconfig" )
 if not lspconfig then return end
 
-lspconfig.hls.setup {}
+if lspconfig.hls then lspconfig.hls.setup {} end
 
-lspconfig.lua_ls.setup {
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you"re using (most likely LuaJIT in the case of Neovim)
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { "vim" },
-      },
-      workspace = {
-        checkThirdParty = false
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
+
+if lspconfig.lua_ls then
+  lspconfig.lua_ls.setup {
+    settings = {
+      Lua = {
+        runtime = {
+          -- Tell the language server which version of Lua you"re using (most likely LuaJIT in the case of Neovim)
+          version = "LuaJIT",
+        },
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false
+        },
+        -- Do not send telemetry data containing a randomized but unique identifier
+        telemetry = {
+          enable = false,
+        },
       },
     },
-  },
-  on_attach = function()
-    -- Documentation
-    vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
-    vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
-  end
-}
+    on_attach = function()
+      -- Documentation
+      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
+      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
+    end
+  }
+end
 
-lspconfig.bashls.setup {
-  cmd_env = { GLOB_PATTERN = "*@(.sh|.inc|.bash|.command|.zshrc)" },
-  filetypes = { "sh", "zsh" }
-}
 
-lspconfig.tsserver.setup {
-  on_attach = function( client, bufnr )
-    require( "twoslash-queries" ).attach( client, bufnr )
-  end
-}
+if lspconfig.bashls then
+  lspconfig.bashls.setup {
+    cmd_env = { GLOB_PATTERN = "*@(.sh|.inc|.bash|.command|.zshrc)" },
+    filetypes = { "sh", "zsh" }
+  }
+end
 
-lspconfig.pyright.setup {}
-lspconfig.ruff_lsp.setup {}
+if lspconfig.tsserver then
+  lspconfig.tsserver.setup {
+    on_attach = function( client, bufnr )
+      require( "twoslash-queries" ).attach( client, bufnr )
+    end
+  }
+end
+
+if lspconfig.pyright then lspconfig.pyright.setup {} end
+if lspconfig.ruff_lsp then lspconfig.ruff_lsp.setup {} end
 
 local function filter( arr, func )
   -- Filter in place
   -- https://stackoverflow.com/questions/49709998/how-to-filter-a-lua-array-inplace
   local new_index = 1
   local size_orig = #arr
+
   for old_index, v in ipairs( arr ) do
     if func( v, old_index ) then
       arr[ new_index ] = v
       new_index = new_index + 1
     end
   end
+
   for i = new_index, size_orig do arr[ i ] = nil end
 end
 
@@ -117,21 +127,22 @@ end
 
 vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = vim.lsp.with( custom_on_publish_diagnostics, {} )
 
-lspconfig.rust_analyzer.setup {}
-lspconfig.clangd.setup {}
-lspconfig.sqlls.setup {}
+if lspconfig.rust_analyzer then lspconfig.rust_analyzer.setup {} end
+if lspconfig.clangd then lspconfig.clangd.setup {} end
+if lspconfig.sqlls then lspconfig.sqlls.setup {} end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-require 'lspconfig'.cssls.setup {
-  capabilities = capabilities,
-}
+if lspconfig.cssls then lspconfig.cssls.setup { capabilities = capabilities } end
+if lspconfig.html then lspconfig.html.setup { capabilities = capabilities } end
+if lspconfig.jsonls then lspconfig.jsonls.setup { capabilities = capabilities } end
 
-require 'lspconfig'.html.setup {
-  capabilities = capabilities,
-}
+local root_pattern = require( 'lspconfig.util' ).root_pattern
 
-require 'lspconfig'.jsonls.setup {
-  capabilities = capabilities,
-}
+if lspconfig.groovyls then
+  lspconfig.groovyls.setup {
+    capabilities = capabilities,
+    root_dir = root_pattern( "", ".git" )
+  }
+end
