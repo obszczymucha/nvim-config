@@ -4,45 +4,49 @@ local M = {}
 local config = require( "obszczymucha.user-config" )
 
 -- Telescope
-vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
-vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>" )
-vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>" )
-vim.keymap.set( "n", "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>" )
-vim.keymap.set( "n", "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>" )
-vim.keymap.set( "n", "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>" )
-vim.keymap.set( "n", "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>" )
-vim.keymap.set( "n", "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>" )
-vim.keymap.set( "n", "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>" )
-vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>" )
-vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>" )
-vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>" )
-vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>" )
-vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
+vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>", { desc = "Find files" } )
+vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>", { desc = "Resume find files" } )
+vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>", { desc = "Search" } )
+vim.keymap.set( "n", "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>",
+  { desc = "Find hidden files" } )
+vim.keymap.set( "n", "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>",
+  { desc = "Search hidden" } )
+vim.keymap.set( "n", "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>", { desc = "Buffers" } )
+vim.keymap.set( "n", "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>", { desc = "Help Tags" } )
+vim.keymap.set( "n", "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>", { desc = "Highlights" } )
+vim.keymap.set( "n", "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>", { desc = "Diagnostics" } )
+vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>", { desc = "Registers" } )
+vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>", { desc = "Git commits" } )
+vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>", { desc = "Git branches" } )
+vim.keymap.set( "n", "-", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>", { desc = "File browser" } )
+vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 
 -- For Mac
-vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>" )
+vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 
 -- Git
-vim.keymap.set( "n", "<leader>gt", "<cmd>GitBlameToggle<CR>" )
+vim.keymap.set( "n", "<leader>gt", "<cmd>GitBlameToggle<CR>", { desc = "Git blame" } )
 
 -- Notifications
 if is_wsl then
-  vim.keymap.set( "n", "<F38>", "<cmd>lua require('notify').dismiss()<CR>" )
+  vim.keymap.set( "n", "<F38>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
 else
-  vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>" )
+  vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
 end
 
 -- Debug
-vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>" )
-vim.keymap.set( "n", "<leader>dQ", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizontal()<CR>" )
-vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>" )
-vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>" )
+vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>",
+  { desc = "Toggle test debug" } )
+vim.keymap.set( "n", "<leader>dQ", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizontal()<CR>",
+  { desc = "Toggle test debug (horizontal)" } )
+vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>", { desc = "Flip test debug" } )
+vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>", { desc = "Clear test debug" } )
 
 -- nvim-tree
-vim.keymap.set( "n", "<leader>dw", ":NvimTreeToggle<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>dw", ":NvimTreeToggle<CR>", { silent = true, desc = "NvimTreeToggle" } )
 
 -- Create a file under cursor
-vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>" )
+vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>", { desc = "Create a file under cursor" } )
 
 -- Window management
 vim.keymap.set( "n", "<A-v>", "<C-w>v<C-w>w" )
@@ -282,27 +286,35 @@ vim.keymap.set( "n", "<C-k>", remap( "signature_help" ), { noremap = false, sile
 vim.keymap.set( "n", "gj", remap( "peek_definition" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gr", remap( "references" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "K", remap( "documentation" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>rn", remap( "rename" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>F", remap( "format_file" ), { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>rn", remap( "rename" ), { noremap = false, silent = true, desc = "Rename under cursor" } )
+vim.keymap.set( "n", "<leader>F", remap( "format_file" ),
+  { noremap = false, silent = true, nowait = true, desc = "Format file" } )
 vim.keymap.set( "n", "]g", remap( "next_diagnostic" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "[g", remap( "prev_diagnostic" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>o", remap( "outline" ), { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "n", "<leader>ac", remap( "code_action" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>cl", remap( "code_lens" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>tf", remap( "test_file" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>tt", remap( "test_nearest_method" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<leader>O", remap( "organize_imports" ), { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "n", "<leader>fc", remap( "compile" ), { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "n", "<leader>j", ":%!jq --sort-keys<CR>", { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>", { noremap = false, silent = true, nowait = true } )
-vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>", { noremap = false, silent = true, nowait = true } )
+vim.keymap.set( "n", "<leader>o", remap( "outline" ), { noremap = false, silent = true, nowait = true, desc = "Outline" } )
+vim.keymap.set( "n", "<leader>ac", remap( "code_action" ), { noremap = false, silent = true, desc = "Code action" } )
+vim.keymap.set( "n", "<leader>cl", remap( "code_lens" ), { noremap = false, silent = true, desc = "Code lens" } )
+vim.keymap.set( "n", "<leader>tf", remap( "test_file" ), { noremap = false, silent = true, desc = "Test file" } )
+vim.keymap.set( "n", "<leader>tt", remap( "test_nearest_method" ),
+  { noremap = false, silent = true, desc = "Test nearest method" } )
+vim.keymap.set( "n", "<leader>O", remap( "organize_imports" ),
+  { noremap = false, silent = true, nowait = true, desc = "Organize imports" } )
+vim.keymap.set( "n", "<leader>fc", remap( "compile" ),
+  { noremap = false, silent = true, nowait = true, desc = "Compile file" } )
+vim.keymap.set( "n", "<leader>j", ":%!jq --sort-keys<CR>",
+  { noremap = false, silent = true, nowait = true, desc = "Prettify JSON" } )
+vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>",
+  { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
+vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>",
+  { noremap = false, silent = true, nowait = true, desc = "Prettify JSON" } )
+vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>",
+  { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
 
 function M.test()
   print( "Hello!" )
 end
 
-vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR>" )
+vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR>", { desc = "Say hello" } )
 
 -- Tab navigation
 --vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
@@ -310,19 +322,19 @@ vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR
 --vim.keymap.set( "n", "<C-l>", "<cmd>tabn<CR>", { silent = true } )
 
 -- Debugging
-vim.keymap.set( "n", "<leader>dt", [[:lua require'dapui'.toggle()<CR>]], { silent = true } )
-vim.keymap.set( "n", "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true } )
+vim.keymap.set( "n", "<leader>dt", [[:lua require'dapui'.toggle()<CR>]], { silent = true, desc = "Toggle dapui" } )
+vim.keymap.set( "n", "<leader>dr", [[:lua require'dap'.repl.toggle()<CR>]], { silent = true, desc = "Toggle dap repl" } )
 vim.keymap.set( "n", "<F7>", [[:lua require'dap'.step_into()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<F8>", [[:lua require'dap'.step_over()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<F9>", [[:lua require'dap'.toggle_breakpoint()<CR>]], { silent = true } )
 vim.keymap.set( "n", "<F10>", [[:lua require'dap'.continue()<CR>]], { silent = true } )
 
 -- Surround mappings
-vim.keymap.set( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w" )
-vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w" )
-vim.keymap.set( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w" )
-vim.keymap.set( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w" )
-vim.keymap.set( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w" )
+vim.keymap.set( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w", { desc = "Surround with \"" } )
+vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w", { desc = "Surround with '" } )
+vim.keymap.set( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w", { desc = "Surround with {}" } )
+vim.keymap.set( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w", { desc = "Surround with ()" } )
+vim.keymap.set( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w", { desc = "Surround with []" } )
 vim.keymap.set( "v", "<leader><BS>", "<Esc>`>x`<x" )
 vim.keymap.set( "n", "<leader><BS>", "\"_v%<Esc>`>x`<x" )
 vim.keymap.set( "i", "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
@@ -362,12 +374,13 @@ function M.reload()
   vim.notify( "Mappings reloaded." )
 end
 
-vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>",
+  { silent = true, desc = "Reload keymaps" } )
 vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
 vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :lua vim.notify( \"LSP restarted.\" )<CR>", { silent = true } )
 
 -- Custom persistable settings
-vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center )
+vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center, { desc = "Toggle auto-center" } )
 
 -- Custom search
 -- Currently disabled, because noice gives much better search capability.
