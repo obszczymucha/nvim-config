@@ -1,8 +1,12 @@
+local jdtls = prequire( "jdtls" )
+if not jdtls then return end
+
 local home = os.getenv( "HOME" )
+local mason_dir = home .. "/.local/share/nvim/mason/packages/"
 local project_name = vim.fn.fnamemodify( vim.fn.getcwd(), ":p:h:t" )
 local workspace_dir = home .. "/.jdtls/" .. project_name
-local debug_plugin_dir = os.getenv( "JAVA_DEBUG_PLUGIN_DIR" ) or ""
-local test_extension_dir = os.getenv( "VSCODE_JAVA_TEST_EXTENSION_DIR" ) or ""
+local debug_plugin_dir = mason_dir .. "java-debug-adapter"
+local test_extension_dir = mason_dir .. "java-test"
 local java_debug_plugin = debug_plugin_dir ..
     "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
 local vscode_java_test_extension = test_extension_dir .. "/server/*jar"
@@ -13,7 +17,7 @@ local bundles = {
 
 vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
 
-local jdtls_dir = home .. "/.local/share/nvim/mason/packages/jdtls"
+local jdtls_dir = mason_dir .. "jdtls"
 local platform_config =
     vim.fn.has( "mac" ) == 1 and "config_mac"
     or vim.fn.has( "win32" ) == 1 and "config_win"
@@ -41,7 +45,7 @@ local config = {
     -- 💀
     "-jar",
     vim.fn.glob( string.format( "%s/plugins/org.eclipse.equinox.launcher_*.jar", jdtls_dir ) ),
-   -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
+    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
     -- Must point to the                                                     Change this to
     -- eclipse.jdt.ls installation                                           the actual version
 
@@ -97,15 +101,15 @@ local function enable_codelens( bufnr )
   } )
 end
 
-config[ "on_attach" ] = function( client, bufnr )
+config[ "on_attach" ] = function( _, bufnr )
   -- With `hotcodereplace = "auto"` the debug adapter will try to apply code changes
   -- you make during a debug session immediately.
   -- Remove the option if you do not want that.
-  require( "jdtls" ).setup_dap( { hotcodereplace = "auto" } )
+  jdtls.setup_dap( { hotcodereplace = "auto" } )
   require( "jdtls.dap" ).setup_dap_main_class_configs()
   enable_codelens( bufnr )
 end
 
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require( "jdtls" ).start_or_attach( config )
+jdtls.start_or_attach( config )
