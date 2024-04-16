@@ -13,8 +13,6 @@ local bundles = {
 
 vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
 
-require('java').setup()
-
 local jdtls_dir = home .. "/.local/share/nvim/mason/packages/jdtls"
 local platform_config =
     vim.fn.has( "mac" ) == 1 and "config_mac"
