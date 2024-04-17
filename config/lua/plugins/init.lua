@@ -71,7 +71,8 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-vsnip",
-      "hrsh7th/cmp-path"
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp-signature-help"
     }
   },
   { "https://github.com/mbbill/undotree", lazy = false },
