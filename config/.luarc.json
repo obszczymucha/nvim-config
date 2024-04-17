@@ -3,6 +3,7 @@
     "Lua.workspace.checkThirdParty": false,
     "workspace.library": [
         "/home/alien/.config/nvim",
+        "/home/alien/.config/nvim/lua/obszczymucha",
         "/home/alien/.local/share/nvim/lazy/lazy.nvim",
         "/home/alien/.local/share/nvim/lazy/lsp-status.nvim",
         "/home/alien/.local/share/nvim/lazy/nvim-lspconfig",
