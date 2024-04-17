@@ -138,5 +138,6 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     }
-  }
+  },
+  { "airblade/vim-matchquote", lazy = false }
 }
