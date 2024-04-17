@@ -28,7 +28,7 @@ o.wrap = false
 o.splitright = true
 o.fileformats = { 'unix', 'dos', 'mac' }
 o.ignorecase = true -- Enables case insensitive autocompletion (and search).
-o.smartcase = true -- Makes search case sensitive if there are capital letters in the pattern.
+o.smartcase = true  -- Makes search case sensitive if there are capital letters in the pattern.
 
 g.mapleader = " "
 g.airline_theme = "deus"
@@ -60,3 +60,18 @@ end
 o.undofile = true
 
 vim.cmd [[command! HarpoonFirst lua require( "harpoon.ui" ).nav_file( 1 )]]
+
+-- NERDCommenter
+g.NERDCustomDelimiters = {
+  java = {
+    left = "// ",
+    leftAlt = "/*",
+    rightAlt = "*/"
+  },
+  gradle = {
+    left = "// "
+  },
+  groovy = {
+    left = "// "
+  }
+}
