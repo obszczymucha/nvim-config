@@ -5,10 +5,9 @@ local home = os.getenv( "HOME" )
 local mason_dir = home .. "/.local/share/nvim/mason/packages/"
 local project_name = vim.fn.fnamemodify( vim.fn.getcwd(), ":p:h:t" )
 local workspace_dir = home .. "/.jdtls/" .. project_name
-local debug_plugin_dir = mason_dir .. "java-debug-adapter"
-local test_extension_dir = mason_dir .. "java-test"
-local java_debug_plugin = debug_plugin_dir ..
-    "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+local debug_plugin_dir = mason_dir .. "java-debug-adapter/extension"
+local test_extension_dir = mason_dir .. "java-test/extension"
+local java_debug_plugin = debug_plugin_dir .. "/server/com.microsoft.java.debug.plugin-*.jar"
 local vscode_java_test_extension = test_extension_dir .. "/server/*jar"
 
 local bundles = {
