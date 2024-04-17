@@ -57,7 +57,11 @@ return {
   { "folke/noice.nvim" },
   { "folke/neodev.nvim",       opts = {} },
   { "nvimdev/lspsaga.nvim",    event = "LspAttach" },
-  { "hrsh7th/vim-vsnip",       lazy = false },
+  {
+    "hrsh7th/vim-vsnip",
+    lazy = false,
+    dependencies = { "rafamadriz/friendly-snippets" }
+  },
   {
     "hrsh7th/nvim-cmp",
     version = false,

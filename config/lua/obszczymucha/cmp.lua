@@ -10,12 +10,15 @@ cmp.setup {
       -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
     end,
   },
-  sources = {
-    { name = "nvim_lsp" },
+  sources = cmp.config.sources( {
     { name = "nvim_lua" },
+    { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
     { name = "vsnip" },
+    { name = "path" },
+  }, {
     { name = "buffer" }
-  },
+  } ),
   mapping = cmp.mapping.preset.insert( {
     -- None of this made sense to me when first looking into this since there
     -- is no vim docs, but you can't have select = true here _unless_ you are
