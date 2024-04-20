@@ -158,11 +158,11 @@ if lspconfig.cssls then lspconfig.cssls.setup { capabilities = capabilities } en
 if lspconfig.html then lspconfig.html.setup { capabilities = capabilities } end
 if lspconfig.jsonls then lspconfig.jsonls.setup { capabilities = capabilities } end
 
-local root_pattern = require( 'lspconfig.util' ).root_pattern
+--local root_pattern = require( "lspconfig.util" ).root_pattern
 
-if lspconfig.groovyls then
-  lspconfig.groovyls.setup {
-    capabilities = capabilities,
-    root_dir = root_pattern( "", ".git" )
-  }
-end
+--if lspconfig.groovyls then
+--lspconfig.groovyls.setup {
+--capabilities = capabilities,
+--root_dir = root_pattern( "", ".git" )
+--}
+--end

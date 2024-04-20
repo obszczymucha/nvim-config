@@ -1,7 +1,11 @@
 local M = {}
 
-function M.ends_with( str, ending )
-  return ending == "" or str:sub( - #ending ) == ending
+function M.starts_with( str, prefix )
+  return str:sub( 1, string.len( prefix ) ) == prefix
+end
+
+function M.ends_with( str, suffix )
+  return suffix == "" or str:sub( - #suffix ) == suffix
 end
 
 function M.prequire( ... )
