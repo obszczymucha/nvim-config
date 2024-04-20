@@ -63,15 +63,18 @@ vim.cmd [[command! HarpoonFirst lua require( "harpoon.ui" ).nav_file( 1 )]]
 
 -- NERDCommenter
 g.NERDCustomDelimiters = {
-  java = {
-    left = "// ",
-    leftAlt = "/*",
-    rightAlt = "*/"
-  },
   gradle = {
     left = "// "
   },
   groovy = {
     left = "// "
+  },
+  java = {
+    left = "// ",
+    leftAlt = "/*",
+    rightAlt = "*/"
+  },
+  lua = {
+    left = "-- "
   }
 }
