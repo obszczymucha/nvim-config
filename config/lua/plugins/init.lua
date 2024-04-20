@@ -144,5 +144,21 @@ return {
       -- refer to the configuration section below
     }
   },
-  { "airblade/vim-matchquote", lazy = false }
+  { "airblade/vim-matchquote", lazy = false },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn[ "mkdp#util#install" ]() end,
+    config = function()
+      vim.cmd [[
+        function! OpenMarkdownPreview(url)
+          execute "silent !chromium --app=" . a:url
+        endfunction
+      ]]
+
+      vim.g.mkdp_browserfunc = "OpenMarkdownPreview"
+      vim.notify("Hello")
+    end
+  }
 }

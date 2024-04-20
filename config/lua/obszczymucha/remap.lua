@@ -433,4 +433,7 @@ vim.keymap.set( "n", "<S-t>", ":TSHighlightCapturesUnderCursor<CR>", { silent = 
 vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true } )
 vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
 
+-- Markdown
+vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true } )
+
 return M
