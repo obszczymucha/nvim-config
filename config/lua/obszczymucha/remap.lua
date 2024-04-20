@@ -430,7 +430,7 @@ vim.api.nvim_set_keymap( "s", "<S-Tab>", [[vsnip#jumpable(-1) ? '<Plug>(vsnip-ju
 vim.keymap.set( "n", "<S-t>", ":TSHighlightCapturesUnderCursor<CR>", { silent = true } )
 
 -- Mason and Lazy
-vim.keymap.set( "n", "<leader>m", ":Mason<CR>", { silent = true } )
-vim.keymap.set( "n", "<leader>l", ":Lazy<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true } )
+vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
 
 return M
