@@ -144,7 +144,7 @@ return {
       -- refer to the configuration section below
     }
   },
-  { "airblade/vim-matchquote", lazy = false },
+  { "airblade/vim-matchquote",           lazy = false },
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -167,5 +167,6 @@ return {
 
       vim.g.mkdp_browserfunc = "OpenMarkdownPreview"
     end
-  }
+  },
+  { "jbyuki/one-small-step-for-vimkind", lazy = false } -- :help osv -> QUICKSTART
 }
