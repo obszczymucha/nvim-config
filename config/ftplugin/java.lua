@@ -112,3 +112,9 @@ end
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach( config )
+
+-- Keymaps
+vim.keymap.set( "n", "<leader>gt", [[:lua require( "jdtls.tests" ).goto_subjects()<CR>]],
+  { silent = true, desc = "Go to test/subject" } )
+vim.keymap.set( "n", "<leader>gT", [[:lua require( "jdtls.tests" ).generate()<CR>]],
+  { silent = true, desc = "Generate tests" } )
