@@ -25,7 +25,7 @@ vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<C
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 
 -- Git
-vim.keymap.set( "n", "<leader>gt", "<cmd>GitBlameToggle<CR>", { desc = "Git blame" } )
+vim.keymap.set( "n", "<leader>gl", "<cmd>GitBlameToggle<CR>", { desc = "Git blame" } )
 
 -- Notifications
 if is_wsl then
