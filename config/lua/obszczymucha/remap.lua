@@ -439,4 +439,7 @@ vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true 
 -- WhichKey
 vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true } )
 
+-- neoclip
+vim.keymap.set( "n", "<leader>Y", ":Telescope neoclip<CR>", { silent = true, desc = "Telescope neoclip" } )
+
 return M
