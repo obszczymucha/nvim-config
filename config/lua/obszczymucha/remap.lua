@@ -436,4 +436,7 @@ vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
 -- Markdown
 vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true } )
 
+-- WhichKey
+vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true } )
+
 return M
