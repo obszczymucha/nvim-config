@@ -271,13 +271,26 @@ local function completion_up_or( orFunction )
   end
 end
 
+local function yank( register )
+  return function()
+    local line = vim.fn.getcmdline()
+    if not line or line == "" then return end
+
+    vim.fn.setreg( register, line )
+    vim.notify( string.format( "Yanked (%s)", register ) )
+
+    local esc = vim.api.nvim_replace_termcodes( "<Esc>", true, false, true )
+    vim.api.nvim_input( esc )
+  end
+end
+
 vim.keymap.set( "i", "<A-j>", function() completion_down_or() end )
 vim.keymap.set( "i", "<A-k>", function() completion_up_or() end )
 vim.keymap.set( "i", "<C-k>", remap( "signature_help" ), { silent = true } )
-
--- wildmenu is the completion menu in the command line
-vim.keymap.set( "c", "<A-j>", [[wildmenumode() ? "\<C-n>" : "\<C-j>"]], { expr = true } )
-vim.keymap.set( "c", "<A-k>", [[wildmenumode() ? "\<C-p>" : "\<C-k>"]], { expr = true } )
+vim.keymap.set( "c", "<A-j>", [[ "\<C-n>" ]], { expr = true } )
+vim.keymap.set( "c", "<A-k>", [[ "\<C-p>" ]], { expr = true } )
+vim.keymap.set( "c", "<A-y>", yank( '"' ), { silent = true } )
+vim.keymap.set( "c", "<A-Y>", yank( '+' ), { silent = true } )
 
 -- Filetype-based mappings. See obszczymucha/kemaps
 vim.keymap.set( "n", "gd", remap( "go_to_definition" ), { noremap = false, silent = true } )
