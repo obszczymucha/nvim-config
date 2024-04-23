@@ -63,6 +63,24 @@ return {
     dependencies = { "rafamadriz/friendly-snippets" }
   },
   {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require( "copilot" ).setup( {} )
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require( "copilot_cmp" ).setup( {
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      } )
+    end,
+    lazy = false
+  },
+  {
     "hrsh7th/nvim-cmp",
     version = false,
     event = "InsertEnter",

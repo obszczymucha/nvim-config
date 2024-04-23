@@ -250,26 +250,26 @@ local function remap( name )
   return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
 end
 
-local function completion_down_or( orFunction )
+local function completion_down()
   local cmp = prequire( "cmp" )
   if not cmp then return end
 
-  if cmp.visible() then
-    cmp.select_next_item()
-  elseif orFunction then
-    orFunction()
+  if not cmp.visible() then
+    cmp.complete()
   end
+
+  cmp.select_next_item()
 end
 
-local function completion_up_or( orFunction )
+local function completion_up()
   local cmp = prequire( "cmp" )
   if not cmp then return end
 
-  if cmp.visible() then
-    cmp.select_prev_item()
-  elseif orFunction then
-    orFunction()
+  if not cmp.visible() then
+    cmp.complete()
   end
+
+  cmp.select_prev_item()
 end
 
 local function yank( register )
@@ -285,8 +285,8 @@ local function yank( register )
   end
 end
 
-vim.keymap.set( "i", "<A-j>", function() completion_down_or() end )
-vim.keymap.set( "i", "<A-k>", function() completion_up_or() end )
+vim.keymap.set( "i", "<A-j>", completion_down, { silent = true } )
+vim.keymap.set( "i", "<A-k>", completion_up, { silent = true } )
 vim.keymap.set( "i", "<C-k>", remap( "signature_help" ), { silent = true } )
 vim.keymap.set( "c", "<A-j>", [[ "\<C-n>" ]], { expr = true } )
 vim.keymap.set( "c", "<A-k>", [[ "\<C-p>" ]], { expr = true } )
