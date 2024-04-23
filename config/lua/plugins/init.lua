@@ -180,5 +180,13 @@ return {
         enable_persistent_history = true
       } )
     end,
+  },
+  {
+    "folke/zen-mode.nvim",
+    cmd = { "ZenMode" },
+    config = {
+      vim.keymap.set( "n", "<leader>vf", function() require( "zen-mode" ).toggle( { window = { width = 1 } } ) end,
+        { silent = true, desc = "Fullscreen" } )
+    }
   }
 }
