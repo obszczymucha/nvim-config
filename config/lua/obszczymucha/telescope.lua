@@ -42,7 +42,8 @@ require( "telescope" ).setup {
   },
 }
 
-require( "telescope" ).load_extension "file_browser"
+require( "telescope" ).load_extension( "file_browser" )
+require( "telescope" ).load_extension( "dap" )
 
 local function no_ignore_wrapper( f, opts, override )
   if override or g.telescope_no_ignore then
@@ -114,6 +115,10 @@ end
 
 function M.notify()
   require( "telescope" ).extensions.notify.notify( options )
+end
+
+function M.breakpoints()
+  require( "telescope" ).extensions.dap.list_breakpoints( { layout_strategy = "vertical" } )
 end
 
 return M
