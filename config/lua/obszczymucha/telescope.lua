@@ -2,6 +2,9 @@ local g = vim.g
 local telescope = require( "telescope.builtin" )
 local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
+local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
+local common = require( "obszczymucha.common" )
+
 local M = {}
 
 local mappings = {
@@ -15,6 +18,12 @@ local mappings = {
     [ "<A-u>" ] = actions.preview_scrolling_up,
     [ "<A-d>" ] = actions.preview_scrolling_down
   }
+}
+
+local file_browser_mappings = {
+  i = common.merge_tables( mappings, {
+    [ "<A-D>" ] = file_browser_actions.remove
+  } )
 }
 
 local options = {
@@ -37,7 +46,7 @@ require( "telescope" ).setup {
       -- disables netrw and use telescope-file-browser in its place
       display_stat = { date = false, size = true },
       hijack_netrw = true,
-      mappings = mappings
+      mappings = file_browser_mappings
     },
   },
 }
