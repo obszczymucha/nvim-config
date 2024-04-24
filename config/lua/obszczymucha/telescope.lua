@@ -96,7 +96,8 @@ function M.file_browser()
     --width = 0.9,
     --preview_width = 0.6
     --},
-    path = "%:p:h" -- This opens current buffer's directory.
+    path = "%:p:h", -- This opens current buffer's directory.
+    quiet = true
   }
 
   require( "telescope" ).extensions.file_browser.file_browser( opts )
