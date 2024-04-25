@@ -1,5 +1,6 @@
 local common = require( "obszczymucha.common" )
 local M = {}
+---@diagnostic disable-next-line: unused-local
 local util = vim.lsp.util
 
 function M.go_to_definition()

@@ -111,6 +111,7 @@ local function filter( arr, func )
   for i = new_index, size_orig do arr[ i ] = nil end
 end
 
+-- TODO: Can we constraint this to python only?
 local function filter_diagnostics( diagnostic )
   -- Only filter out Pyright stuff for now
   if diagnostic.source ~= "Pyright" then
