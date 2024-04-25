@@ -42,6 +42,8 @@ vim.keymap.set( "n", "<leader>dQ", "<cmd>lua require( 'obszczymucha.debug' ).tog
   { desc = "Toggle test debug (horizontal)" } )
 vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>", { desc = "Flip test debug" } )
 vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>", { desc = "Clear test debug" } )
+vim.keymap.set( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>",
+  { desc = "Debug hover", silent = true } )
 
 -- nvim-tree
 vim.keymap.set( "n", "<leader>dw", ":NvimTreeToggle<CR>", { silent = true, desc = "NvimTreeToggle" } )
