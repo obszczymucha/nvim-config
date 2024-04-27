@@ -348,6 +348,21 @@ vim.keymap.set( "n", "<F21>", [[:lua require"dap".toggle_breakpoint(vim.fn.input
   { silent = true, desc = "Toggle conditional breakpoint" } )
 vim.keymap.set( "n", "<F10>", [[:lua require"dap".continue()<CR>]], { silent = true, desc = "Continue or attach" } )
 
+local function terminate_dap_session()
+  local dap = prequire( "dap" )
+  if not dap then
+    vim.notify( "DAP not available.", vim.log.levels.WARN )
+    return
+  end
+
+  vim.notify( "Terminating..." )
+  dap.terminate()
+  dap.repl.close()
+end
+
+-- <C-F10>
+vim.keymap.set( "n", "<F34>", terminate_dap_session, { silent = true, desc = "Terminate" } )
+
 -- Surround mappings
 vim.keymap.set( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w", { desc = "Surround with \"" } )
 vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w", { desc = "Surround with '" } )
