@@ -28,10 +28,10 @@ M.setup( {
     {
       elements = {
         -- Elements can be strings or table with id and size keys.
-        { id = "scopes", size = 0.25 },
-        "breakpoints",
-        "stacks",
-        "watches",
+        { id = "scopes", size = 0.6 },
+        { id = "breakpoints", size = 0.2 },
+        { id = "stacks", size = 0.2 },
+        -- "watches",
       },
       size = 40, -- 40 columns
       position = "left",
