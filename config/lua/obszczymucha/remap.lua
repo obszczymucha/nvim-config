@@ -451,14 +451,12 @@ vim.keymap.set( "n", "m", ":lua require('obszczymucha.remap').define_a_mark()<CR
 
 -- Vsnip
 -- Strangely, vim.keymap.set causes some strange characters being shown with this.
-vim.api.nvim_set_keymap( "i", "<Tab>", [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : "<Tab>"]],
+vim.api.nvim_set_keymap( "i", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : "<Tab>"]],
   { expr = true, noremap = true } )
-vim.api.nvim_set_keymap( "s", "<Tab>", [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : "<Tab>"]],
+vim.api.nvim_set_keymap( "s", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : "<Tab>"]],
   { expr = true, noremap = true } )
-vim.api.nvim_set_keymap( "i", "<S-Tab>", [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : "<S-Tab>"]],
-  { expr = true, noremap = true } )
-vim.api.nvim_set_keymap( "s", "<S-Tab>", [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : "<S-Tab>"]],
-  { expr = true, noremap = true } )
+vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require('luasnip').jump(1)<CR>", { expr = true, noremap = true } )
+vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>", { expr = true, noremap = true } )
 
 -- Treesitter
 vim.keymap.set( "n", "<S-t>", ":TSHighlightCapturesUnderCursor<CR>", { silent = true } )

@@ -58,9 +58,17 @@ return {
   { "folke/neodev.nvim",       opts = {} },
   { "nvimdev/lspsaga.nvim",    event = "LspAttach" },
   {
-    "hrsh7th/vim-vsnip",
-    lazy = false,
-    dependencies = { "rafamadriz/friendly-snippets" }
+    "L3MON4D3/LuaSnip",
+    version = "v2.*",
+    build = "make install_jsregexp",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "saadparwaiz1/cmp_luasnip",
+    },
+    config = function()
+      require( "luasnip.loaders.from_vscode" ).lazy_load()
+    end,
+    lazy = false
   },
   {
     "zbirenbaum/copilot.lua",
@@ -88,7 +96,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-vsnip",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp-signature-help"
     }

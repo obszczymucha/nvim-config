@@ -18,6 +18,7 @@ require( "obszczymucha.autocmds" )
 require( "obszczymucha.groovyls" )
 require( "obszczymucha.osv" )
 require( "obszczymucha.mason" )
+require( "obszczymucha.snippets.java" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
