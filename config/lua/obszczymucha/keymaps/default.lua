@@ -7,9 +7,9 @@ function M.go_to_definition()
   -- TODO: see if removing this causes any issues, if not, then remove the comment.
   --local params = util.make_position_params()
   --local handler = function( ... )
-    --local default_handler = require( "vim.lsp.handlers" )[ "textDocument/definition" ]
-    --default_handler( ... )
-    --vim.api.nvim_input( "zz" )
+  --local default_handler = require( "vim.lsp.handlers" )[ "textDocument/definition" ]
+  --default_handler( ... )
+  --vim.api.nvim_input( "zz" )
   --end
 
   --vim.lsp.buf_request( 0, "textDocument/definition", params, handler )
@@ -71,11 +71,12 @@ function M.outline()
   vim.cmd( "Lspsaga outline" )
 end
 
+-- Wrap is not a great name.
+-- What we're doing is we're moving one character after the word (or Word), e.g.
+-- "Optional<>Integer" would result in "Optional<Integer>" if the cursor was positioned on "I".
 local function wrap( operation )
-  local char = common.get_char_under_cursor()
-  local delete = (char == '"' or char == "'" or char == "`") and "\"_x" or ""
-
-  vim.api.nvim_input( string.format( "<Esc>l\"_x<Esc>%sa%s<Esc>%s", operation, char, delete ) )
+  local char = common.get_char_before_cursor()
+  vim.api.nvim_input( string.format( "<Esc>\"_x<Esc>%sa%s", operation, char ) )
 end
 
 function M.fast_continuous_wrap()

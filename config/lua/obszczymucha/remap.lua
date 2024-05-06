@@ -365,6 +365,7 @@ vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w", { desc = "Surround
 vim.keymap.set( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w", { desc = "Surround with {}" } )
 vim.keymap.set( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w", { desc = "Surround with ()" } )
 vim.keymap.set( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w", { desc = "Surround with []" } )
+vim.keymap.set( "v", "<leader><", "<Esc>`>a><Esc>`<i<<Esc>w", { desc = "Surround with <>" } )
 vim.keymap.set( "v", "<leader><BS>", "<Esc>`>x`<x" )
 vim.keymap.set( "n", "<leader><BS>", "\"_v%<Esc>`>x`<x" )
 vim.keymap.set( "i", "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )

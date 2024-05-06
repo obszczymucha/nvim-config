@@ -8,7 +8,7 @@ local function wrap( operation )
   local left_space = any_quote and "" or "i <Esc>"
   local right_space = any_quote and "a" or "a "
 
-  vim.api.nvim_input( string.format( "<Esc>l\"_x%s%s%s%s<Esc>%s", left_space, operation, right_space, char, delete ) )
+  vim.api.nvim_input( string.format( "<Esc>\"_x%s%s%s%s<Esc>%si", left_space, operation, right_space, char, delete ) )
 end
 
 function M.fast_continuous_wrap()

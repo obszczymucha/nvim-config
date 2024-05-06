@@ -27,6 +27,12 @@ function M.get_char_under_cursor( relative_pos )
   return string.sub( vim.api.nvim_get_current_line(), col + pos, col + pos )
 end
 
+function M.get_char_before_cursor( relative_pos )
+  local pos = relative_pos and relative_pos + 1 or 1
+  local _, col = unpack( vim.api.nvim_win_get_cursor( 0 ) )
+  return string.sub( vim.api.nvim_get_current_line(), col + pos - 1, col + pos - 1 )
+end
+
 function M.get_filename( path )
   return path:gsub( "(.*/)", "" )
 end
