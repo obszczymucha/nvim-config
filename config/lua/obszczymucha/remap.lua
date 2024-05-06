@@ -326,11 +326,7 @@ vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>",
 vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>",
   { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
 
-function M.test()
-  print( "Hello!" )
-end
-
-vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.remap' ).test()<CR>", { desc = "Say hello" } )
+vim.keymap.set( "n", "<leader>q", "<cmd> lua R( 'obszczymucha.sandbox' ).test()<CR>", { desc = "Run sandbox code" } )
 
 -- Tab navigation
 --vim.keymap.set( "n", "<leader>T", "<cmd>tabe<CR>", { silent = true } )
