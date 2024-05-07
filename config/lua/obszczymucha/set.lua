@@ -8,7 +8,7 @@ cmd( "syntax on" )
 o.nu = true
 o.relativenumber = true
 o.cursorline = true
-o.cursorlineopt = "number"
+o.cursorlineopt = "line,number"
 o.guicursor = 'n-c:block,i:block-iCursor,r:block-rCursor,v:block-vCursor'
 
 cmd( "hi Cursor guifg=white guibg=black" )
