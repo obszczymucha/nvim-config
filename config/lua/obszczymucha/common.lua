@@ -50,4 +50,11 @@ function M.merge_tables( t1, t2 )
   return result
 end
 
+-- This disables comment continuation when pressing o.
+-- The comments will still continue when pressing Enter.
+-- To also disable that, remove "r" from the below.
+function M.disable_comment_continuation()
+  vim.opt.formatoptions:remove( "o" )
+end
+
 return M

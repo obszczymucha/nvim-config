@@ -79,3 +79,5 @@ g.NERDCustomDelimiters = {
     left = "-- "
   }
 }
+
+vim.cmd( [[autocmd BufEnter,BufWinEnter,FileType * lua require("obszczymucha.common").disable_comment_continuation()]] )
