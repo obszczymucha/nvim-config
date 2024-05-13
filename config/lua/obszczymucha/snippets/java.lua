@@ -6,18 +6,35 @@ local i = ls.i
 local t = ls.t
 local events = require( "luasnip.util.events" )
 
-local function insert_import( import_name )
-  local lines = vim.api.nvim_buf_get_lines( 0, 0, -1, false )
-  local last_import_index = nil
-  local package_index = nil
+local function insert_import( package_name, class_name, modifier )
+  local bufnr = 0
+  local parser = vim.treesitter.get_parser( bufnr, "java" )
+  local tree = parser:parse()[ 1 ]
+  local root = tree:root()
 
-  for index, line in ipairs( lines ) do
+  local mod = modifier and string.format( "%s ", modifier ) or ""
+  local import_name = string.format( "import %s%s.%s;", mod, package_name, class_name )
+  local all_import_name = string.format( "import %s%s.*;", mod, package_name )
+
+  local query = vim.treesitter.query.parse( "java", [[
+    (package_declaration) @package
+    (import_declaration) @import
+  ]] )
+
+  local last_import_line_number = nil
+  local package_line_number = nil
+
+  for _, node in query:iter_captures( root, bufnr, 0, -1 ) do
+    local line = vim.treesitter.get_node_text( node, bufnr )
+    local start_row_index = node:range()
+    local line_number = start_row_index + 1
+
     if line:match( "^import%s" ) then
-      last_import_index = index
+      last_import_line_number = line_number
     elseif line:match( "^package%s" ) then
-      package_index = index
+      package_line_number = line_number
     end
-    if line == import_name then
+    if line == import_name or line == all_import_name then
       return
     end
   end
@@ -25,24 +42,31 @@ local function insert_import( import_name )
   local line_number = 0
   local result = {}
 
-  if last_import_index then
-    line_number = last_import_index
+  if last_import_line_number then
+    line_number = last_import_line_number
     table.insert( result, "" )
-  elseif package_index then
-    line_number = package_index
+  elseif package_line_number then
+    line_number = package_line_number
     table.insert( result, "" )
   end
 
   table.insert( result, import_name )
+
   vim.api.nvim_buf_set_lines( 0, line_number, line_number, false, result )
 end
 
 local function insert_test_import()
-  insert_import( "import org.junit.jupiter.api.Test;" )
+  insert_import( "org.junit.jupiter.api", "Test" )
 end
 
 local function insert_parametrized_test_import()
-  insert_import( "import org.junit.jupiter.params.ParameterizedTest;" )
+  insert_import( "org.junit.jupiter.params", "ParameterizedTest" )
+end
+
+local function hook( f )
+  return {
+    node_callbacks = { [ events.enter ] = f }
+  }
 end
 
 ls.add_snippets( "java", {
@@ -59,7 +83,7 @@ ls.add_snippets( "java", {
     t( "@ParameterizedTest" ),
     t( { "", "public void should" } ), i( 1 ), t( "() {" ),
     t( { "", "\t// Given" } ),
-    t( { "", "\t" } ), i( 0, "", { node_callbacks = { [ events.enter ] = insert_parametrized_test_import } } ),
+    t( { "", "\t" } ), i( 0, "", hook( insert_parametrized_test_import ) ),
     t( { "", "", "\t// When" } ),
     t( { "", "", "\t// Then" } ),
     t( { "", "}" } )
