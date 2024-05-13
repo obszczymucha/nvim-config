@@ -69,6 +69,10 @@ local function hook( f )
   }
 end
 
+local function insert_assertj_assertthat_import()
+  insert_import( "org.assertj.core.api.Assertions", "assertThat", "static" )
+end
+
 ls.add_snippets( "java", {
   s( "test", {
     t( "@Test" ),
@@ -93,5 +97,8 @@ ls.add_snippets( "java", {
     i( 0 ),
     t( { "", "", "// When" } ),
     t( { "", "", "// Then" } )
+  } ),
+  s( "athat", {
+    t( "assertThat(" ), i( 1 ), t( ")" ), i( 0, "", hook( insert_assertj_assertthat_import ) )
   } )
 } )
