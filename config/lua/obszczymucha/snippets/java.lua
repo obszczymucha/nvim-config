@@ -19,7 +19,7 @@ local function camelCaseToSentence( args )
   if input == "" then return "" end
 
   local result = input:gsub( "(%l)(%u)", "%1 %2" )
-  return result:sub( 1, 1 ):upper() .. result:sub( 2 ):lower() .. "."
+  return "Should " .. result:sub( 1 ):lower() .. "."
 end
 
 local function get_captures( bufnr, lang, query_string )
@@ -116,8 +116,11 @@ local function insert_imports( imports )
   vim.api.nvim_buf_set_lines( 0, line_number, line_number, false, result )
 end
 
-local function insert_test_import()
-  insert_imports( { { "org.junit.jupiter.api", "Test" } } )
+local function insert_test_imports()
+  insert_imports( {
+    { "org.junit.jupiter.api", "Test" },
+    { "org.junit.jupiter.api", "DisplayName" }
+  } )
 end
 
 local function insert_parametrized_test_imports()
@@ -146,10 +149,14 @@ local function get_package_name()
 end
 
 ls.add_snippets( LANG, {
-  s( "test", fmt( "@Test\nvoid should{test_name}() {{\n\t// Given\n\t{start}\n\n\t// When\n\n\t// Then\n}}", {
-    start = i( 0, "", hook( insert_test_import ) ),
-    test_name = i( 1 )
-  } ) ),
+  s( "test",
+    fmt(
+      "@Test\n@DisplayName(\"{display_name}\")\nvoid should{test_name}() {{\n\t// Given\n\t{start}\n\n\t// When\n\n\t// Then\n}}",
+      {
+        display_name = f( camelCaseToSentence, { 1 } ),
+        start = i( 0, "", hook( insert_test_imports ) ),
+        test_name = i( 1 )
+      } ) ),
   s( "ptest",
     fmt(
       "@ParameterizedTest\n@DisplayName(\"{display_name}\")\n@MethodSource(\"{package_name}{class_name}#{provider_name}Provider\")\nvoid should{test_name}() {{\n\t// Given\n\t{start}\n\n\t// When\n\n\t// Then\n}}\n\n@SuppressWarnings(\"unused\")\nprivate static Stream<Arguments> {provider_name}Provider() {{\n\treturn Stream.of();\n}}",
