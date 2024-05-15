@@ -18,8 +18,8 @@ local function camelCaseToSentence( args )
   local input = args[ 1 ][ 1 ]
   if input == "" then return "" end
 
-  local result = input:gsub( "(%l)(%u)", "%1 %2" )
-  return "Should " .. result:sub( 1 ):lower() .. "."
+  local result = input:gsub( "(%u)", " %1" )
+  return "Should " .. result:sub( 2 ):lower() .. "."
 end
 
 local function get_captures( bufnr, lang, query_string )
