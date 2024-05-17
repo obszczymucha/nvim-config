@@ -1,14 +1,15 @@
 local ls = prequire( "luasnip" )
 if not ls then return end
 
+local LANG = "java"
+require( "luasnip.session.snippet_collection" ).clear_snippets( LANG )
+
 local s = ls.s
 local i = ls.i
 local t = ls.t
 local f = ls.f
 local events = require( "luasnip.util.events" )
 local fmt = require( "luasnip.extras.fmt" ).fmt
-
-local LANG = "java"
 
 local decapitalize = function( args )
   return string.gsub( args[ 1 ][ 1 ], "^%u", function( c ) return string.lower( c ) end )
