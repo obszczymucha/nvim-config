@@ -53,53 +53,10 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  { "f-person/git-blame.nvim", lazy = false },
+  { "f-person/git-blame.nvim",            lazy = false },
   { "folke/noice.nvim" },
-  { "folke/neodev.nvim",       opts = {} },
-  { "nvimdev/lspsaga.nvim",    event = "LspAttach" },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require( "copilot" ).setup( {} )
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require( "copilot_cmp" ).setup( {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      } )
-    end,
-    lazy = false
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    version = false,
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "saadparwaiz1/cmp_luasnip",
-    }
-  },
-  {
-    "L3MON4D3/LuaSnip",
-    version = "v2.*",
-    build = "make install_jsregexp",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-    },
-    config = function()
-      require( "luasnip.loaders.from_vscode" ).lazy_load()
-    end,
-    lazy = false
-  },
+  { "folke/neodev.nvim",                  opts = {} },
+  { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" },
   { "jenterkin/vim-autosource" },

@@ -1,4 +1,5 @@
-local cmp = require( "cmp" )
+local cmp = prequire( "cmp" )
+if not cmp then return end
 
 cmp.setup {
   snippet = {
@@ -30,3 +31,17 @@ cmp.setup {
     [ "<S-Space" ] = cmp.mapping.complete()
   } )
 }
+
+local luasnip = prequire( "luasnip" )
+if not luasnip then return end
+
+luasnip.config.set_config( {
+  history = false,
+  -- This is fucking awesome, this updates the snippets when the typing.
+  updateevents = "TextChanged,TextChangedI"
+} )
+
+for _, ft_path in ipairs( vim.api.nvim_get_runtime_file( "lua/obszczymucha/snippets/*.lua", true ) ) do
+  loadfile( ft_path )()
+end
+
