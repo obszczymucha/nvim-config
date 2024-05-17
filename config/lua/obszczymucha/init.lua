@@ -20,4 +20,6 @@ require( "obszczymucha.mason" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
+else
+  require( "obszczymucha.xmobar" )
 end
