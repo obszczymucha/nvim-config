@@ -32,6 +32,13 @@ cmp.setup {
   } )
 }
 
+cmp.setup.filetype( { "sql" }, {
+  sources = {
+    { name = "vim-dadbod-completion" },
+    { name = "buffer" }
+  }
+} )
+
 local luasnip = prequire( "luasnip" )
 if not luasnip then return end
 
