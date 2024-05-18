@@ -171,5 +171,15 @@ return {
       vim.keymap.set( "n", "<leader>vf", function() require( "zen-mode" ).toggle( { window = { width = 1 } } ) end,
         { silent = true, desc = "Fullscreen" } )
     }
+  },
+  {
+    "jinh0/eyeliner.nvim",
+    config = function()
+      require( "eyeliner" ).setup {
+        highlight_on_key = true,
+        dim = true
+      }
+    end,
+    lazy = false
   }
 }
