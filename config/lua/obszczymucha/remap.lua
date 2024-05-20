@@ -457,7 +457,7 @@ vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require('luasnip').jump(1)<CR
 vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>", { expr = true, noremap = true } )
 
 -- Treesitter
-vim.keymap.set( "n", "<S-t>", ":TSHighlightCapturesUnderCursor<CR>", { silent = true } )
+vim.keymap.set( "n", "<S-t>", ":Inspect<CR>", { silent = true } )
 
 -- Mason and Lazy
 vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true } )
