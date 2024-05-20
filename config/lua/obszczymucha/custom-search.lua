@@ -1,8 +1,9 @@
-local Input = require( "nui.input" )
+local input = prequire( "nui.input" )
+if not input then return end
 local event = require( "nui.utils.autocmd" ).event
 
 local make_input = function( title, callback )
-  return Input( {
+  return input( {
     position = {
       row = "90%",
       col = "50%"

@@ -4,9 +4,12 @@ if mason then
 end
 
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require( "neodev" ).setup( {
+local neodev = prequire( "neodev" )
+if neodev then
+  neodev.setup( {
   -- add any options here, or leave empty to use the default settings
-} )
+  } )
+end
 
 local mason_lspconfig = prequire( "mason-lspconfig" )
 if mason_lspconfig then

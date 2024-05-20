@@ -1,5 +1,7 @@
 local g = vim.g
-local telescope = require( "telescope.builtin" )
+local telescope = prequire( "telescope.builtin" )
+if not telescope then return end
+
 local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
 local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
