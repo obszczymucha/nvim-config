@@ -91,7 +91,7 @@ return {
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   { "rcarriga/nvim-notify" },
   -- { "scalameta/nvim-metals" },
-  -- { "tpope/vim-fugitive",                          lazy = false },
+  { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
   { "windwp/nvim-autopairs" },
