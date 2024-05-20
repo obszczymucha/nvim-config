@@ -83,34 +83,15 @@ return {
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim" },
   { "nvim-telescope/telescope-dap.nvim" },
-  { "nvim-telescope/telescope.nvim",             branch = "0.1.x" },
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      name = "nvim-tree-web-devicons"
-    },
-    config = function()
-      require( "nvim-tree" ).setup {
-        view = {
-          number = true,
-          relativenumber = true
-        }
-      }
-    end,
-  },
+  { "nvim-telescope/telescope.nvim",               branch = "0.1.x" },
   { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
   { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },
-  { "nvim-treesitter/playground",                  lazy = false },
-  { "preservim/nerdcommenter",                     lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   { "rcarriga/nvim-notify" },
-  { "scalameta/nvim-metals" },
-  { "tpope/vim-fugitive",                          lazy = false },
+  -- { "scalameta/nvim-metals" },
+  -- { "tpope/vim-fugitive",                          lazy = false },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
   { "windwp/nvim-autopairs" },
@@ -128,29 +109,6 @@ return {
     }
   },
   { "airblade/vim-matchquote",           lazy = false },
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function() vim.fn[ "mkdp#util#install" ]() end,
-    config = function()
-      if is_wsl then
-        vim.cmd [[
-          function! OpenMarkdownPreview(url)
-            execute "silent !brave --app=" . a:url
-          endfunction
-        ]]
-      else
-        vim.cmd [[
-          function! OpenMarkdownPreview(url)
-            execute "silent !chromium --app=" . a:url
-          endfunction
-        ]]
-      end
-
-      vim.g.mkdp_browserfunc = "OpenMarkdownPreview"
-    end
-  },
   { "jbyuki/one-small-step-for-vimkind", lazy = false }, -- :help osv -> QUICKSTART
   {
     "AckslD/nvim-neoclip.lua",
@@ -164,6 +122,7 @@ return {
       } )
     end,
   },
+  -- Causing errors in checkhealth.
   {
     "folke/zen-mode.nvim",
     cmd = { "ZenMode" },
