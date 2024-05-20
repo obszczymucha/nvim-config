@@ -46,9 +46,6 @@ vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).cle
 vim.keymap.set( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>",
   { desc = "Debug hover", silent = true } )
 
--- nvim-tree
-vim.keymap.set( "n", "<leader>dw", ":NvimTreeToggle<CR>", { silent = true, desc = "NvimTreeToggle" } )
-
 -- Create a file under cursor
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>", { desc = "Create a file under cursor" } )
 
