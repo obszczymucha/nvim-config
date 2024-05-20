@@ -444,7 +444,7 @@ end
 vim.keymap.set( "n", "'", ":lua require('obszczymucha.remap').jump_to_mark_and_center()<CR>", { silent = true } )
 vim.keymap.set( "n", "m", ":lua require('obszczymucha.remap').define_a_mark()<CR>", { silent = true } )
 
--- Vsnip
+-- Snippets
 -- Strangely, vim.keymap.set causes some strange characters being shown with this.
 vim.api.nvim_set_keymap( "i", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : "<Tab>"]],
   { expr = true, noremap = true } )
@@ -456,17 +456,10 @@ vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<C
 -- Treesitter
 vim.keymap.set( "n", "<S-t>", ":Inspect<CR>", { silent = true } )
 
--- Mason and Lazy
 vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true } )
 vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
-
--- Markdown
 vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true } )
-
--- WhichKey
 vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true } )
-
--- neoclip
 vim.keymap.set( "n", "<leader>Y", ":Telescope neoclip<CR>", { silent = true, desc = "Telescope neoclip" } )
 
 return M
