@@ -83,6 +83,13 @@ if is_wsl then
   vim.keymap.set( "i", "<F28>", "<Esc><cmd>m .-2<CR>==gi" )
   vim.keymap.set( "v", "<F27>", ":m '>+1<CR>gv=gv" )
   vim.keymap.set( "v", "<F28>", ":m '<-2<CR>gv=gv" )
+elseif is_windows then
+  vim.keymap.set( "n", "<C-F3>", "<cmd>m .+1<CR>==" )
+  vim.keymap.set( "n", "<C-F4>", "<cmd>m .-2<CR>==" )
+  vim.keymap.set( "i", "<C-F3>", "<Esc><cmd>m .+1<CR>==gi" )
+  vim.keymap.set( "i", "<C-F4>", "<Esc><cmd>m .-2<CR>==gi" )
+  vim.keymap.set( "v", "<C-F3>", ":m '>+1<CR>gv=gv" )
+  vim.keymap.set( "v", "<C-F4>", ":m '<-2<CR>gv=gv" )
 else
   vim.keymap.set( "n", "<C-A-j>", "<cmd>m .+1<CR>==" )
   vim.keymap.set( "n", "<C-A-k>", "<cmd>m .-2<CR>==" )
