@@ -461,5 +461,7 @@ vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
 vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true } )
 vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true } )
 vim.keymap.set( "n", "<leader>Y", ":Telescope neoclip<CR>", { silent = true, desc = "Telescope neoclip" } )
+vim.keymap.set( "n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
+  { silent = true, desc = "Toggle inlay hints" } )
 
 return M
