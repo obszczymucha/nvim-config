@@ -140,5 +140,6 @@ return {
       }
     end,
     lazy = false
-  }
+  },
+  { "folke/neoconf.nvim" }
 }

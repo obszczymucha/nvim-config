@@ -7,7 +7,7 @@ end
 local neodev = prequire( "neodev" )
 if neodev then
   neodev.setup( {
-  -- add any options here, or leave empty to use the default settings
+    -- add any options here, or leave empty to use the default settings
   } )
 end
 
@@ -44,8 +44,9 @@ end
 local lspconfig = prequire( "lspconfig" )
 if not lspconfig then return end
 
-if lspconfig.hls then lspconfig.hls.setup {} end
+require( "neoconf" ).setup {}
 
+if lspconfig.hls then lspconfig.hls.setup {} end
 
 if lspconfig.lua_ls then
   lspconfig.lua_ls.setup {
