@@ -112,22 +112,11 @@ local function is_tmuxed()
   end
 end
 
-local function lsp_status()
-  local status = require( "lsp-status" ).status()
-
-  if status and status ~= "" and not is_blank( status ) then
-    return status .. " | "
-  else
-    return ""
-  end
-end
-
 local no_padding = { left = 0, right = 0 }
 
 ins_left_a { is_tmuxed, padding = no_padding, color = { fg = "#cfcfcf", bg = "#2a2e40" } }
 ins_left_a "mode"
 ins_left_c "filename"
---ins_right { lsp_status, padding = no_padding }
 ins_right { scala_diagnostics }
 ins_right { "filetype", padding = no_padding }
 ins_right( filetype_separator )

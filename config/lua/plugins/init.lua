@@ -76,7 +76,6 @@ return {
   { "mfussenegger/nvim-jdtls" },
   { "mfussenegger/nvim-treehopper" },
   { "neovim/nvim-lspconfig" },
-  { "nvim-lua/lsp-status.nvim" },
   { "nvim-lua/plenary.nvim" },
   { "nvim-lualine/lualine.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
