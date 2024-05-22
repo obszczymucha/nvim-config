@@ -1,5 +1,5 @@
-local q = require( "vim.treesitter.query" )
-local debug = require( "obszczymucha.debug" ).debug
+-- local q = require( "vim.treesitter.query" )
+-- local debug = require( "obszczymucha.debug" ).debug
 local clear = require( "obszczymucha.debug" ).clear
 
 local M = {}

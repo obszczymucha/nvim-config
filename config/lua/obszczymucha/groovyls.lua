@@ -25,7 +25,7 @@
 --     }
 -- }
 
-local lspconfig = prequire( "lspconfig" )
+local lspconfig = prequirev( "lspconfig" )
 if not lspconfig then return end
 
 ---@diagnostic disable-next-line: unused-local

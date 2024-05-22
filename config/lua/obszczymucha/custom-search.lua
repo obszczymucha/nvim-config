@@ -1,4 +1,4 @@
-local input = prequire( "nui.input" )
+local input = prequirev( "nui.input" )
 if not input then return end
 local event = require( "nui.utils.autocmd" ).event
 

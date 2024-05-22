@@ -1,4 +1,4 @@
-local noice = prequire( "noice" )
+local noice = prequirev( "noice" )
 if not noice then return end
 
 noice.setup( {

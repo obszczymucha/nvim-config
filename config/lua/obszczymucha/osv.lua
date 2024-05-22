@@ -1,7 +1,7 @@
-local osv = prequire( "osv" )
+local osv = prequirev( "osv" )
 if not osv then return end
 
-local dap = prequire( "dap" )
+local dap = prequirev( "dap" )
 if not dap then return end
 
 dap.configurations.lua = {

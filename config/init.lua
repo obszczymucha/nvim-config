@@ -21,6 +21,14 @@ vim.g.gitblame_enabled = 0
 ---@diagnostic disable-next-line: lowercase-global
 prequire = require( "obszczymucha.common" ).prequire
 
+---@diagnostic disable-next-line: lowercase-global
+prequirev = function( name, ... )
+  local result, value = prequire( name, ... )
+  if not result then vim.notify( string.format( "'%s' could not be found.", name ), vim.log.levels.WARN ) end
+
+  return result, value
+end
+
 require( "lazy" ).setup( "plugins", {
   defaults = {
     lazy = true

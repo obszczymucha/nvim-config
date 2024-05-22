@@ -1,6 +1,4 @@
-local prequire = require( "obszczymucha.common" ).prequire
-local M = prequire( "dapui" )
-
+local M = prequirev( "dapui" )
 if not M then return end
 
 M.setup( {

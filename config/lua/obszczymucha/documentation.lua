@@ -1,4 +1,4 @@
-local ts_utils = prequire( "nvim-treesitter.ts_utils" )
+local ts_utils = prequirev( "nvim-treesitter.ts_utils" )
 if not ts_utils then return end
 
 local M = {}

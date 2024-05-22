@@ -1,4 +1,4 @@
-local jdtls = prequire( "jdtls" )
+local jdtls = prequirev( "jdtls" )
 if not jdtls then return end
 
 local home = os.getenv( "HOME" )
@@ -119,7 +119,7 @@ vim.keymap.set( "n", "<leader>gt", [[:lua require( "jdtls.tests" ).goto_subjects
 vim.keymap.set( "n", "<leader>gT", [[:lua require( "jdtls.tests" ).generate()<CR>]],
   { silent = true, desc = "Generate tests" } )
 
-local dap = prequire( "dap" )
+local dap = prequirev( "dap" )
 
 local function is_dap_attached()
   if not dap then return false end

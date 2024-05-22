@@ -1,4 +1,4 @@
-local nvim_treesitter_configs = prequire( "nvim-treesitter.configs" )
+local nvim_treesitter_configs = prequirev( "nvim-treesitter.configs" )
 if not nvim_treesitter_configs then return end
 
 nvim_treesitter_configs.setup {

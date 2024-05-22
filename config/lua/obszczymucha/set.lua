@@ -60,7 +60,7 @@ end
 
 o.undofile = true
 
-vim.cmd [[command! HarpoonFirst lua local harpoon=prequire( "harpoon.ui" ); if harpoon then harpoon.nav_file( 1 ) end]]
+vim.cmd [[command! HarpoonFirst lua local harpoon=prequirev( "harpoon.ui" ); if harpoon then harpoon.nav_file( 1 ) end]]
 
 -- NERDCommenter
 g.NERDCustomDelimiters = {

@@ -270,7 +270,7 @@ local function remap( name )
 end
 
 local function completion_down()
-  local cmp = prequire( "cmp" )
+  local cmp = prequirev( "cmp" )
   if not cmp then return end
 
   if not cmp.visible() then
@@ -281,7 +281,7 @@ local function completion_down()
 end
 
 local function completion_up()
-  local cmp = prequire( "cmp" )
+  local cmp = prequirev( "cmp" )
   if not cmp then return end
 
   if not cmp.visible() then
@@ -362,11 +362,8 @@ vim.keymap.set( "n", "<F21>", [[:lua require"dap".toggle_breakpoint(vim.fn.input
 vim.keymap.set( "n", "<F10>", [[:lua require"dap".continue()<CR>]], { silent = true, desc = "Continue or attach" } )
 
 local function terminate_dap_session()
-  local dap = prequire( "dap" )
-  if not dap then
-    vim.notify( "DAP not available.", vim.log.levels.WARN )
-    return
-  end
+  local dap = prequirev( "dap" )
+  if not dap then return end
 
   vim.notify( "Terminating..." )
   dap.terminate()

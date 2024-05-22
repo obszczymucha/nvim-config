@@ -1,4 +1,4 @@
-local ls = prequire( "luasnip" )
+local ls = prequirev( "luasnip" )
 if not ls then return end
 
 local LANG = "java"

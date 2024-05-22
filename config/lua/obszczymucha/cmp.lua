@@ -1,4 +1,4 @@
-local cmp = prequire( "cmp" )
+local cmp = prequirev( "cmp" )
 if not cmp then return end
 
 cmp.setup {
@@ -39,16 +39,15 @@ cmp.setup.filetype( { "sql" }, {
   }
 } )
 
-local luasnip = prequire( "luasnip" )
-if not luasnip then return end
+local luasnip = prequirev( "luasnip" )
+if luasnip then
+  luasnip.config.set_config( {
+    history = false,
+    -- This is fucking awesome, this updates the snippets when the typing.
+    updateevents = "TextChanged,TextChangedI"
+  } )
 
-luasnip.config.set_config( {
-  history = false,
-  -- This is fucking awesome, this updates the snippets when the typing.
-  updateevents = "TextChanged,TextChangedI"
-} )
-
-for _, ft_path in ipairs( vim.api.nvim_get_runtime_file( "lua/obszczymucha/snippets/*.lua", true ) ) do
-  loadfile( ft_path )()
+  for _, ft_path in ipairs( vim.api.nvim_get_runtime_file( "lua/obszczymucha/snippets/*.lua", true ) ) do
+    loadfile( ft_path )()
+  end
 end
-

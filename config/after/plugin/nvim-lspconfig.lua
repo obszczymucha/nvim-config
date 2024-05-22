@@ -1,17 +1,17 @@
-local mason = prequire( "mason" )
+local mason = prequirev( "mason" )
 if mason then
   mason.setup()
 end
 
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-local neodev = prequire( "neodev" )
+local neodev = prequirev( "neodev" )
 if neodev then
   neodev.setup( {
     -- add any options here, or leave empty to use the default settings
   } )
 end
 
-local mason_lspconfig = prequire( "mason-lspconfig" )
+local mason_lspconfig = prequirev( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
     ensure_installed = {
@@ -31,7 +31,7 @@ if mason_lspconfig then
   }
 end
 
-local lsp_status = prequire( "lsp-status" )
+local lsp_status = prequirev( "lsp-status" )
 if lsp_status then
   lsp_status.config( {
     status_symbol = "",
@@ -41,10 +41,11 @@ if lsp_status then
   lsp_status.register_progress()
 end
 
-local lspconfig = prequire( "lspconfig" )
+local lspconfig = prequirev( "lspconfig" )
 if not lspconfig then return end
 
-require( "neoconf" ).setup {}
+local neoconf = prequirev( "neoconf" )
+if neoconf then neoconf.setup {} end
 
 if lspconfig.hls then lspconfig.hls.setup {} end
 

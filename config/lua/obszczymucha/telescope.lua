@@ -1,5 +1,5 @@
 local g = vim.g
-local telescope = prequire( "telescope.builtin" )
+local telescope = prequirev( "telescope.builtin" )
 if not telescope then return end
 
 local previewers = require( "telescope.previewers" )

@@ -1,4 +1,4 @@
-local notify = prequire( "notify" )
+local notify = prequirev( "notify" )
 if not notify then return end
 
 notify.setup( {

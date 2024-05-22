@@ -1,4 +1,4 @@
-local saga = prequire( "lspsaga" )
+local saga = prequirev( "lspsaga" )
 if not saga then return end
 
 saga.setup( {

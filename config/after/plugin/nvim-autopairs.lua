@@ -1,4 +1,4 @@
-local npairs = prequire( "nvim-autopairs" )
+local npairs = prequirev( "nvim-autopairs" )
 if not npairs then return end
 
 npairs.setup {

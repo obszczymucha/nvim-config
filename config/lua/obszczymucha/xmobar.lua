@@ -1,4 +1,4 @@
-local job = prequire( 'plenary.job' )
+local job = prequirev( 'plenary.job' )
 if not job then return end
 
 local function callback()

@@ -1,4 +1,4 @@
-local lualine = prequire( "lualine" )
+local lualine = prequirev( "lualine" )
 if not lualine then return end
 
 local is_blank = require( "obszczymucha.common" ).is_blank

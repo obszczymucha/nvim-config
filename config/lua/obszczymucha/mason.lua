@@ -1,4 +1,4 @@
-local registry = prequire( "mason-registry" )
+local registry = prequirev( "mason-registry" )
 if not registry then return end
 
 -- Some Mason packages are not defined in nvim-lspconfig.
