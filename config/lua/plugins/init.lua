@@ -60,7 +60,6 @@ return {
   { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" },
   { "jenterkin/vim-autosource" },
-  { "kevinhwang91/nvim-bqf" },
   { "kyazdani42/nvim-web-devicons" },
   {
     "kylechui/nvim-surround",

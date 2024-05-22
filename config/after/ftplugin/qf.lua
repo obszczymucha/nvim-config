@@ -1,3 +1,5 @@
+vim.api.nvim_buf_set_keymap( 0, "n", "q", ":cclose<CR>",
+  { noremap = true, silent = true, desc = "Close quickfix" } )
 vim.api.nvim_buf_set_keymap( 0, "n", "<C-q>", ":cclose<CR>",
   { noremap = true, silent = true, desc = "Close quickfix" } )
 vim.api.nvim_buf_set_keymap( 0, "n", "dd", ":lua require('obszczymucha.quickfix').remove_current_line()<CR>",
