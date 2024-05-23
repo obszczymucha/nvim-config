@@ -31,16 +31,6 @@ if mason_lspconfig then
   }
 end
 
-local lsp_status = prequirev( "lsp-status" )
-if lsp_status then
-  lsp_status.config( {
-    status_symbol = "",
-    indicator_ok = ""
-  } )
-
-  lsp_status.register_progress()
-end
-
 local lspconfig = prequirev( "lspconfig" )
 if not lspconfig then return end
 
