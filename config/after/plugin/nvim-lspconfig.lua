@@ -153,7 +153,6 @@ end
 
 vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = vim.lsp.with( custom_on_publish_diagnostics, {} )
 
-if lspconfig.rust_analyzer then lspconfig.rust_analyzer.setup {} end
 if lspconfig.clangd then lspconfig.clangd.setup {} end
 if lspconfig.sqlls then lspconfig.sqlls.setup {} end
 
