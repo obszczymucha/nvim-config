@@ -28,7 +28,8 @@ cmp.setup {
     -- snippets you need to remove this select
     [ "<Tab>" ] = cmp.mapping.confirm( { select = true } ),
     [ "<CR>" ] = cmp.mapping.confirm( { select = false } ),
-    [ "<S-Space" ] = cmp.mapping.complete()
+    -- <S-Space> workaround. Mapped by sending \u001b[1;5Q in Alacritty or ahk, which translates to <F26> in neovim.
+    [ "<F26>" ] = cmp.mapping.complete()
   } )
 }
 
