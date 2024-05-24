@@ -36,7 +36,7 @@ function M.toggle_auto_center()
   local auto_center = config.auto_center or false
   set( "auto_center", not auto_center )
 
-  vim.notify( string.format( "auto_center: %s", config.auto_center and "on" or "off" ) )
+  vim.notify( string.format( "Auto-center: %s", config.auto_center and "on" or "off" ) )
 end
 
 M.load()
