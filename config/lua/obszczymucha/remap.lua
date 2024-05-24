@@ -47,7 +47,7 @@ vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).cle
 vim.keymap.set( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>",
   { desc = "Debug hover", silent = true } )
 
--- Create a file under cursor
+-- File management
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>", { desc = "Create a file under cursor" } )
 
 -- Window management
@@ -416,12 +416,6 @@ vim.keymap.set( "n", "<Esc>", function()
   end
 end, { silent = true } )
 
--- Reloading
-function M.reload()
-  R( "obszczymucha.remap" )
-  vim.notify( "Mappings reloaded." )
-end
-
 vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>",
   { silent = true, desc = "Reload keymaps" } )
 vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
@@ -472,17 +466,19 @@ vim.api.nvim_set_keymap( "s", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>l
 vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require('luasnip').jump(1)<CR>", { expr = true, noremap = true } )
 vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>", { expr = true, noremap = true } )
 
--- Treesitter
-vim.keymap.set( "n", "<S-t>", ":Inspect<CR>", { silent = true } )
-
-vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true } )
-vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true } )
-vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true } )
-vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true } )
-vim.keymap.set( "n", "<leader>Y", ":Telescope neoclip<CR>", { silent = true, desc = "Telescope neoclip" } )
+-- Other
+vim.keymap.set( "n", "<S-t>", ":Inspect<CR>", { silent = true, desc = "Inspect Treesitter element" } )
+vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true, desc = "Open Mason" } )
+vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true, desc = "Open Lazy" } )
+vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true, desc = "Toggle markdown preview" } )
+vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true, desc = "Show keymaps" } )
 vim.keymap.set( "n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
   { silent = true, desc = "Toggle inlay hints" } )
-
 vim.keymap.set( "n", "<C-q>", ":copen<CR>", { noremap = true, silent = true, desc = "Open quickfix" } )
+
+function M.reload()
+  R( "obszczymucha.remap" )
+  vim.notify( "Mappings reloaded." )
+end
 
 return M
