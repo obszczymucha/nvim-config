@@ -127,67 +127,6 @@ vim.keymap.set( "v", "<leader>d", "\"_d" )
 vim.keymap.set( "n", "<leader>c", "\"_c" )
 vim.keymap.set( "n", "<leader>x", "\"_x" )
 
--- Smoothie
----@diagnostic disable-next-line: unused-function, unused-local
-local function smoothie_smart_down()
-  --local row, _ = unpack( vim.api.nvim_win_get_cursor( 0 ) )
-  --local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
-
-  ---@diagnostic disable-next-line: unused-function
-  local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
-  local current = line( "." )
-  local top = line( "w0" )
-  local relative = current - top + 1
-  local middle = math.floor( vim.api.nvim_win_get_height( 0 ) / 2 )
-  --print(string.format("middle: %s, relative: %s", middle, relative))
-
-  if relative < middle then
-    vim.cmd( [[call smoothie#do( "M" )]] )
-  else
-    vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
-  end
-end
-
----@diagnostic disable-next-line: unused-local, unused-function
-local function smoothie_smart_up()
-  ---@diagnostic disable-next-line: unused-function
-  local line = function( pos ) return vim.api.nvim_eval( string.format( 'line( "%s" )', pos ) ) end
-  local current = line( "." )
-  local top = line( "w0" )
-  local relative = current - top + 1
-  local middle = math.ceil( vim.api.nvim_win_get_height( 0 ) / 2 )
-
-  if relative > middle then
-    vim.cmd( [[call smoothie#do( "M" )]] )
-  else
-    vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
-  end
-end
-
-function M.smoothie_down()
-  vim.cmd( [[call smoothie#do( "\<C-d>" )]] )
-end
-
-function M.smoothie_up()
-  vim.cmd( [[call smoothie#do( "\<C-u>" )]] )
-end
-
-function M.smoothie_down2()
-  vim.cmd( [[call smoothie#do( "M\<C-d>" )]] )
-end
-
-function M.smoothie_up2()
-  vim.cmd( [[call smoothie#do( "M\<C-u>" )]] )
-end
-
-local function smoothie_page_down()
-  vim.cmd( [[call smoothie#do( "\<C-f>" )]] )
-end
-
-local function smoothie_page_up()
-  vim.cmd( [[call smoothie#do( "\<C-b>" )]] )
-end
-
 function M.bind( binding_name )
   local filetype = vim.bo.filetype
   local module = prequire( string.format( "obszczymucha.keymaps.%s", filetype ) )
@@ -201,69 +140,42 @@ function M.bind( binding_name )
   if f then f() end
 end
 
-function M.jumplist_count( key )
-  local count = vim.v.count
-
-  if count > 1 then
-    vim.cmd( "normal! m'" )
-    vim.cmd( "normal! " .. count .. key )
-
-    if config.auto_center() then
-      vim.cmd( "normal! zz" )
-    end
-  else
-    vim.cmd( "normal! " .. key )
-  end
-end
-
-local function smart_center_next( template )
-  return function()
-    local ok, result = pcall( vim.api.nvim_command, string.format( template, config.auto_center() and "zz" or "" ) )
-
-    if not ok then
-      local pattern = "E486: "
-      local index = string.find( result, pattern )
-
-      if index then
-        local message = string.sub( result, index + string.len( pattern ) )
-        vim.notify( message, vim.log.levels.INFO )
-      else
-        vim.notify( result, vim.log.levels.ERROR )
-      end
-    end
-  end
-end
-
 -- Navigation
-vim.keymap.set( 'n', 'k', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'k' )<CR>" )
-vim.keymap.set( 'n', 'j', "<cmd>lua R( 'obszczymucha.remap' ).jumplist_count( 'j' )<CR>" )
+vim.keymap.set( 'n', 'k', "<cmd>lua R( 'obszczymucha.navigation' ).jump_count( 'k' )<CR>" )
+vim.keymap.set( 'n', 'j', "<cmd>lua R( 'obszczymucha.navigation' ).jump_count( 'j' )<CR>" )
 vim.keymap.set( "n", "<A-j>", "<C-y>", { noremap = true } )
 vim.keymap.set( "n", "<A-k>", "<C-e>", { noremap = true } )
 vim.keymap.set( "n", "<C-e>", "<C-e>j", { noremap = true } )
 vim.keymap.set( "n", "<C-y>", "<C-y>k", { noremap = true } )
---vim.keymap.set( "n", "<A-d>", function() smoothie_smart_down() end )
---vim.keymap.set( "n", "<A-u>", function() smoothie_smart_up() end )
-vim.keymap.set( "n", "<A-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down2()<CR>" )
-vim.keymap.set( "n", "<A-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up2()<CR>" )
-vim.keymap.set( "n", "<C-d>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_down()<CR>" )
-vim.keymap.set( "n", "<C-u>", "<cmd>lua R( 'obszczymucha.remap' ).smoothie_up()<CR>" )
-vim.keymap.set( "n", "<C-f>", function() smoothie_page_down() end )
-vim.keymap.set( "n", "<C-b>", function() smoothie_page_up() end )
+-- vim.keymap.set( "n", "<A-d>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_smart_down()<CR>" )
+-- vim.keymap.set( "n", "<A-u>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_smart_up()<CR>" )
+vim.keymap.set( "n", "<A-d>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_down2()<CR>" )
+vim.keymap.set( "n", "<A-u>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_up2()<CR>" )
+vim.keymap.set( "n", "<C-d>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_down()<CR>" )
+vim.keymap.set( "n", "<C-u>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_up()<CR>" )
+vim.keymap.set( "n", "<C-f>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_page_down()<CR>" )
+vim.keymap.set( "n", "<C-b>", "<cmd>lua R( 'obszczymucha.navigation' ).smoothie_page_up()<CR>" )
 vim.keymap.set( "n", "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "zk", "zt5<C-y>", { silent = true, noremap = true, desc = "Top visual range" } )
-vim.keymap.set( "n", "zj", "zb5<C-e>", { silent = true, noremap = true, desc = "Bottom visual range" } )
+vim.keymap.set( "n", "zk", ":lua R( 'obszczymucha.navigation' ).readable_pos('k')<CR>",
+  { silent = true, noremap = true, desc = "Cycle readable position up" } )
+vim.keymap.set( "n", "zj", ":lua R( 'obszczymucha.navigation' ).readable_pos('j')<CR>",
+  { silent = true, noremap = true, desc = "Cycle readable position down" } )
 vim.keymap.set( "n", "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "n", smart_center_next( "call smoothie#do( 'n%s' )" ), { silent = true } )
-vim.keymap.set( "n", "N", smart_center_next( "call smoothie#do( 'N%s' )" ), { silent = true } )
+vim.keymap.set( "n", "n",
+  "<cmd>lua R( 'obszczymucha.navigation' ).smart_search_result( \"call smoothie#do( 'n%s' )\" )<CR>", { silent = true } )
+vim.keymap.set( "n", "N",
+  "<cmd>lua R( 'obszczymucha.navigation' ).smart_search_result( \"call smoothie#do( 'N%s' )\" )<CR>", { silent = true } )
 vim.keymap.set( "n", "<C-o>", function() return config.auto_center() and "<C-o>zz" or "<C-o>" end, { expr = true } )
 vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>zz" or "<C-i>" end, { expr = true } )
+vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<CR>",
+  { silent = true, desc = "Go to Treesitter context" } )
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
@@ -431,21 +343,6 @@ vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center, { desc = "Toggle a
 --vim.keymap.set( 'n', '/', [[<cmd>lua require( "obszczymucha.custom-search" ).forward()<CR>]] )
 --vim.keymap.set( 'n', '?', [[<cmd>lua require( "obszczymucha.custom-search" ).backward()<CR>]] )
 
-function M.jump_to_mark_and_center()
-  local mark = vim.fn.getchar()
-  if type( mark ) == "number" then mark = string.char( mark ) end
-
-  local success = pcall( function()
-    vim.cmd( "normal! '" .. mark )
-  end )
-
-  if success then
-    vim.cmd( "normal! zz" )
-  else
-    vim.notify( string.format( "Mapping %s not set.", mark ) )
-  end
-end
-
 function M.define_a_mark()
   local mark = vim.fn.getchar()
   if type( mark ) == "number" then mark = string.char( mark ) end
@@ -454,7 +351,7 @@ function M.define_a_mark()
   vim.notify( string.format( "Mark %s defined.", mark ) )
 end
 
-vim.keymap.set( "n", "'", ":lua require('obszczymucha.remap').jump_to_mark_and_center()<CR>", { silent = true } )
+vim.keymap.set( "n", "'", ":lua require('obszczymucha.navigation').jump_to_mark_and_center()<CR>", { silent = true } )
 vim.keymap.set( "n", "m", ":lua require('obszczymucha.remap').define_a_mark()<CR>", { silent = true } )
 
 -- Snippets
