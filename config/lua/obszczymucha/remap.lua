@@ -15,14 +15,12 @@ vim.keymap.set( "n", "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffe
 vim.keymap.set( "n", "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>", { desc = "Help Tags" } )
 vim.keymap.set( "n", "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>", { desc = "Highlights" } )
 vim.keymap.set( "n", "<leader>fd", "<cmd>lua R( 'obszczymucha.telescope' ).diagnostics()<CR>", { desc = "Diagnostics" } )
-vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).noice()<CR>",
-  { desc = "Noice", silent = true } )
 vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).registers()<CR>", { desc = "Registers" } )
 vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>", { desc = "Git commits" } )
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>", { desc = "Git branches" } )
 vim.keymap.set( "n", "<leader>fp", "<cmd>lua R( 'obszczymucha.telescope' ).breakpoints()<CR>", { desc = "Breakpoints" } )
 vim.keymap.set( "n", "_", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>", { desc = "File browser" } )
-vim.keymap.set( "n", "<F37>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
+vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 
 -- For Mac
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
