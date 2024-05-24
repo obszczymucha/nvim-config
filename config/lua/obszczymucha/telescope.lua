@@ -133,4 +133,20 @@ function M.breakpoints()
   require( "telescope" ).extensions.dap.list_breakpoints( { layout_strategy = "vertical" } )
 end
 
+function M.neoclip()
+  local opts = {
+    layout_strategy = "vertical",
+    layout_config = {
+      preview_cutoff = 1,
+      preview_height = 0.2,
+      vertical = {
+        mirror = false,
+        prompt_position = "bottom"
+      }
+    }
+  }
+
+  require( "telescope" ).extensions.neoclip.neoclip( opts )
+end
+
 return M

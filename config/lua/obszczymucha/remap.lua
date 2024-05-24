@@ -21,6 +21,8 @@ vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_b
 vim.keymap.set( "n", "<leader>fp", "<cmd>lua R( 'obszczymucha.telescope' ).breakpoints()<CR>", { desc = "Breakpoints" } )
 vim.keymap.set( "n", "_", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>", { desc = "File browser" } )
 vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
+vim.keymap.set( "n", "<leader>fy", "<cmd>lua R( 'obszczymucha.telescope' ).neoclip()<CR>",
+  { silent = true, desc = "Neoclip" } )
 
 -- For Mac
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
