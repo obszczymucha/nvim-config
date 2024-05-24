@@ -14,8 +14,9 @@ function M.readable_pos( direction )
 
   local current = vim.fn.line( "." ) - vim.fn.line( "w0" )
   local target, key
+  local down = direction == "j"
 
-  if direction == "j" then
+  if down == true then
     if current == lines - 1 then return end
 
     for _, pos in ipairs( positions ) do
@@ -42,6 +43,8 @@ function M.readable_pos( direction )
   if not target then return end
 
   local delta = math.abs( target - current )
+  if down == true and delta + current >= lines then delta = delta - 1 end
+
   key = vim.api.nvim_replace_termcodes( key, true, false, true )
   local combo = string.format( "call smoothie#do('%s%s')", delta, key )
   vim.cmd( combo )
