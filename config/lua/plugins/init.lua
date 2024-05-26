@@ -83,7 +83,7 @@ return {
   { "nvim-telescope/telescope-dap.nvim" },
   { "nvim-telescope/telescope.nvim",               branch = "0.1.x" },
   { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
-  { "nvim-treesitter/nvim-treesitter-context" },
+  -- { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
