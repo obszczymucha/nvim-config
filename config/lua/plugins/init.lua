@@ -53,8 +53,15 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  { "f-person/git-blame.nvim",            lazy = false },
-  { "folke/noice.nvim" },
+  { "f-person/git-blame.nvim", lazy = false },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify"
+    }
+  },
   { "folke/neodev.nvim",                  opts = {} },
   { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "https://github.com/mbbill/undotree", lazy = false },
@@ -87,7 +94,7 @@ return {
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
-  { "rcarriga/nvim-notify" },
+  { "rcarriga/nvim-notify",                        lazy = false },
   -- { "scalameta/nvim-metals" },
   { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
@@ -143,6 +150,6 @@ return {
   {
     'mrcjkb/rustaceanvim',
     version = '^4', -- Recommended
-    lazy = false, -- This plugin is already lazy
+    lazy = false,   -- This plugin is already lazy
   }
 }

@@ -4,6 +4,8 @@ local config_file = string.format( "%s/user-config.json", vim.fn.stdpath( "data"
 local M = {}
 local config
 
+local LAST_UPDATE_TIMESTAMP = "last_update_timestamp"
+
 local function read_config()
   return vim.json.decode( Path:new( config_file ):read() )
 end
@@ -37,6 +39,14 @@ function M.toggle_auto_center()
   set( "auto_center", not auto_center )
 
   vim.notify( string.format( "Auto-center: %s", config.auto_center and "on" or "off" ) )
+end
+
+function M.get_last_update_timestamp()
+  return config[ LAST_UPDATE_TIMESTAMP ]
+end
+
+function M.set_last_update_timestamp()
+  set( LAST_UPDATE_TIMESTAMP, os.time() )
 end
 
 M.load()
