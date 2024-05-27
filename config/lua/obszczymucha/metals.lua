@@ -1,4 +1,4 @@
-local metals = prequirev( "metals" )
+local metals = prequire( "metals" )
 if not metals then return end
 
 local api = vim.api

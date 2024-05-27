@@ -1,4 +1,4 @@
-local treesitter_context = prequirev( "treesitter-context" )
+local treesitter_context = prequire( "treesitter-context" )
 if not treesitter_context then return end
 
 treesitter_context.setup {
