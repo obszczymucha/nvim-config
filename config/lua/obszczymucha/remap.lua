@@ -372,6 +372,7 @@ vim.keymap.set( "n", "<A-w>", ":WhichKey<CR>", { silent = true, desc = "Show key
 vim.keymap.set( "n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
   { silent = true, desc = "Toggle inlay hints" } )
 vim.keymap.set( "n", "<C-q>", ":copen<CR>", { noremap = true, silent = true, desc = "Open quickfix" } )
+vim.keymap.set( "n", "<leader>fm", ":messages<CR>", { noremap = true, silent = true, desc = "Open messages" } )
 
 function M.reload()
   R( "obszczymucha.remap" )
