@@ -18,7 +18,13 @@ local function update_mason()
 
         vim.notify( string.format( "Upgrading %s from version %s to %s...", details.name, details.current_version,
           details.latest_version ) )
-        installed_package:install( { version = details.latest_version } )
+        local handle = installed_package:install( { version = details.latest_version } )
+
+        handle:on( "state:change", function( new_state, old_state )
+          if new_state == "CLOSED" and old_state == "ACTIVE" then
+            vim.notify( string.format( "%s upgraded successfully.", details.name ) )
+          end
+        end )
       end )
     end
   end )
