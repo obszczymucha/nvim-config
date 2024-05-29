@@ -56,10 +56,7 @@ end
 
 function M.run()
   local test_results = {}
-  local module
-  local testname
-  local expected
-  local buffer = {}
+  local captures = {}
   -- A map with key = filename, value = number of failures
   local test_failures = {}
 
@@ -68,47 +65,54 @@ function M.run()
 
     for _, line in ipairs( data ) do
       (function()
-        local fname = line:match( "     Running unittests (.+) %(" )
+        ---@diagnostic disable-next-line: unused-local
+        local qualified_name, status = line:match( "test (.-) %.%.%. (.+)" )
 
-        if fname then
-          test_failures[ fname ] = test_failures[ fname ] or 0
+        if qualified_name and status then
+          local count = status == "ok" and 0 or 1
+          test_failures[ qualified_name ] = test_failures[ qualified_name ] or count
           return
         end
 
-        local mod, tname = line:match( "---- (%S+)::(%S+) stdout ----" )
+        local short_name, module_name, test_name = line:match( "---- (%S+)::(%S+)::(%S+) stdout ----" )
+        if short_name and module_name and test_name then
+          captures = {
+            short_name = short_name,
+            module_name = module_name,
+            test_name = test_name
+          }
 
-        if mod and tname then
-          module = mod
-          testname = tname
           return
         end
 
-        local left = line:match( "  left: `(.+)`," )
+        local file_name, line_nr, col_nr = line:match( "thread '.+' panicked at (.+):(.+):(.+):" )
+        if file_name and line_nr and col_nr then
+          captures.file_name = file_name
+          captures.line_nr = line_nr
+          captures.col_nr = col_nr
 
+          return
+        end
+
+        local left = line:match( "  left: (.+)" )
         if left then
-          expected = left
+          captures.expected = left
           return
         end
 
-        local actual, filename, line_nr, col_nr = line:match( " right: `(.+)`', (.+):(.+):(.+)" )
+        local actual = line:match( " right: (.+)" )
 
-        if actual and filename and line and col_nr then
-          test_failures[ filename ] = test_failures[ filename ] or 0
-          test_failures[ filename ] = test_failures[ filename ] + 1
-
+        if actual then
           table.insert( test_results,
             {
-              module = module,
-              test_name = testname,
-              file_name = filename,
+              module = captures.module_name,
+              test_name = captures.test_name,
+              file_name = captures.file_name,
               status = "failed",
-              location = { line = line_nr, column = col_nr },
-              expected = expected,
+              location = { line = captures.line_nr, column = captures.col_nr },
+              expected = captures.expected,
               actual = actual
             } )
-
-          module = nil
-          testname = nil
         end
       end)()
     end
@@ -151,9 +155,9 @@ function M.run()
       )
     ]] )
 
-    for _, match, metadata in query:iter_matches( root, bufnr, root:start(), root:end_() ) do
-      local modname = vim.treesitter.get_node_text( match[ 1 ], bufnr )
-      local test = vim.treesitter.get_node_text( match[ 2 ], bufnr )
+    for _, match, metadata in query:iter_matches( root, bufnr, root:start(), root:end_(), { all = true } ) do
+      local modname = vim.treesitter.get_node_text( match[ 1 ][ 1 ], bufnr )
+      local test = vim.treesitter.get_node_text( match[ 2 ][ 1 ], bufnr )
       local line = tonumber( metadata[ 3 ].range[ 1 ] + 1 )
 
       if module_name == modname and test_name == test then
@@ -175,7 +179,7 @@ function M.run()
       if count == 0 then
         table.insert( test_results,
           {
-            file_name = name,
+            test_name = name,
             status = "ok"
           } )
       end
@@ -187,7 +191,8 @@ function M.run()
     local all_errors = {}
 
     for _, result in ipairs( test_results ) do
-      --debug( dump( result ) )
+      -- debug( dump( result ) )
+
       if result.status == "failed" then
         local bufname = string.format( "%s/%s", cwd, result.file_name )
         local bufnr = buffers[ bufname ]
@@ -211,9 +216,11 @@ function M.run()
           user_data = {}
         } )
 
-        --debug( string.format( "FAILED: %s", bufname ) )
+        -- debug( string.format( "FAILED: %s", bufname ) )
       end
     end
+
+    vim.diagnostic.reset( namespace )
 
     for _, bufnr in pairs( buffers ) do
       if all_errors[ bufnr ] then
@@ -224,7 +231,7 @@ function M.run()
     end
   end
 
-  local command = { "cargo", "test" }
+  local command = { "cargo", "test", "--target", "x86_64-pc-windows-gnu" }
   clear()
 
   vim.fn.jobstart( command, {
@@ -236,9 +243,9 @@ function M.run()
 end
 
 function M.setup()
-  vim.api.nvim_create_user_command( "RustTest", function()
+  vim.api.nvim_create_user_command( "RustTestHook", function()
     vim.api.nvim_create_autocmd( "BufWritePost", {
-      group = vim.api.nvim_create_augroup( "RustTest", { clear = true } ),
+      group = vim.api.nvim_create_augroup( "RustTestHook", { clear = true } ),
       pattern = { "*.rs" },
       callback = function() R( "obszczymucha.rust-test" ).run() end
     } )
