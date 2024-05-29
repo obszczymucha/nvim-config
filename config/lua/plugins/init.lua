@@ -53,7 +53,6 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  { "f-person/git-blame.nvim", lazy = false },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -151,5 +150,6 @@ return {
     'mrcjkb/rustaceanvim',
     version = '^4', -- Recommended
     lazy = false,   -- This plugin is already lazy
-  }
+  },
+  { "rhysd/git-messenger.vim", lazy = false }
 }
