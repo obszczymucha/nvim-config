@@ -96,13 +96,13 @@ function M.run()
 
         local left = line:match( "  left: (.+)" )
         if left then
-          captures.expected = left
+          captures.actual = left
           return
         end
 
-        local actual = line:match( " right: (.+)" )
+        local right = line:match( " right: (.+)" )
 
-        if actual then
+        if right then
           table.insert( test_results,
             {
               module = captures.module_name,
@@ -110,8 +110,8 @@ function M.run()
               file_name = captures.file_name,
               status = "failed",
               location = { line = captures.line_nr, column = captures.col_nr },
-              expected = captures.expected,
-              actual = actual
+              actual = captures.actual,
+              expected = right
             } )
         end
       end)()
@@ -198,7 +198,7 @@ function M.run()
         local bufnr = buffers[ bufname ]
         all_errors[ bufnr ] = all_errors[ bufnr ] or {}
         local details = result.expected and result.actual
-        local message = details and string.format( "Expected: %s  actual: %s", result.expected, result.actual ) or
+        local message = details and string.format( "Was: %s  Expected: %s", result.actual, result.expected ) or
             "Test failed"
         local severity = details and vim.diagnostic.severity.INFO or vim.diagnostic.severity.ERROR
 
