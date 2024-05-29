@@ -74,12 +74,15 @@ function M.run()
           return
         end
 
-        local short_name, module_name, test_name = line:match( "---- (%S+)::(%S+)::(%S+) stdout ----" )
+        local short_name, module_name, test_name, case_name = line:match(
+          "---- ([^:]+)::([^:]+)::([^:%s]+):*(%S*) stdout ----" )
+
         if short_name and module_name and test_name then
           captures = {
             short_name = short_name,
             module_name = module_name,
-            test_name = test_name
+            test_name = test_name,
+            case_name = case_name
           }
 
           return
@@ -108,6 +111,7 @@ function M.run()
               module = captures.module_name,
               test_name = captures.test_name,
               file_name = captures.file_name,
+              case_name = captures.case_name,
               status = "failed",
               location = { line = captures.line_nr, column = captures.col_nr },
               actual = captures.actual,
@@ -142,7 +146,11 @@ function M.run()
     return result
   end
 
-  local function mark_test_as_failed( all_errors, bufnr, module_name, test_name )
+  local function format_case( case_name )
+    return string.format( "Test failed%s", case_name and string.format( " (%s)", case_name ) or "" )
+  end
+
+  local function mark_test_as_failed( all_errors, bufnr, module_name, test_name, case_name )
     local language_tree = vim.treesitter.get_parser( bufnr, "rust" )
     local syntax_tree = language_tree:parse()
     local root = syntax_tree[ 1 ]:root()
@@ -159,6 +167,7 @@ function M.run()
       local modname = vim.treesitter.get_node_text( match[ 1 ][ 1 ], bufnr )
       local test = vim.treesitter.get_node_text( match[ 2 ][ 1 ], bufnr )
       local line = tonumber( metadata[ 3 ].range[ 1 ] + 1 )
+      -- debug( string.format( "modname: %s, test: %s, line: %s", modname, test, line ) )
 
       if module_name == modname and test_name == test then
         table.insert( all_errors[ bufnr ], {
@@ -166,7 +175,7 @@ function M.run()
           lnum = line - 1,
           col = 0,
           severity = vim.diagnostic.severity.ERROR,
-          message = "Test failed",
+          message = format_case( case_name ),
           source = "rust",
           user_data = {}
         } )
@@ -186,6 +195,8 @@ function M.run()
     end
 
     local namespace = vim.api.nvim_create_namespace( "RustTestResults" )
+    vim.diagnostic.reset( namespace )
+
     local cwd = vim.fn.getcwd()
     local buffers = get_buffers_from_results()
     local all_errors = {}
@@ -199,11 +210,11 @@ function M.run()
         all_errors[ bufnr ] = all_errors[ bufnr ] or {}
         local details = result.expected and result.actual
         local message = details and string.format( "Was: %s  Expected: %s", result.actual, result.expected ) or
-            "Test failed"
+            format_case( result.case_name )
         local severity = details and vim.diagnostic.severity.INFO or vim.diagnostic.severity.ERROR
 
         if result.module and result.test_name then
-          mark_test_as_failed( all_errors, bufnr, result.module, result.test_name )
+          mark_test_as_failed( all_errors, bufnr, result.module, result.test_name, result.case_name )
         end
 
         table.insert( all_errors[ bufnr ], {
@@ -219,8 +230,6 @@ function M.run()
         -- debug( string.format( "FAILED: %s", bufname ) )
       end
     end
-
-    vim.diagnostic.reset( namespace )
 
     for _, bufnr in pairs( buffers ) do
       if all_errors[ bufnr ] then
