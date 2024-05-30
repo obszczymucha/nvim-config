@@ -1,6 +1,7 @@
 package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
 
 local lu = require( "luaunit" )
+---@diagnostic disable-next-line: different-requires
 local common = require( "common" )
 
 RustTestSpec = {

@@ -18,7 +18,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.gitblame_enabled = 0
 
----@diagnostic disable-next-line: lowercase-global
+---@diagnostic disable-next-line: lowercase-global, different-requires
 prequire = require( "obszczymucha.common" ).prequire
 
 ---@diagnostic disable-next-line: lowercase-global

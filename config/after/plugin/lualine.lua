@@ -1,6 +1,7 @@
 local lualine = prequirev( "lualine" )
 if not lualine then return end
 
+---@diagnostic disable-next-line: different-requires
 local is_blank = require( "obszczymucha.common" ).is_blank
 
 local diagnostics = {
