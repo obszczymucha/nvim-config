@@ -4,33 +4,6 @@ local clear = require( "obszczymucha.debug" ).clear
 
 local M = {}
 
---function M.run_tests()
---local language_tree = vim.treesitter.get_parser( test_bufnr, "lua" )
---local syntax_tree = language_tree:parse()
---local root = syntax_tree[ 1 ]:root()
---local query = vim.treesitter.parse_query( "lua", [[
---(function_declaration
---name: [
---(method_index_expression
---table: (identifier) @table
---method: (identifier) @method
---)
---(dot_index_expression
---table: (identifier) @table2
---field: (identifier) @field
---)
---] @ss (#offset! @ss)
---)
---]] )
-
---for _, match, metadata in query:iter_matches( root, test_bufnr, root:start(), root:end_() ) do
---local class_name = q.get_node_text( match[ 1 ] or match[ 3 ], test_bufnr )
---local test_name = q.get_node_text( match[ 2 ] or match[ 4 ], test_bufnr )
---local line = tonumber( string.format( "Line: %s", metadata[ 5 ].range[ 1 ] + 1 ) )
---tests[ string.format( "%s.%s", class_name, test_name ) ] = line
---end
---end
-
 function M.opts( bufnr )
   local v = vim.bo[ bufnr ]
   local all_options = vim.api.nvim_get_all_options_info()

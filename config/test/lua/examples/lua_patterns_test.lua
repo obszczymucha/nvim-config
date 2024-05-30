@@ -1,0 +1,108 @@
+package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
+
+local lu = require( "luaunit" )
+local common = require( "common" )
+
+RustTestSpec = {
+  -- Had to extract the pattern as common, because this pattern should match multiple cases.
+  -- It would be nice to have parametrized tests to avoid this.
+  pattern = "---- ([^:]+)::([^:]+)::([^:%s]+):*(%S*) stdout ----"
+}
+
+function RustTestSpec:should_parse_rust_test_name()
+  -- Given
+  local input = "---- mapping_handler::tests::should_match_keys_to_mappings stdout ----"
+
+  -- When
+  local short_name, module_name, test_name, case_name = input:match( RustTestSpec.pattern )
+
+  -- Then
+  lu.assertEquals( short_name, "mapping_handler" )
+  lu.assertEquals( module_name, "tests" )
+  lu.assertEquals( test_name, "should_match_keys_to_mappings" )
+  lu.assertEquals( case_name, "" )
+end
+
+function RustTestSpec:should_parse_rstest_test_name_with_case_name()
+  -- Given
+  local input = "---- mapping_handler::tests::should_match_keys_to_mappings::case_2 stdout ----"
+
+  -- When
+  local short_name, module_name, test_name, case_name = input:match( RustTestSpec.pattern )
+
+  -- Then
+  lu.assertEquals( short_name, "mapping_handler" )
+  lu.assertEquals( module_name, "tests" )
+  lu.assertEquals( test_name, "should_match_keys_to_mappings" )
+  lu.assertEquals( case_name, "case_2" )
+end
+
+LuaTestSpec = {
+  -- Had to extract the pattern as common, because this pattern should match multiple cases.
+  -- It would be nice to have parametrized tests to avoid this.
+  pattern = function( filename )
+    return "#*%s*" .. filename .. ":(%d+):%s*expected: ?(.*)"
+  end
+}
+
+-- The # at the start of the pattern is a strange phenomena that only shows
+-- when printing the output of the tests in neovim (<leader>dq).
+-- When running ./test.sh in shell, there is no fucking #...
+function LuaTestSpec:should_parse_line_number_with_hash_at_the_start()
+  -- Given
+  local input = "#   common_test.lua:27: expected: \"upa.jas\""
+  local filename = "common_test.lua"
+  local escaped_filename = common.escape_dots( filename )
+  local pattern = LuaTestSpec.pattern( escaped_filename )
+
+  -- When
+  local line_number = input:match( pattern )
+
+  -- Then
+  lu.assertEquals( line_number, "27" )
+end
+
+function LuaTestSpec:should_parse_line_number()
+  -- Given
+  local input = "common_test.lua:27: expected: \"upa.jas\""
+  local filename = "common_test.lua"
+  local escaped_filename = common.escape_dots( filename )
+  local pattern = LuaTestSpec.pattern( escaped_filename )
+
+  -- When
+  local line_number = input:match( pattern )
+
+  -- Then
+  lu.assertEquals( line_number, "27" )
+end
+
+function LuaTestSpec:should_parse_expected_value()
+  -- Given
+  local input = "common_test.lua:27: expected: \"upa.jas\""
+  local filename = "common_test.lua"
+  local escaped_filename = common.escape_dots( filename )
+  local pattern = LuaTestSpec.pattern( escaped_filename )
+
+  -- When
+  local _, expected = input:match( pattern )
+
+  -- Then
+  lu.assertEquals( expected, "\"upa.jas\"" )
+end
+
+function LuaTestSpec:should_parse_general_lua_error()
+  -- Given
+  local input = "lua: lua_patterns_test.lua:4: module 'common' not found:"
+  local filename = "lua_patterns_test.lua"
+  local escaped_filename = common.escape_dots( filename )
+  local pattern = "#*%s*lua: " .. escaped_filename .. ":(%d+): (.*)"
+
+  -- When
+  local line_number, error_name = input:match( pattern )
+
+  -- Then
+  lu.assertEquals( line_number, "4" )
+  lu.assertEquals( error_name, "module 'common' not found:" )
+end
+
+lu.LuaUnit.run()

@@ -43,7 +43,7 @@ run_all_tests() {
   echo "Running tests..."
   find . -name "*_test.lua" | while read -r file; do {
     echo
-    echo "Testing $file..."
+    echo "Testing $file..." >&2
     run_test "$file" "$@"
 
     if [[ $TEST_FAILED -ne 0 ]]; then

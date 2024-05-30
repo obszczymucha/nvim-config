@@ -85,7 +85,7 @@ function M.run()
           flush()
         end
 
-        for name in string.gmatch( line, "Testing (.+)..." ) do
+        for name in string.gmatch( line, "Testing (.+)%.%.%." ) do
           full_filename = name
           filename = common.get_filename( full_filename )
           return
@@ -106,19 +106,35 @@ function M.run()
           return
         end
 
-        if state ~= States.NotOk then return end
-        if test_results[ index ].error_line_number then return end
-
         local escaped_filename = common.escape_dots( filename )
-        local pattern = "#%s*" .. escaped_filename .. ":(%d+):.*"
+        local pattern = "#*%s*lua: " .. escaped_filename .. ":(%d+): (.*)"
 
-        for line_number in string.gmatch( line, pattern ) do
+        for line_number, error_message in string.gmatch( line, pattern ) do
+          table.insert( test_results,
+            {
+              file_name = full_filename,
+              ok = false,
+              error_line_number = tonumber( line_number ),
+              critical_error =
+                  common.remove_trailing( error_message, ":" )
+            } )
+          index = index + 1
+
+          table.insert( buffer, line )
+          state = States.NotOk
+        end
+
+        if state ~= States.NotOk then return end
+
+        pattern = "#*%s*" .. escaped_filename .. ":(%d+):%s*expected: ?(.*)"
+
+        for line_number, expected in string.gmatch( line, pattern ) do
           test_results[ index ].error_line_number = tonumber( line_number )
-          --test_results[ index ].expected = expected
+          test_results[ index ].expected = expected
           return
         end
 
-        for actual in string.gmatch( line, ".+actual: \"(.+)\"" ) do
+        for actual in string.gmatch( line, ".+actual: (.+)" ) do
           test_results[ index ].actual = actual
 
           return
@@ -153,32 +169,73 @@ function M.run()
     return result
   end
 
+  local function mark_test_as_failed( all_errors, bufnr, class_name, test_name )
+    local language_tree = vim.treesitter.get_parser( bufnr, "lua" )
+    local syntax_tree = language_tree:parse()
+    local root = syntax_tree[ 1 ]:root()
+    local query = vim.treesitter.query.parse( "lua", [[
+      (function_declaration
+        name: (method_index_expression
+          table: (identifier) @class_name
+          method: (identifier) @test_name) @ss (#offset! @ss)
+      )
+    ]] )
+
+    for _, match, metadata in query:iter_matches( root, bufnr, root:start(), root:end_(), { all = true } ) do
+      local classname = vim.treesitter.get_node_text( match[ 1 ][ 1 ], bufnr )
+      local test = vim.treesitter.get_node_text( match[ 2 ][ 1 ], bufnr )
+      local line = tonumber( metadata[ 3 ].range[ 1 ] + 1 )
+      -- debug( string.format( "classname: %s, test: %s, line: %s", classname, test, line ) )
+
+      if class_name == classname and test_name == test then
+        table.insert( all_errors[ bufnr ], {
+          bufnr = bufnr,
+          lnum = line - 1,
+          col = 0,
+          severity = vim.diagnostic.severity.ERROR,
+          message = "Test failed",
+          source = "lua",
+          user_data = {}
+        } )
+      end
+    end
+  end
   local function print_tests()
     local namespace = vim.api.nvim_create_namespace( "LuaTestResults" )
+    vim.diagnostic.reset( namespace )
+
     local cwd = vim.fn.getcwd()
     local buffers = get_buffers_from_results()
     local all_errors = {}
 
     for _, result in ipairs( test_results ) do
-      --debug( dump( result ) )
+      -- debug( dump( result ) )
       if not result.ok then
         local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
         local bufnr = buffers[ bufname ]
         all_errors[ bufnr ] = all_errors[ bufnr ] or {}
+        local details = result.expected and result.actual
+        local severity = details and vim.diagnostic.severity.INFO or vim.diagnostic.severity.ERROR
+        local message = details and string.format( "Was: %s  Expected: %s", result.actual, result.expected ) or
+            string.format( "Test failed%s",
+              result.critical_error and string.format( " (%s)", result.critical_error ) or "" )
+
+        if result.class_name and result.test_name then
+          mark_test_as_failed( all_errors, bufnr, result.class_name, result.test_name )
+        end
 
         table.insert( all_errors[ bufnr ], {
           bufnr = bufnr,
           lnum = result.error_line_number - 1,
           col = 0,
-          severity = vim.diagnostic.severity.ERROR,
-          message = "Test failed",
+          severity = severity,
+          message = message,
           source = "luaunit",
           user_data = {}
         } )
 
         --debug( string.format( "FAILED: %s", bufname ) )
       end
-
     end
 
     for _, bufnr in pairs( buffers ) do
