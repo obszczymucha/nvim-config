@@ -33,7 +33,7 @@ run_test() {
                           gsub("^Failed tests:$", "\033[1;31m&\033[0m");
                           gsub("FAIL$", "\033[1;31m&\033[0m");
                           gsub("ERROR$", "\033[1;31m&\033[0m");
-                          print }'
+                          print }' >&2
 
   TEST_FAILED=$?
   popd > /dev/null || return

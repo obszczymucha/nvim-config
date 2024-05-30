@@ -48,6 +48,29 @@ function M.escape_dots( text )
   return text:gsub( "(%.)", "%%." )
 end
 
+function M.escape_dashes( text )
+  return text:gsub( "(%-)", "%%-" )
+end
+
+function M.escape_filename( text )
+  local f = M.compose( M.escape_dots, M.escape_dashes )
+  return f( text )
+end
+
+function M.compose( ... )
+  local functions = { ... }
+
+  return function( value )
+    local result = value
+
+    for _, f in ipairs( functions ) do
+      result = f( result )
+    end
+
+    return result
+  end
+end
+
 function M.merge_tables( t1, t2 )
   local result = {}
 

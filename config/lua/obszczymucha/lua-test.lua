@@ -5,33 +5,6 @@ local common = require( "obszczymucha.common" )
 
 local M = {}
 
---function M.run_tests()
---local language_tree = vim.treesitter.get_parser( test_bufnr, "lua" )
---local syntax_tree = language_tree:parse()
---local root = syntax_tree[ 1 ]:root()
---local query = vim.treesitter.parse_query( "lua", [[
---(function_declaration
---name: [
---(method_index_expression
---table: (identifier) @table
---method: (identifier) @method
---)
---(dot_index_expression
---table: (identifier) @table2
---field: (identifier) @field
---)
---] @ss (#offset! @ss)
---)
---]] )
-
---for _, match, metadata in query:iter_matches( root, test_bufnr, root:start(), root:end_() ) do
---local class_name = q.get_node_text( match[ 1 ] or match[ 3 ], test_bufnr )
---local test_name = q.get_node_text( match[ 2 ] or match[ 4 ], test_bufnr )
---local line = tonumber( string.format( "Line: %s", metadata[ 5 ].range[ 1 ] + 1 ) )
---tests[ string.format( "%s.%s", class_name, test_name ) ] = line
---end
---end
-
 function M.opts( bufnr )
   local v = vim.bo[ bufnr ]
   local all_options = vim.api.nvim_get_all_options_info()
@@ -60,7 +33,7 @@ function M.run()
   local index = 0
   local full_filename
   local filename
-  local States = { Start = 0, Ok = 1, NotOk = 2 }
+  local States = { Start = 0, Ok = 1, NotOk = 2, End = 3 }
   local state = States.Start
   local buffer = {}
 
@@ -85,11 +58,19 @@ function M.run()
           flush()
         end
 
+        if common.starts_with( line, "===" ) then
+          state = States.End
+          return
+        end
+
         for name in string.gmatch( line, "Testing (.+)%.%.%." ) do
           full_filename = name
           filename = common.get_filename( full_filename )
+          state = States.Start
           return
         end
+
+        if state == States.End then return end
 
         for not_ok, class_name, test_name in string.gmatch( line, "(.*)ok%s+%d+%s+(.+)%.(.+)" ) do
           table.insert( test_results,
@@ -106,7 +87,7 @@ function M.run()
           return
         end
 
-        local escaped_filename = common.escape_dots( filename )
+        local escaped_filename = common.escape_filename( filename )
         local pattern = "#*%s*lua: " .. escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
@@ -122,9 +103,20 @@ function M.run()
 
           table.insert( buffer, line )
           state = States.NotOk
+
+          return
         end
 
         if state ~= States.NotOk then return end
+
+        pattern = "#*%s*" .. escaped_filename .. ":(%d+):%s*expected: (.*), actual: (.*)"
+
+        for line_number, expected, actual in string.gmatch( line, pattern ) do
+          test_results[ index ].error_line_number = tonumber( line_number )
+          test_results[ index ].expected = expected
+          test_results[ index ].actual = actual
+          return
+        end
 
         pattern = "#*%s*" .. escaped_filename .. ":(%d+):%s*expected: ?(.*)"
 
@@ -200,6 +192,7 @@ function M.run()
       end
     end
   end
+
   local function print_tests()
     local namespace = vim.api.nvim_create_namespace( "LuaTestResults" )
     vim.diagnostic.reset( namespace )
@@ -209,7 +202,6 @@ function M.run()
     local all_errors = {}
 
     for _, result in ipairs( test_results ) do
-      -- debug( dump( result ) )
       if not result.ok then
         local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
         local bufnr = buffers[ bufname ]

@@ -52,7 +52,7 @@ function LuaTestSpec:should_parse_line_number_with_hash_at_the_start()
   -- Given
   local input = "#   common_test.lua:27: expected: \"upa.jas\""
   local filename = "common_test.lua"
-  local escaped_filename = common.escape_dots( filename )
+  local escaped_filename = common.escape_filename( filename )
   local pattern = LuaTestSpec.pattern( escaped_filename )
 
   -- When
@@ -66,7 +66,7 @@ function LuaTestSpec:should_parse_line_number()
   -- Given
   local input = "common_test.lua:27: expected: \"upa.jas\""
   local filename = "common_test.lua"
-  local escaped_filename = common.escape_dots( filename )
+  local escaped_filename = common.escape_filename( filename )
   local pattern = LuaTestSpec.pattern( escaped_filename )
 
   -- When
@@ -80,7 +80,7 @@ function LuaTestSpec:should_parse_expected_value()
   -- Given
   local input = "common_test.lua:27: expected: \"upa.jas\""
   local filename = "common_test.lua"
-  local escaped_filename = common.escape_dots( filename )
+  local escaped_filename = common.escape_filename( filename )
   local pattern = LuaTestSpec.pattern( escaped_filename )
 
   -- When
@@ -94,7 +94,22 @@ function LuaTestSpec:should_parse_general_lua_error()
   -- Given
   local input = "lua: lua_patterns_test.lua:4: module 'common' not found:"
   local filename = "lua_patterns_test.lua"
-  local escaped_filename = common.escape_dots( filename )
+  local escaped_filename = common.escape_filename( filename )
+  local pattern = "#*%s*lua: " .. escaped_filename .. ":(%d+): (.*)"
+
+  -- When
+  local line_number, error_name = input:match( pattern )
+
+  -- Then
+  lu.assertEquals( line_number, "4" )
+  lu.assertEquals( error_name, "module 'common' not found:" )
+end
+
+function LuaTestSpec:should_parse_general_lua_error2()
+  -- Given
+  local input = "lua: lua-patterns_test.lua:4: module 'common' not found:"
+  local filename = "lua-patterns_test.lua"
+  local escaped_filename = common.escape_filename( filename )
   local pattern = "#*%s*lua: " .. escaped_filename .. ":(%d+): (.*)"
 
   -- When
