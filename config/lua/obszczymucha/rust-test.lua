@@ -29,14 +29,38 @@ end
 
 function M.run()
   local test_results = {}
-  local captures = {}
+
   -- A map with key = filename, value = number of failures
   local test_failures = {}
 
   local function collect_results( _, data )
     if not data then return end
 
-    for _, line in ipairs( data ) do
+    local captures = {
+      last_entry_inserted = true
+    }
+
+    local parsing_status = {}
+    local Details = { Name = 1, Line = 2 }
+
+    local function insert_last_entry()
+      local entry = {
+        module = captures.module_name,
+        test_name = captures.test_name,
+        file_name = captures.file_name,
+        case_name = captures.case_name,
+        status = "failed",
+        location = { line = captures.line_nr, column = captures.col_nr },
+        actual = captures.actual,
+        expected = captures.right,
+        critical_error = (not captures.actual or not captures.right) and captures.critical_error,
+      }
+
+      table.insert( test_results, entry )
+      captures.last_entry_inserted = true
+    end
+
+    for line_number, line in ipairs( data ) do
       (function()
         ---@diagnostic disable-next-line: unused-local
         local qualified_name, status = line:match( "test (.-) %.%.%. (.+)" )
@@ -51,26 +75,39 @@ function M.run()
           "---- ([^:]+)::([^:]+)::([^:%s]+):*(%S*) stdout ----" )
 
         if short_name and module_name and test_name then
+          if captures.last_entry_inserted == false then
+            insert_last_entry()
+          end
+
+          parsing_status = {}
+
           captures = {
             short_name = short_name,
             module_name = module_name,
             test_name = test_name,
-            case_name = case_name
+            case_name = case_name,
+            last_entry_inserted = false
           }
+
+          parsing_status[ Details.Name ] = line_number
 
           return
         end
 
         local file_name, line_nr, col_nr = line:match( "thread '.+' panicked at (.+):(.+):(.+):" )
+
         if file_name and line_nr and col_nr then
           captures.file_name = file_name
           captures.line_nr = line_nr
           captures.col_nr = col_nr
 
+          parsing_status[ Details.Line ] = line_number
+
           return
         end
 
         local left = line:match( "  left: (.+)" )
+
         if left then
           captures.actual = left
           return
@@ -79,20 +116,19 @@ function M.run()
         local right = line:match( " right: (.+)" )
 
         if right then
-          table.insert( test_results,
-            {
-              module = captures.module_name,
-              test_name = captures.test_name,
-              file_name = captures.file_name,
-              case_name = captures.case_name,
-              status = "failed",
-              location = { line = captures.line_nr, column = captures.col_nr },
-              actual = captures.actual,
-              expected = right
-            } )
+          captures.right = right
+          return
+        end
+
+        local last_line_nr = parsing_status[ Details.Line ]
+
+        if last_line_nr and last_line_nr + 1 == line_number then
+          captures.critical_error = line
         end
       end)()
     end
+
+    if captures.last_entry_inserted == false then insert_last_entry() end
   end
 
   local function create_buffer( bufname )
@@ -190,15 +226,27 @@ function M.run()
           mark_test_as_failed( all_errors, bufnr, result.module, result.test_name, result.case_name )
         end
 
-        table.insert( all_errors[ bufnr ], {
-          bufnr = bufnr,
-          lnum = result.location.line - 1,
-          col = 0,
-          severity = severity,
-          message = message,
-          source = "rust",
-          user_data = {}
-        } )
+        if not result.critical_error then
+          table.insert( all_errors[ bufnr ], {
+            bufnr = bufnr,
+            lnum = result.location.line - 1,
+            col = 0,
+            severity = severity,
+            message = message,
+            source = "rust",
+            user_data = {}
+          } )
+        else
+          table.insert( all_errors[ bufnr ], {
+            bufnr = bufnr,
+            lnum = result.location.line - 1,
+            col = 0,
+            severity = vim.diagnostic.severity.ERROR,
+            message = result.critical_error,
+            source = "rust",
+            user_data = {}
+          } )
+        end
 
         -- debug( string.format( "FAILED: %s", bufname ) )
       end
@@ -217,7 +265,7 @@ function M.run()
   clear()
 
   vim.fn.jobstart( command, {
-    stdout_buffered = true,
+    stdout_buffered = false,
     on_stdout = collect_results,
     on_stderr = collect_results,
     on_exit = print_tests
