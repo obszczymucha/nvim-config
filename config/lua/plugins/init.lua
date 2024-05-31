@@ -64,7 +64,7 @@ return {
   { "folke/neodev.nvim",                  opts = {} },
   { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "https://github.com/mbbill/undotree", lazy = false },
-  { "j-hui/fidget.nvim" },
+  { "j-hui/fidget.nvim" }, -- LSP UI
   { "jenterkin/vim-autosource" },
   { "kyazdani42/nvim-web-devicons" },
   {
@@ -77,7 +77,7 @@ return {
       } )
     end
   },
-  { "marilari88/twoslash-queries.nvim" },
+  { "marilari88/twoslash-queries.nvim" }, -- Uses ^ to show info
   { "mfussenegger/nvim-dap" },
   { "mfussenegger/nvim-jdtls" },
   { "mfussenegger/nvim-treehopper" },
@@ -112,7 +112,6 @@ return {
       -- refer to the configuration section below
     }
   },
-  { "airblade/vim-matchquote",           lazy = false },
   { "jbyuki/one-small-step-for-vimkind", lazy = false }, -- :help osv -> QUICKSTART
   {
     "AckslD/nvim-neoclip.lua",
