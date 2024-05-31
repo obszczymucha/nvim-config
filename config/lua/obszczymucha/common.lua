@@ -1,5 +1,24 @@
 local M = {}
 
+function M.map( t, f, extract_field )
+  if type( f ) ~= "function" then return t end
+
+  local result = {}
+
+  for k, v in pairs( t ) do
+    if type( v ) == "table" and extract_field then
+      local mapped_result = f( v[ extract_field ] )
+      local value = M.clone( v )
+      value[ extract_field ] = mapped_result
+      result[ k ] = value
+    else
+      result[ k ] = f( v )
+    end
+  end
+
+  return result
+end
+
 function M.starts_with( str, prefix )
   return str:sub( 1, string.len( prefix ) ) == prefix
 end
