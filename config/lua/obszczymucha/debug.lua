@@ -133,8 +133,16 @@ end
 function M.debug( text )
   create_buffer()
 
-  vim.api.nvim_buf_set_lines( buf, is_buf_empty( buf ) and 0 or -1, -1, false,
-    type( text ) == "table" and text or { text } )
+  if type( text ) == "table" then
+    vim.api.nvim_buf_set_lines( buf, is_buf_empty( buf ) and 0 or -1, -1, false, text )
+    return
+  end
+
+  local t = string.format( "%s", text or "nil" )
+
+  for line in string.gmatch( t, "([^\n]+)" ) do
+    vim.api.nvim_buf_set_lines( buf, is_buf_empty( buf ) and 0 or -1, -1, false, { line } )
+  end
 end
 
 function M.count()
