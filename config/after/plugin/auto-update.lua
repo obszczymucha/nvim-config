@@ -12,6 +12,17 @@ if not async then return end
 
 local map = common.map
 
+local checks = {
+  maven_updated = false,
+  lazy_updated = false
+}
+
+local function after_update()
+  if checks.maven_updated and checks.lazy_updated then
+    config.set_last_update_timestamp( os.time() )
+  end
+end
+
 local function update_mason( registry )
   if not registry then return end
 
@@ -44,12 +55,15 @@ local function update_mason( registry )
     if any_package_needs_update() == true then return end
 
     package_bundle.announced = true
+    checks.maven_updated = true
 
     if package_bundle.updated_count > 0 then
       vim.notify( "Mason updated successfully." )
     else
       vim.notify( "Mason is up-to-date." )
     end
+
+    after_update()
   end
 
   local function to_map( installed_packages )
@@ -113,6 +127,7 @@ local function update_lazy( lazy )
     callback = function()
       vim.notify( "Lazy is up-to-date." )
       vim.api.nvim_del_autocmd( autocmd_id )
+      after_update()
     end
   } )
 
@@ -132,7 +147,6 @@ local function update()
 
     update_mason( registry )
     update_lazy( lazy )
-    config.set_last_update_timestamp( now )
   end
 end
 
