@@ -1,3 +1,6 @@
+local config = prequirev( "obszczymucha.user-config" )
+if not config then return end
+
 local o = vim.opt
 local g = vim.g
 local api = vim.api
@@ -30,7 +33,10 @@ o.splitright = true
 o.fileformats = { 'unix', 'dos', 'mac' }
 o.ignorecase = true -- Enables case insensitive autocompletion (and search).
 o.smartcase = true  -- Makes search case sensitive if there are capital letters in the pattern.
-o.nrformats:append( "alpha" )
+
+if config.alpha_nrformats() then
+  o.nrformats:append( "alpha" )
+end
 
 g.mapleader = " "
 g.airline_theme = "deus"

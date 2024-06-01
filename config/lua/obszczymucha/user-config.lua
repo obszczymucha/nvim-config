@@ -31,13 +31,11 @@ local function set( key, value )
 end
 
 function M.auto_center()
-  return config.auto_center and true or false
+  return config.auto_center
 end
 
 function M.toggle_auto_center()
-  local auto_center = config.auto_center or false
-  set( "auto_center", not auto_center )
-
+  set( "auto_center", not config.auto_center )
   vim.notify( string.format( "Auto-center: %s", config.auto_center and "on" or "off" ) )
 end
 
@@ -47,6 +45,27 @@ end
 
 function M.set_last_update_timestamp()
   set( LAST_UPDATE_TIMESTAMP, os.time() )
+end
+
+function M.alpha_nrformats()
+  return config.alpha_nrformats
+end
+
+function M.toggle_alpha_nrformats( opts )
+  set( "alpha_nrformats", not config.alpha_nrformats )
+  local configured = config.alpha_nrformats
+
+  local key = "alpha"
+  local nrformats = vim.opt.nrformats
+
+  if configured then
+    nrformats:append( key )
+  else
+    nrformats:remove( key )
+  end
+
+  if opts and opts.silent then return end
+  vim.notify( string.format( "Alpha nrformats: %s", configured and "on" or "off" ) )
 end
 
 M.load()

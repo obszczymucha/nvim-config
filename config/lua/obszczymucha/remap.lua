@@ -335,6 +335,7 @@ vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :lua vim.notify( \"LSP restar
 
 -- Custom persistable settings
 vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center, { desc = "Toggle auto-center" } )
+vim.keymap.set( "n", "<leader>ca", config.toggle_alpha_nrformats, { desc = "Toggle alpha nrformats" } )
 
 -- Custom search
 -- Currently disabled, because noice gives much better search capability.
