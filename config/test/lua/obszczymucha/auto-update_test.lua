@@ -33,6 +33,12 @@ function CommonSpec:should_not_update_after_morning_update()
   lu.assertFalse( should_update( morning_update_time, after_morning_update ) )
 end
 
+function CommonSpec:should_not_update_after_morning_update_at_the_same_hour()
+  local morning_update_time = os.time( { year = 2023, month = 5, day = 30, hour = 7 } )
+  local after_morning_update = os.time( { year = 2023, month = 5, day = 30, hour = 7} )
+  lu.assertFalse( should_update( morning_update_time, after_morning_update ) )
+end
+
 function CommonSpec:should_not_update_after_evening_update()
   local evening_update_time = os.time( { year = 2023, month = 5, day = 30, hour = 18 } )
   local after_evening_update = os.time( { year = 2023, month = 5, day = 30, hour = 20 } )

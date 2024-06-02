@@ -125,6 +125,7 @@ local function update_lazy( lazy )
   autocmd_id = vim.api.nvim_create_autocmd( "User", {
     pattern = "LazySync",
     callback = function()
+      checks.lazy_updated = true
       vim.notify( "Lazy is up-to-date." )
       vim.api.nvim_del_autocmd( autocmd_id )
       after_update()
