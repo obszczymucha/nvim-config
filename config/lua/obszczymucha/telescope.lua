@@ -88,6 +88,10 @@ function M.diagnostics()
   telescope.diagnostics( { layout_strategy = "vertical" } )
 end
 
+function M.lsp_dynamic_workspace_symbols()
+  telescope.lsp_dynamic_workspace_symbols( { layout_strategy = "vertical" } )
+end
+
 function M.file_browser()
   local opts = {
     layout_strategy = "vertical",
