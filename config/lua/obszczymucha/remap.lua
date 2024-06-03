@@ -63,7 +63,7 @@ vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
 vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
 
 -- Quit
-vim.keymap.set( "n", "<A-q>", "<cmd>q<CR>" )
+vim.keymap.set( "n", "<A-q>", "<cmd>q<CR>", { desc = "Exit" } )
 
 -- Harpoon
 vim.keymap.set( "n", "<A-a>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
