@@ -377,6 +377,11 @@ vim.keymap.set( "n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.ls
 vim.keymap.set( "n", "<C-q>", ":copen<CR>", { noremap = true, silent = true, desc = "Open quickfix" } )
 vim.keymap.set( "n", "<leader>fm", ":messages<CR>", { noremap = true, silent = true, desc = "Open messages" } )
 
+vim.keymap.set( "n", "<A-'>", ":vs<CR>",
+{ noremap = true, silent = true, desc = "Split vertically" } )
+vim.keymap.set( "n", "<A-\">", ":bel sp<CR>",
+  { noremap = true, silent = true, desc = "Split horizontally" } )
+
 function M.reload()
   R( "obszczymucha.remap" )
   vim.notify( "Mappings reloaded." )
