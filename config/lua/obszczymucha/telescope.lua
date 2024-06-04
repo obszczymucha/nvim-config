@@ -89,7 +89,7 @@ function M.diagnostics()
 end
 
 function M.lsp_dynamic_workspace_symbols()
-  telescope.lsp_dynamic_workspace_symbols( { layout_strategy = "vertical" } )
+  telescope.lsp_dynamic_workspace_symbols( { layout_strategy = "vertical", ignore_case = true } )
 end
 
 function M.file_browser()
