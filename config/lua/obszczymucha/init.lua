@@ -16,7 +16,7 @@ require( "obszczymucha.custom-search" )
 require( "obszczymucha.autocmds" )
 require( "obszczymucha.groovyls" )
 require( "obszczymucha.osv" )
-require( "obszczymucha.mason" )
+require( "obszczymucha.mason-auto-install" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )

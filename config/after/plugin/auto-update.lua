@@ -4,6 +4,9 @@ if not config then return end
 local auto_update = prequirev( "obszczymucha.auto-update" )
 if not auto_update then return end
 
+local mason_utils = prequirev( "obszczymucha.mason-utils" )
+if not mason_utils then return end
+
 local common = prequirev( "obszczymucha.common" )
 if not common then return end
 
@@ -71,49 +74,48 @@ local function update_mason( registry )
   local function to_map( installed_packages )
     local result = {}
 
-    for _, p in ipairs( installed_packages ) do
-      result[ p.name ] = p
+    for _, package_name in ipairs( installed_packages ) do
+      result[ package_name ] = package_name
     end
 
     return result
   end
 
 
-  local function wrap( installed_package )
+  local function wrap( package_name )
     return {
-      installed_package = installed_package,
+      name = package_name,
       version_checked = false,
       needs_update = false
     }
   end
 
   registry.update( function()
-    package_bundle.wrapped_packages = map( to_map( registry.get_installed_packages() ), wrap )
+    package_bundle.wrapped_packages = map( to_map( registry.get_installed_package_names() ), wrap )
 
-    for _, p in pairs( package_bundle.wrapped_packages ) do
-      p.installed_package:check_new_version( function( success, details )
-        p.version_checked = true
-        p.needs_update = success == true or false
+    for _, wrapped_package in pairs( package_bundle.wrapped_packages ) do
+      local pkg = registry.get_package( wrapped_package.name )
+      pkg:check_new_version( function( success, details )
+        wrapped_package.version_checked = true
+        wrapped_package.needs_update = success == true or false
 
-        if p.needs_update == false then
+        if wrapped_package.needs_update == false then
           announce_if_needed()
           return
         end
 
         vim.notify( string.format( "Updating %s from version %s to %s...", details.name, details.current_version,
           details.latest_version ) )
+
         package_bundle.updated_count = package_bundle.updated_count + 1
         package_bundle.updates_needed = true
-        local handle = p.installed_package:install( { version = details.latest_version } )
 
-        handle:on( "state:change", function( new_state, old_state )
-          if new_state == "CLOSED" and old_state == "ACTIVE" then
-            package_bundle.updated_count = package_bundle.updated_count + 1
-            package_bundle.wrapped_packages[ details.name ].needs_update = false
-            vim.notify( string.format( "%s updated successfully.", details.name ) )
+        mason_utils.install_package( details.name, details.lastest_version, function()
+          package_bundle.updated_count = package_bundle.updated_count + 1
+          package_bundle.wrapped_packages[ details.name ].needs_update = false
+          vim.notify( string.format( "%s updated successfully.", details.name ) )
 
-            announce_if_needed()
-          end
+          announce_if_needed()
         end )
       end )
     end
