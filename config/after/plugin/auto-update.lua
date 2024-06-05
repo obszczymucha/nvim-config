@@ -19,7 +19,9 @@ local checks = {
 
 local function after_update()
   if checks.maven_updated and checks.lazy_updated then
-    config.set_last_update_timestamp( os.time() )
+    -- This needs to be scheduled, otherwise we're getting this error:
+    -- E5560: Vimscript function must not be called in a lua loop callback
+    vim.schedule( function() config.set_last_update_timestamp( os.time() ) end )
   end
 end
 
