@@ -1,6 +1,7 @@
 -- local q = require( "vim.treesitter.query" )
 -- local debug = require( "obszczymucha.debug" ).debug
 local clear = require( "obszczymucha.debug" ).clear
+local ts_rust_utils = require( "obszczymucha.treesitter.rust" )
 
 local M = {}
 
@@ -192,6 +193,27 @@ function M.run()
     end
   end
 
+  local function mark_case_line( all_errors, bufnr, test_name, case_name )
+    local case_number = tonumber( case_name:match( "case_(%d+)" ) ) - 1
+
+    local line_numbers = ts_rust_utils.find_case_line_numbers( bufnr, test_name )
+    print( case_number )
+    print( vim.inspect( line_numbers ) )
+    local line_number = line_numbers[ case_number ]
+
+    if line_number then
+      table.insert( all_errors[ bufnr ], {
+        bufnr = 0,
+        lnum = line_number + 1,
+        col = 0,
+        severity = vim.diagnostic.severity.INFO,
+        message = "This case failed",
+        source = "rust",
+        user_data = {}
+      } )
+    end
+  end
+
   local function print_tests()
     for name, count in pairs( test_failures ) do
       if count == 0 then
@@ -224,6 +246,10 @@ function M.run()
 
         if result.module and result.test_name then
           mark_test_as_failed( all_errors, bufnr, result.module, result.test_name, result.case_name )
+        end
+
+        if result.case_name then
+          mark_case_line( all_errors, bufnr, result.test_name, result.case_name )
         end
 
         if not result.critical_error then
