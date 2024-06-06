@@ -194,17 +194,14 @@ function M.run()
   end
 
   local function mark_case_line( all_errors, bufnr, test_name, case_name )
-    local case_number = tonumber( case_name:match( "case_(%d+)" ) ) - 1
-
+    local case_number = tonumber( case_name:match( "case_(%d+)" ) )
     local line_numbers = ts_rust_utils.find_case_line_numbers( bufnr, test_name )
-    print( case_number )
-    print( vim.inspect( line_numbers ) )
     local line_number = line_numbers[ case_number ]
 
     if line_number then
       table.insert( all_errors[ bufnr ], {
         bufnr = 0,
-        lnum = line_number + 1,
+        lnum = line_number - 1,
         col = 0,
         severity = vim.diagnostic.severity.INFO,
         message = "This case failed",
