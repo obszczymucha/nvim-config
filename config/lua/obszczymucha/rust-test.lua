@@ -156,8 +156,13 @@ function M.run()
     return result
   end
 
+  local function prettify( case_name )
+    local case_number = tonumber( case_name:match( "case_(%d+)" ) )
+    return string.format( "Case %s", case_number )
+  end
+
   local function format_case( case_name )
-    return string.format( "Test failed%s", case_name and string.format( " (%s)", case_name ) or "" )
+    return string.format( "Test failed%s", case_name and string.format( " (%s)", prettify( case_name ) ) or "" )
   end
 
   local function mark_test_as_failed( all_errors, bufnr, module_name, test_name, case_name )
@@ -204,7 +209,7 @@ function M.run()
         lnum = line_number - 1,
         col = 0,
         severity = vim.diagnostic.severity.INFO,
-        message = "This case failed",
+        message = string.format( "Case %s failed", case_number ),
         source = "rust",
         user_data = {}
       } )
