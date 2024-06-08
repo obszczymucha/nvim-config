@@ -205,7 +205,7 @@ function M.run()
 
     if line_number then
       table.insert( all_errors[ bufnr ], {
-        bufnr = 0,
+        bufnr = bufnr,
         lnum = line_number - 1,
         col = 0,
         severity = vim.diagnostic.severity.INFO,
