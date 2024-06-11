@@ -161,12 +161,11 @@ vim.keymap.set( "n", "G", [[:call smoothie#do( "G" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
+vim.keymap.set( "n", "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "zk", ":lua R( 'obszczymucha.navigation' ).readable_pos('k')<CR>",
   { silent = true, noremap = true, desc = "Cycle readable position up" } )
 vim.keymap.set( "n", "zj", ":lua R( 'obszczymucha.navigation' ).readable_pos('j')<CR>",
   { silent = true, noremap = true, desc = "Cycle readable position down" } )
-vim.keymap.set( "n", "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
-vim.keymap.set( "n", "zq", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
 vim.keymap.set( "n", "L", [[:call smoothie#do( "L" )<CR>]], { silent = true } )
