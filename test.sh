@@ -40,9 +40,9 @@ run_test() {
 }
 
 run_all_tests() {
-  echo "Running tests..."
+  echo "Running tests..." >&2
   find . -name "*_test.lua" | while read -r file; do {
-    echo
+    echo >&2
     echo "Testing $file..." >&2
     run_test "$file" "$@"
 
@@ -86,11 +86,11 @@ on_change() {
   local file
   file=$(echo "$full_file" | sed -E "$sed_expression")
 
-  echo "File: $file"
-  echo
+  echo "File: $file" >&2
+  echo >&2
 
   if echo "$file" | grep -E "^.+_test\.lua$" > /dev/null; then
-    echo "Changed: $file. Running it."
+    echo "Changed: $file. Running it." >&2
     run_test "$file"
   else
     run_all_tests
