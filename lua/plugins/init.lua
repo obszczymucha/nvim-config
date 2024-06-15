@@ -129,16 +129,16 @@ return {
         { silent = true, desc = "Fullscreen" } )
     }
   },
-  {
-    "jinh0/eyeliner.nvim",
-    config = function()
-      require( "eyeliner" ).setup {
-        highlight_on_key = true,
-        dim = true
-      }
-    end,
-    lazy = false
-  },
+  -- {
+  --   "jinh0/eyeliner.nvim",
+  --   config = function()
+  --     require( "eyeliner" ).setup {
+  --       highlight_on_key = true,
+  --       dim = true
+  --     }
+  --   end,
+  --   lazy = false
+  -- },
   { "folke/neoconf.nvim" },
   {
     'mrcjkb/rustaceanvim',
