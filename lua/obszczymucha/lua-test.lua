@@ -134,7 +134,20 @@ function M.run()
           return
         end
 
+        pattern = "#*%s*" .. captures.escaped_filename .. ":(%d+):%s*Error message expected: \"?(.*)\""
+
+        for line_number, expected in string.gmatch( line, pattern ) do
+          captures.error_line_number = tonumber( line_number )
+          captures.expected = expected
+          return
+        end
+
         for actual in string.gmatch( line, "#*%s*actual: (.+)" ) do
+          captures.actual = actual
+          return
+        end
+
+        for actual in string.gmatch( line, "#*%s*Error message received: .*:%d+: (.+)\"" ) do
           captures.actual = actual
           return
         end
