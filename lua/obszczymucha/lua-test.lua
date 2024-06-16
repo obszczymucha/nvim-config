@@ -3,7 +3,6 @@
 local clear = require( "obszczymucha.debug" ).clear
 ---@diagnostic disable-next-line: different-requires
 local common = require( "obszczymucha.common" )
-local starts_with = common.starts_with
 local test_utils = require( "obszczymucha.test-utils" )
 
 local M = {}
@@ -191,13 +190,17 @@ function M.run()
     local cwd = vim.fn.getcwd()
     local result = {}
 
-    for _, test_result in ipairs( test_results ) do
-      local bufname = string.format( "%s/%s", cwd, test_result.source_file_name or test_result.file_name:sub( 3 ) )
-      print( bufname )
+    local function find_or_create_buffer( file_name )
+      local bufname = string.format( "%s/%s", cwd, file_name )
 
       if not result[ bufname ] then
         result[ bufname ] = find_buffer( bufname ) or create_buffer( bufname )
       end
+    end
+
+    for _, test_result in ipairs( test_results ) do
+      if test_result.source_file_name then find_or_create_buffer( test_result.source_file_name ) end
+      find_or_create_buffer( test_result.file_name:sub( 3 ) )
     end
 
     return result
@@ -257,6 +260,15 @@ function M.run()
               result.critical_error and string.format( " (%s)", result.critical_error ) or "" )
 
         if result.class_name and result.test_name then
+          mark_test_as_failed( all_errors, bufnr, result.class_name, result.test_name )
+        end
+
+        if result.source_file_name and result.file_name then
+          ---@diagnostic disable-next-line: redefined-local
+          local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
+          ---@diagnostic disable-next-line: redefined-local
+          local bufnr = buffers[ bufname ]
+          all_errors[ bufnr ] = all_errors[ bufnr ] or {}
           mark_test_as_failed( all_errors, bufnr, result.class_name, result.test_name )
         end
 
