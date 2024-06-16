@@ -42,7 +42,6 @@ function M.run()
     local function insert_last_entry()
       if not captures.full_filename then return end
 
-      -- what the fucking fuck...
       local entry = {
         file_name = captures.full_filename,
         ok = captures.ok,
@@ -95,16 +94,23 @@ function M.run()
           captures.ok = not_ok == ""
           captures.class_name = class_name
           captures.test_name = test_name
+          captures.stack_traceback = nil
           return
         end
 
         if not captures.escaped_filename then return end
 
+        if line == "stack traceback:" then
+          captures.stack_traceback = true
+        end
+
+        -- lua: Item_test.lua:4: module 'src/framework/Item' not found:
         local pattern = "#*%s*lua: " .. captures.escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
           captures.critical_error = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
+          captures.last_entry_inserted = false
           return
         end
 
@@ -135,7 +141,7 @@ function M.run()
         pattern = "#*%s*" .. captures.escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
-          if starts_with( error_message, "in upvalue '" ) then return end
+          if starts_with( error_message, "in upvalue '" ) or captures.stack_traceback then return end
 
           captures.error_message = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
