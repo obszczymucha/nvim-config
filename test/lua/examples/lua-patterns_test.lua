@@ -1,8 +1,8 @@
-package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
+package.path = "../../?.lua;" .. package.path .. ";../../../lua/?.lua"
 
 local lu = require( "luaunit" )
 ---@diagnostic disable-next-line: different-requires
-local common = require( "common" )
+local common = require( "obszczymucha.common" )
 
 RustTestSpec = {
   -- Had to extract the pattern as common, because this pattern should match multiple cases.

@@ -4,6 +4,7 @@ local clear = require( "obszczymucha.debug" ).clear
 ---@diagnostic disable-next-line: different-requires
 local common = require( "obszczymucha.common" )
 local starts_with = common.starts_with
+local test_utils = require( "obszczymucha.test-utils" )
 
 local M = {}
 
@@ -22,8 +23,10 @@ function M.opts( bufnr )
 end
 
 local function find_buffer( name )
+  print( "Looking for: " .. name )
   for _, bufnr in ipairs( vim.api.nvim_list_bufs() ) do
     local bufname = vim.api.nvim_buf_get_name( bufnr )
+    print( "Found: " .. bufname )
     if bufname == name then return bufnr end
   end
 
@@ -44,6 +47,7 @@ function M.run()
 
       local entry = {
         file_name = captures.full_filename,
+        source_file_name = captures.source_file_name,
         ok = captures.ok,
         error_line_number = captures.error_line_number,
         critical_error = captures.critical_error,
@@ -95,34 +99,23 @@ function M.run()
           captures.class_name = class_name
           captures.test_name = test_name
           captures.stack_traceback = nil
+          captures.source_file_name = nil
           return
         end
 
         if not captures.escaped_filename then return end
 
-        if line == "stack traceback:" then
-          captures.stack_traceback = true
-          return
-        end
+        local pattern = "#*%s*stack traceback:"
+
+        if string.match( line, pattern ) then captures.stack_traceback = true end
+        if captures.stack_traceback then return end
 
         -- lua: Item_test.lua:4: module 'src/framework/Item' not found:
-        local pattern = "#*%s*lua: " .. captures.escaped_filename .. ":(%d+): (.*)"
+        pattern = "#*%s*lua: " .. captures.escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
           captures.critical_error = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
-          captures.last_entry_inserted = false
-          return
-        end
-
-        -- lua: ../src/mixins/Item.lua:1: attempt to index a nil value (global 'ModUi')
-        pattern = "#*%s*(.*):(%d+): (.*)"
-
-        for filename, line_number, message in string.gmatch( line, pattern ) do
-          if captures.stack_traceback then return end
-
-          captures.critical_error = string.format( "%s:%s: %s", filename, line_number, message )
-          captures.error_line_number = 1
           captures.last_entry_inserted = false
           return
         end
@@ -144,7 +137,7 @@ function M.run()
           return
         end
 
-        for actual in string.gmatch( line, ".+actual: (.+)" ) do
+        for actual in string.gmatch( line, "#*%s*actual: (.+)" ) do
           captures.actual = actual
           return
         end
@@ -154,10 +147,30 @@ function M.run()
         pattern = "#*%s*" .. captures.escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
-          if starts_with( error_message, "in upvalue '" ) or captures.stack_traceback then return end
+          if starts_with( error_message, "in upvalue '" ) then return end
 
           captures.error_message = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
+          return
+        end
+
+        pattern = "#*%s*lua: (.*):(%d+): (.*)"
+
+        for filename, line_number, message in string.gmatch( line, pattern ) do
+          captures.source_file_name = test_utils.resolve_source_filename( captures.full_filename, filename )
+          captures.critical_error = message
+          captures.error_line_number = line_number
+          captures.last_entry_inserted = false
+          return
+        end
+
+        pattern = "#*%s*(.*):(%d+): (.*)"
+
+        for filename, line_number, message in string.gmatch( line, pattern ) do
+          captures.source_file_name = test_utils.resolve_source_filename( captures.full_filename, filename )
+          captures.critical_error = message
+          captures.error_line_number = line_number
+          captures.last_entry_inserted = false
           return
         end
       end)()
@@ -182,7 +195,8 @@ function M.run()
     local result = {}
 
     for _, test_result in ipairs( test_results ) do
-      local bufname = string.format( "%s/%s", cwd, test_result.file_name:sub( 3 ) )
+      local bufname = string.format( "%s/%s", cwd, test_result.source_file_name or test_result.file_name:sub( 3 ) )
+      print( bufname )
 
       if not result[ bufname ] then
         result[ bufname ] = find_buffer( bufname ) or create_buffer( bufname )
@@ -234,7 +248,7 @@ function M.run()
 
     for _, result in ipairs( test_results ) do
       if not result.ok then
-        local bufname = string.format( "%s/%s", cwd, result.file_name:sub( 3 ) )
+        local bufname = string.format( "%s/%s", cwd, result.source_file_name or result.file_name:sub( 3 ) )
         local bufnr = buffers[ bufname ]
         all_errors[ bufnr ] = all_errors[ bufnr ] or {}
         local details = result.expected and result.actual
