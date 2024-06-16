@@ -23,10 +23,8 @@ function M.opts( bufnr )
 end
 
 local function find_buffer( name )
-  print( "Looking for: " .. name )
   for _, bufnr in ipairs( vim.api.nvim_list_bufs() ) do
     local bufname = vim.api.nvim_buf_get_name( bufnr )
-    print( "Found: " .. bufname )
     if bufname == name then return bufnr end
   end
 
@@ -147,10 +145,9 @@ function M.run()
         pattern = "#*%s*" .. captures.escaped_filename .. ":(%d+): (.*)"
 
         for line_number, error_message in string.gmatch( line, pattern ) do
-          if starts_with( error_message, "in upvalue '" ) then return end
-
           captures.error_message = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
+          captures.last_entry_inserted = false
           return
         end
 
