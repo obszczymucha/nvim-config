@@ -102,6 +102,7 @@ function M.run()
 
         if line == "stack traceback:" then
           captures.stack_traceback = true
+          return
         end
 
         -- lua: Item_test.lua:4: module 'src/framework/Item' not found:
@@ -110,6 +111,18 @@ function M.run()
         for line_number, error_message in string.gmatch( line, pattern ) do
           captures.critical_error = common.remove_trailing( error_message, ":" )
           captures.error_line_number = tonumber( line_number )
+          captures.last_entry_inserted = false
+          return
+        end
+
+        -- lua: ../src/mixins/Item.lua:1: attempt to index a nil value (global 'ModUi')
+        pattern = "#*%s*(.*):(%d+): (.*)"
+
+        for filename, line_number, message in string.gmatch( line, pattern ) do
+          if captures.stack_traceback then return end
+
+          captures.critical_error = string.format( "%s:%s: %s", filename, line_number, message )
+          captures.error_line_number = 1
           captures.last_entry_inserted = false
           return
         end
