@@ -173,6 +173,8 @@ function M.run()
           return
         end
 
+        if string.match( line, "#*%s*\"" ) then return end
+
         pattern = "#*%s*(.*):(%d+): (.*)"
 
         for filename, line_number, message in string.gmatch( line, pattern ) do
