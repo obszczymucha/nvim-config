@@ -10,7 +10,7 @@ local fmt = require( "luasnip.extras.fmt" ).fmt
 
 ls.add_snippets( LANG, {
   s( "bash", fmt( [[
-  #!/usr/env/bin bash
+  #!/usr/bin/env bash
 
   function main() {{
     {start}
