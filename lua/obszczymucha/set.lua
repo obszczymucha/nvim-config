@@ -53,6 +53,7 @@ g.smoothie_no_default_mappings = true
 g.AutoPairsShortcutFastWrap = ""
 g.AutoPairsShortcutToggle = "<C-p>"
 g.undotree_DiffAutoOpen = 0
+g.undotree_SetFocusWhenToggle = 1
 
 -- Broken - throws errors on some files.
 --cmd( "set viewoptions-=options" )
