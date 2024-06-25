@@ -81,14 +81,6 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify"
-    }
-  },
   { "folke/neodev.nvim",                  opts = {} },
   { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "https://github.com/mbbill/undotree", lazy = false },
