@@ -106,4 +106,17 @@ function M.disable_comment_continuation()
   vim.opt.formatoptions:remove( "o" )
 end
 
+function M.get_win_id_by_buf_name( buf_name )
+  local bufs = vim.api.nvim_list_bufs()
+
+  for _, buf in ipairs( bufs ) do
+    local buf_path = vim.api.nvim_buf_get_name( buf )
+    local buf_filename = vim.fn.fnamemodify( buf_path, ":t" )
+
+    if buf_filename == buf_name then
+      return buf
+    end
+  end
+end
+
 return M

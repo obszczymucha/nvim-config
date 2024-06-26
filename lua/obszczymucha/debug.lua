@@ -1,7 +1,11 @@
+local Popup = require( "nui.popup" )
+local event = require( "nui.utils.autocmd" ).event
+
 local M = {}
 
 local buf
 local win
+local popup
 
 local state
 local is_vertical
@@ -68,6 +72,47 @@ function M.toggle_horizontal()
   end
 
   M.show( "sp", "bel" )
+end
+
+local function create_popup()
+  if popup then return end
+
+  popup = Popup( {
+    enter = true,
+    focusable = true,
+    border = {
+      style = "rounded",
+      text = {
+        top = " Debug ",
+        top_align = "center",
+      },
+    },
+    position = "50%",
+    size = {
+      width = "80%",
+      height = "60%",
+    },
+    buf_options = {
+      modifiable = true,
+      readonly = true,
+    },
+    bufnr = buf
+  } )
+end
+
+function M.toggle_popup()
+  create_buffer()
+  create_popup()
+
+  if popup.winid and vim.api.nvim_win_is_valid( popup.winid ) then
+    popup:unmount()
+    return
+  end
+
+  popup:mount()
+  popup:on( event.BufLeave, function()
+    popup:unmount()
+  end, { once = true } )
 end
 
 function M.flip()

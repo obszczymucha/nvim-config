@@ -1,5 +1,5 @@
 --local q = require( "vim.treesitter.query" )
--- local debug = require( "obszczymucha.debug" ).debug
+local debug = require( "obszczymucha.debug" ).debug
 local clear = require( "obszczymucha.debug" ).clear
 ---@diagnostic disable-next-line: different-requires
 local common = require( "obszczymucha.common" )
@@ -62,6 +62,7 @@ function M.run()
     for line in string.gmatch( data, "[^\r\n]+" ) do
       (function()
         if not line or line == "" then return end
+        debug( line )
 
         for name in string.gmatch( line, "Testing (.+)%.%.%." ) do
           if captures.last_entry_inserted == false then
@@ -335,7 +336,7 @@ function M.run()
 end
 
 function M.setup()
-  vim.api.nvim_create_user_command( "LuaTest", function()
+  vim.api.nvim_create_user_command( "LT", function()
     vim.api.nvim_create_autocmd( "BufWritePost", {
       group = vim.api.nvim_create_augroup( "LuaTest", { clear = true } ),
       pattern = { "*.lua" },
