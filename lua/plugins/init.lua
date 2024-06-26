@@ -108,7 +108,6 @@ return {
   { "nvim-telescope/telescope-fzf-native.nvim" },
   { "nvim-telescope/telescope-dap.nvim" },
   { "nvim-telescope/telescope.nvim",               branch = "0.1.x" },
-  { "nvim-treesitter/nvim-treesitter",             build = ":TSUpdate" },
   -- { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
@@ -170,5 +169,6 @@ return {
     version = '^4', -- Recommended
     lazy = false,   -- This plugin is already lazy
   },
-  { "rhysd/git-messenger.vim", lazy = false }
+  { "rhysd/git-messenger.vim", lazy = false },
+  { "RRethy/nvim-treesitter-endwise" }
 }
