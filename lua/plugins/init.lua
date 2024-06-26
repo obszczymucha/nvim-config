@@ -170,5 +170,5 @@ return {
     lazy = false,   -- This plugin is already lazy
   },
   { "rhysd/git-messenger.vim", lazy = false },
-  { "RRethy/nvim-treesitter-endwise" }
+  { "RRethy/nvim-treesitter-endwise", lazy = false }
 }
