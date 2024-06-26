@@ -108,14 +108,10 @@ vim.keymap.set( "n", "<leader>y", "\"+y" )
 vim.keymap.set( "v", "<leader>y", "\"+y" )
 
 if is_wsl then
-  vim.keymap.set( "n", "<A-p>", ":r!pbpaste<CR>", { silent = true } )
-  vim.keymap.set( "v", "<A-p>",
-    ":<c-u>'<,'>delete | set paste | execute \"normal i\".system(\"pbpaste\") | set nopaste<CR>", { silent = true } )
-
-  --local npaste_cmd = ":set paste | execute \"normal a\".system(\"pbpaste\") | set nopaste<CR>"
-  --vim.keymap.set( "n", "<A-S-p>", npaste_cmd, { silent = true } )
-  local vpaste_cmd = ":<c-u>'<,'>delete | set paste | execute \"normal i\".system(\"pbpaste\") | set nopaste<CR>"
-  vim.keymap.set( "v", "<A-S-p>", vpaste_cmd, { silent = true } )
+  vim.keymap.set( "n", "<A-p>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', true, true)<CR>",
+    { noremap = true, silent = true } )
+  vim.keymap.set( "n", "<A-P>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', false, true)<CR>",
+    { noremap = true, silent = true } )
 else
   vim.keymap.set( "n", "<A-p>", "\"+p" )
   vim.keymap.set( "v", "<A-p>", "\"+p" )
