@@ -62,7 +62,7 @@ function M.run()
     for line in string.gmatch( data, "[^\r\n]+" ) do
       (function()
         if not line or line == "" then return end
-        debug( line )
+        -- debug( line )
 
         for name in string.gmatch( line, "Testing (.+)%.%.%." ) do
           if captures.last_entry_inserted == false then
@@ -316,15 +316,24 @@ function M.run()
   local command = { "./test.sh", "-T", "Spec", "-m", "should", "-v", "-o", "tap" }
   clear()
 
-  local on_exit = function( obj )
+  local on_exit = function( data )
     vim.schedule( function()
-      local results = collect_results( obj.stderr )
+      local results = collect_results( data.stderr )
       print_tests( results )
     end )
   end
 
   vim.system( command, { text = true }, on_exit )
 
+  local on_human_readable = function( data )
+    vim.schedule( function()
+      for line in string.gmatch( data.stderr, "[^\r\n]+" ) do
+        debug( line )
+      end
+    end )
+  end
+
+  vim.system( { "./test.sh" }, { text = true }, on_human_readable )
   -- This is the old method of running it and it completely fucks everything up.
   -- I'm guessing there's some race condition going on or file buffering, or whatever.
   -- vim.fn.jobstart( command, {

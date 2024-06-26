@@ -106,7 +106,7 @@ function M.disable_comment_continuation()
   vim.opt.formatoptions:remove( "o" )
 end
 
-function M.get_win_id_by_buf_name( buf_name )
+function M.get_buf_by_name( buf_name )
   local bufs = vim.api.nvim_list_bufs()
 
   for _, buf in ipairs( bufs ) do

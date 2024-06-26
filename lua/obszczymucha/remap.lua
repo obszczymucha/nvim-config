@@ -44,7 +44,7 @@ vim.keymap.set( "n", "<leader>dv", "<cmd>lua require( 'obszczymucha.debug' ).tog
   { desc = "Toggle test debug" } )
 vim.keymap.set( "n", "<leader>dV", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizontal()<CR>",
   { desc = "Toggle test debug (horizontal)" } )
-vim.keymap.set( "n", "<leader>dq", "<cmd>lua require( 'obszczymucha.debug' ).toggle_popup()<CR>",
+vim.keymap.set( "n", "<leader>dq", "<cmd>lua R( 'obszczymucha.debug' ).toggle_popup()<CR>",
   { desc = "Toggle test debug (popup)" } )
 vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>", { desc = "Flip test debug" } )
 vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>", { desc = "Clear test debug" } )
