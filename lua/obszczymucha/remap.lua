@@ -301,10 +301,6 @@ vim.keymap.set( "n", "<leader><BS>", "\"_v%<Esc>`>x`<x" )
 vim.keymap.set( "i", "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
 vim.keymap.set( "i", "<A-w>", remap( "fast_word_wrap" ), { silent = true } )
 
--- Treehopper
-vim.keymap.set( "o", "m", [[:<C-U>lua require'tsht'.nodes()<CR>]], { noremap = false, silent = true } )
-vim.keymap.set( "x", "m", [[:lua require'tsht'.nodes()<CR>]], { silent = true } )
-
 -- This automatically closes the find references window when e is pressd. I've no idea how this works.
 vim.api.nvim_create_autocmd( "FileType", {
   callback = function()

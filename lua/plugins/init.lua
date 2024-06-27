@@ -100,7 +100,6 @@ return {
   { "marilari88/twoslash-queries.nvim" }, -- Uses ^ to show info
   { "mfussenegger/nvim-dap" },
   { "mfussenegger/nvim-jdtls" },
-  { "mfussenegger/nvim-treehopper" },
   { "neovim/nvim-lspconfig" },
   { "nvim-lua/plenary.nvim" },
   { "nvim-lualine/lualine.nvim" },
