@@ -175,6 +175,7 @@ vim.keymap.set( "n", "<C-o>", function() return config.auto_center() and "<C-o>z
 vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>zz" or "<C-i>" end, { expr = true } )
 vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<CR>",
   { silent = true, desc = "Go to Treesitter context" } )
+vim.keymap.set( "n", "K", ":HopWord<CR>", { silent = true } )
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
@@ -232,7 +233,7 @@ vim.keymap.set( "n", "gi", remap( "go_to_implementation" ), { noremap = false, s
 vim.keymap.set( "n", "<C-k>", remap( "signature_help" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gj", remap( "peek_definition" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gr", remap( "references" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "K", remap( "documentation" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "<C-K>", remap( "documentation" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "<A-K>", vim.diagnostic.open_float, { noremap = false, silent = true } )
 vim.keymap.set( "n", "<leader>rn", remap( "rename" ), { noremap = false, silent = true, desc = "Rename under cursor" } )
 vim.keymap.set( "n", "<leader>F", remap( "format_file" ),
