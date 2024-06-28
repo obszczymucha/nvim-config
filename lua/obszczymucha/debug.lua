@@ -6,6 +6,14 @@ local state = require( "obszczymucha.state.debug" )
 local M = {}
 local buf_name = "Debug"
 
+local function on_data_loaded( callback )
+  vim.api.nvim_create_autocmd( "User", {
+    group = "DebugWindowEvents",
+    pattern = "DebugDataLoaded",
+    callback = callback
+  } )
+end
+
 local function create_buffer( callback )
   if state.buf and vim.api.nvim_buf_is_valid( state.buf ) then return end
   state.buf = common.get_buf_by_name( buf_name )
@@ -17,6 +25,7 @@ local function create_buffer( callback )
 
   state.buf = vim.api.nvim_create_buf( true, true )
   vim.api.nvim_buf_set_name( state.buf, buf_name )
+
   if callback then callback() end
 end
 
@@ -126,10 +135,10 @@ local function apply_highlights()
   local ns_id = vim.api.nvim_create_namespace( "LuaDebugHighlights" )
 
   local highlights = {
-    { pattern = "%.%.%. Ok$",    target = "Ok",    group = "TestOk" },
-    { pattern = "^OK$",          target = "OK",    group = "TestOk" },
-    { pattern = "%.%.%. ERROR$", target = "ERROR", group = "TestFailed" },
-    { pattern = "^[0-9]+%).*", group = "TestWithError" },
+    { pattern = "%.%.%. Ok$",       target = "Ok",          group = "TestOk" },
+    { pattern = "^OK$",             target = "OK",          group = "TestOk" },
+    { pattern = "%.%.%. ERROR$",    target = "ERROR",       group = "TestFailed" },
+    { pattern = "^[0-9]+%).*",      group = "TestWithError" },
     { pattern = "Testing .*%.%.%.", group = "TestingFile" },
   }
 
@@ -156,9 +165,12 @@ function M.toggle_popup()
     return
   end
 
+  on_data_loaded( function()
+    decolorize_shell()
+    apply_highlights()
+  end )
+
   state.popup:mount()
-  decolorize_shell()
-  apply_highlights()
   state.popup:on( event.BufLeave, function()
     state.popup:unmount()
   end, { once = true } )

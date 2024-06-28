@@ -330,6 +330,8 @@ function M.run()
       for line in string.gmatch( data.stderr, "[^\r\n]+" ) do
         debug( line )
       end
+
+      vim.api.nvim_exec_autocmds( "User", { pattern = "DebugDataLoaded" } )
     end )
   end
 
