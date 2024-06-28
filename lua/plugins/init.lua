@@ -82,7 +82,6 @@ return {
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
   { "folke/neodev.nvim",                  opts = {} },
-  { "nvimdev/lspsaga.nvim",               event = "LspAttach" },
   { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" }, -- LSP UI
   { "jenterkin/vim-autosource" },
@@ -102,7 +101,6 @@ return {
   { "mfussenegger/nvim-jdtls" },
   { "neovim/nvim-lspconfig" },
   { "nvim-lua/plenary.nvim" },
-  { "nvim-lualine/lualine.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim" },
   { "nvim-telescope/telescope-dap.nvim" },
