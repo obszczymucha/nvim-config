@@ -175,7 +175,6 @@ vim.keymap.set( "n", "<C-o>", function() return config.auto_center() and "<C-o>z
 vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>zz" or "<C-i>" end, { expr = true } )
 vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<CR>",
   { silent = true, desc = "Go to Treesitter context" } )
-vim.keymap.set( "n", "K", ":HopWord<CR>", { silent = true } )
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
