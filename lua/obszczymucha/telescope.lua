@@ -40,7 +40,11 @@ require( "telescope" ).setup {
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
     qflist_previewer = previewers.vim_buffer_qflist.new,
-    mappings = mappings
+    mappings = mappings,
+    layout_strategy = "vertical",
+    layout_config = {
+      preview_cutoff = 1
+    }
   },
   extensions = {
     fzf = {
