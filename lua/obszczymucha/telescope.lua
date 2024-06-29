@@ -43,6 +43,12 @@ require( "telescope" ).setup {
     mappings = mappings
   },
   extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    },
     file_browser = {
       --theme = "ivy",
       -- disables netrw and use telescope-file-browser in its place
@@ -51,10 +57,16 @@ require( "telescope" ).setup {
       mappings = file_browser_mappings
     },
   },
+  pickers = {
+    live_grep = {
+      sorting_strategy = "ascending"
+    },
+  }
 }
 
 require( "telescope" ).load_extension( "file_browser" )
 require( "telescope" ).load_extension( "dap" )
+require( "telescope" ).load_extension( "fzf" )
 
 local function no_ignore_wrapper( f, opts, override )
   if override or g.telescope_no_ignore then

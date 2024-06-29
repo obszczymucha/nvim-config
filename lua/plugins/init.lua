@@ -102,7 +102,7 @@ return {
   { "neovim/nvim-lspconfig" },
   { "nvim-lua/plenary.nvim" },
   { "nvim-telescope/telescope-file-browser.nvim" },
-  { "nvim-telescope/telescope-fzf-native.nvim" },
+  { "nvim-telescope/telescope-fzf-native.nvim",    build = "make", lazy = false },
   { "nvim-telescope/telescope-dap.nvim" },
   { "nvim-telescope/telescope.nvim",               branch = "0.1.x" },
   -- { "nvim-treesitter/nvim-treesitter-context" },
@@ -166,6 +166,6 @@ return {
     version = '^4', -- Recommended
     lazy = false,   -- This plugin is already lazy
   },
-  { "rhysd/git-messenger.vim", lazy = false },
+  { "rhysd/git-messenger.vim",        lazy = false },
   { "RRethy/nvim-treesitter-endwise", lazy = false }
 }
