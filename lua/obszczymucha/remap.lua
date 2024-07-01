@@ -322,6 +322,12 @@ vim.keymap.set( "n", "<Esc>", function()
       return
     end
   end
+
+  local flash = prequire( "flash.plugins.char" )
+
+  if flash and flash.state and flash.state.visible then
+    flash.state:hide()
+  end
 end, { silent = true } )
 
 vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>",
