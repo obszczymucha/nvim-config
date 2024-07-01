@@ -11,6 +11,8 @@ vim.keymap.set( "n", "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_
   { desc = "Find hidden files" } )
 vim.keymap.set( "n", "<leader>fG", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>",
   { desc = "Search hidden" } )
+vim.keymap.set( "n", "<leader>/", "<cmd>lua R( 'obszczymucha.telescope' ).current_buffer_fuzzy_find()<CR>",
+  { desc = "Current buffer fuzzy find" } )
 vim.keymap.set( "n", "<leader>fb", "<cmd>lua R( 'obszczymucha.telescope' ).buffers()<CR>", { desc = "Buffers" } )
 vim.keymap.set( "n", "<leader>fh", "<cmd>lua R( 'obszczymucha.telescope' ).help_tags()<CR>", { desc = "Help Tags" } )
 vim.keymap.set( "n", "<leader>fH", "<cmd>lua R( 'obszczymucha.telescope' ).highlights()<CR>", { desc = "Highlights" } )

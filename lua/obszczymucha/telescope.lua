@@ -88,6 +88,10 @@ function M.live_grep( no_ignore )
   no_ignore_wrapper( telescope.live_grep, { glob_pattern = "*" }, no_ignore )
 end
 
+function M.current_buffer_fuzzy_find()
+  no_ignore_wrapper( telescope.current_buffer_fuzzy_find )
+end
+
 function M.buffers()
   telescope.buffers( { layout_strategy = "vertical" } )
 end
