@@ -58,13 +58,15 @@ vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>", { desc = "Create a file
 
 -- Window management
 vim.keymap.set( "n", "<A-v>", "<C-w>v<C-w>w" )
-vim.keymap.set( "n", "<A-V>", "<C-w>v<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
 vim.keymap.set( "n", "<A-s>", "<C-w>s<C-w>w" )
-vim.keymap.set( "n", "<A-S>", "<C-w>s<C-w>w<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>" )
 vim.keymap.set( "n", "<S-A-j>", "<C-w>j" )
 vim.keymap.set( "n", "<S-A-k>", "<C-w>k" )
 vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
 vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
+vim.keymap.set( "n", "<A-<>", "<C-w>5<" )
+vim.keymap.set( "n", "<A->>", "<C-w>5>" )
+vim.keymap.set( "n", "<A-,>", "<C-w>5-" )
+vim.keymap.set( "n", "<A-.>", "<C-w>5+" )
 
 -- Quit
 vim.keymap.set( "n", "<A-q>", "<cmd>q<CR>", { desc = "Exit" } )
