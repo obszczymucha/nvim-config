@@ -103,7 +103,7 @@ local function create_popup()
   } )
 end
 
-local function decolorize_shell()
+local function remove_shell_color_syntax()
   local lines = vim.api.nvim_buf_get_lines( state.buf, 0, -1, false )
   local esc = string.char( 27 )
 
@@ -165,11 +165,6 @@ function M.toggle_popup()
     return
   end
 
-  on_data_loaded( function()
-    decolorize_shell()
-    apply_highlights()
-  end )
-
   state.popup:mount()
   state.popup:on( event.BufLeave, function()
     state.popup:unmount()
@@ -207,6 +202,11 @@ function M.setup()
     cleanup()
     R( "obszczymucha.debug" ).show( "sp", "bel" )
   end, { nargs = 0 } )
+
+  on_data_loaded( function()
+    remove_shell_color_syntax()
+    apply_highlights()
+  end )
 
   setup_highlights()
 end
