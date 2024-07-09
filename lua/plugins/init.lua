@@ -81,7 +81,6 @@ return {
   },
   { "MunifTanjim/nui.nvim" },
   { "ThePrimeagen/harpoon" },
-  { "folke/neodev.nvim",                  opts = {} },
   { "https://github.com/mbbill/undotree", lazy = false },
   { "j-hui/fidget.nvim" }, -- LSP UI
   { "jenterkin/vim-autosource" },
