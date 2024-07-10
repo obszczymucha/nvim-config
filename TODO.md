@@ -1,5 +1,5 @@
 # TODO
 
-* add nvim-jdtls messages into lualine
-* fix views autoloading for folds
+ * add Smoothie toggle and disable Smoothie when executing macros
+ * add nvim-jdtls messages into lualine
 
