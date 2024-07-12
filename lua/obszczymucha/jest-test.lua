@@ -122,7 +122,7 @@ function M.run()
 
   local function create_buffer( bufname )
     local bufnr = vim.api.nvim_create_buf( false, false )
-    vim.api.nvim_buf_set_option( bufnr, "filetype", "typescript" )
+    vim.api.nvim_set_option_value( "filetype", "typescript", { buf = bufnr } )
     vim.api.nvim_buf_set_name( bufnr, bufname )
     vim.api.nvim_buf_call( bufnr, vim.cmd.edit )
 
