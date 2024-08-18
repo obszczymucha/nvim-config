@@ -6,7 +6,7 @@ return {
       -- Named registers where macros are saved (single lowercase letters only).
       -- The first register is the default register used as macro-slot used after
       -- startup.
-      slots = { "a", "b" },
+      slots = { "a", "b", "c", "d" },
 
       mapping = {
         startStopRecording = "q",
