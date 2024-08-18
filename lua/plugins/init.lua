@@ -108,7 +108,6 @@ return {
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   { "rcarriga/nvim-notify",                        lazy = false },
-  -- { "scalameta/nvim-metals" },
   { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
