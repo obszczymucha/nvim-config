@@ -114,6 +114,8 @@ vim.keymap.set( "n", "<leader>y", "\"+y" )
 
 if is_wsl then
   local function copy()
+    local original_report = vim.o.report
+    vim.o.report = 99999
     -- When yanking into a named register, the unnamed register also gets the value.
     -- So we need to grab whatever is in the unnamed register, then restore it.
     local current = vim.fn.getreg( '"' )
@@ -121,6 +123,7 @@ if is_wsl then
     local text = vim.fn.getreg( "v" )
     vim.fn.setreg( '"', current )
     vim.fn.system( "/mnt/c/Users/alien/scoop/shims/win32yank.exe -i", text )
+    vim.o.report = original_report
     vim.notify( "Copied to clipboard." )
   end
 
