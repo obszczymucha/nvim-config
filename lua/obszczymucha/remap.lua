@@ -391,6 +391,7 @@ function M.reload()
   vim.notify( "Mappings reloaded." )
 end
 
-vim.keymap.set( "n", "<F1>", ":lua print('Princess Kenny')<CR>", { noremap = true, silent = true } )
+-- vim.keymap.set( "n", "<F1>", ":lua print('Princess Kenny')<CR>", { noremap = true, silent = true } )
+vim.keymap.set( "n", "<F1>", ":redraw<CR>", { noremap = true, silent = true } )
 
 return M
