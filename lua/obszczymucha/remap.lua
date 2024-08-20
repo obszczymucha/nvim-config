@@ -111,7 +111,23 @@ end
 -- Copy / paste
 vim.keymap.set( "x", "<leader>p", "\"_dP" )
 vim.keymap.set( "n", "<leader>y", "\"+y" )
-vim.keymap.set( "v", "<leader>y", "\"+y" )
+
+if is_wsl then
+  local function copy()
+    -- When yanking into a named register, the unnamed register also gets the value.
+    -- So we need to grab whatever is in the unnamed register, then restore it.
+    local current = vim.fn.getreg( '"' )
+    vim.cmd( 'normal! "vy' )
+    local text = vim.fn.getreg( "v" )
+    vim.fn.setreg( '"', current )
+    vim.fn.system( "/mnt/c/Users/alien/scoop/shims/win32yank.exe -i", text )
+    vim.notify( "Copied to clipboard." )
+  end
+
+  vim.keymap.set( "v", "<leader>y", copy, { silent = true } )
+else
+  vim.keymap.set( "v", "<leader>y", "\"+y" )
+end
 
 if is_wsl then
   vim.keymap.set( "n", "<A-p>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', true, true)<CR>",
