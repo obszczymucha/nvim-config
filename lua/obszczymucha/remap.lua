@@ -394,4 +394,12 @@ end
 -- vim.keymap.set( "n", "<F1>", ":lua print('Princess Kenny')<CR>", { noremap = true, silent = true } )
 vim.keymap.set( "n", "<F1>", ":redraw<CR>", { noremap = true, silent = true } )
 
+-- Command mode mappings
+vim.keymap.set( "c", "<A-b>", "<S-Left>", { noremap = true } )
+vim.keymap.set( "c", "<A-w>", "<S-Right>", { noremap = true } )
+vim.keymap.set( "c", "<A-h>", "<Left>", { noremap = true } )
+vim.keymap.set( "c", "<A-l>", "<Right>", { noremap = true } )
+vim.keymap.set( "c", "<A-4>", "<End>", { noremap = true } )
+vim.keymap.set( "c", "<A-0>", "<Home>", { noremap = true } )
+
 return M
