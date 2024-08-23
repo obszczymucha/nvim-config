@@ -314,6 +314,7 @@ vim.keymap.set( "n", "<F34>", terminate_dap_session, { silent = true, desc = "Te
 -- Surround mappings
 vim.keymap.set( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w", { desc = "Surround with \"" } )
 vim.keymap.set( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w", { desc = "Surround with '" } )
+vim.keymap.set( "v", "<leader>`", "<Esc>`>a`<Esc>`<i`<Esc>w", { desc = "Surround with `" } )
 vim.keymap.set( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w", { desc = "Surround with {}" } )
 vim.keymap.set( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w", { desc = "Surround with ()" } )
 vim.keymap.set( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w", { desc = "Surround with []" } )
