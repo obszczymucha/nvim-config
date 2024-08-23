@@ -1,9 +1,9 @@
-local input = prequirev( "nui.input" )
-if not input then return end
+local nui_input = prequirev( "nui.input" )
+if not nui_input then return end
 local event = require( "nui.utils.autocmd" ).event
 
 local make_input = function( title, callback )
-  return input( {
+  return nui_input( {
     position = {
       row = "90%",
       col = "50%"
@@ -14,7 +14,7 @@ local make_input = function( title, callback )
     border = {
       style = "rounded",
       text = {
-        top = string.format(" %s ", title ),
+        top = string.format( " %s ", title ),
         top_align = "center",
       },
     },
@@ -32,21 +32,21 @@ end
 local M = {}
 
 local function custom_search( pattern, dir )
-  local result = vim.api.nvim_exec( [[
+  local result = vim.api.nvim_exec2( [[
     try
       execute "normal! ]] .. dir .. pattern .. [[\n"
     catch
       echo v:exception
     endtry
-  ]], true )
+  ]], { output = true } )
 
-  if result ~= "" then
-    local error_code, message = result:match( "(E%d+): (.*)" )
+  if result and result.output ~= "" then
+    local error_code, message = result.output:match( "(E%d+): (.*)" )
 
     if error_code == "E486" then
       vim.notify( message, vim.log.levels.INFO )
     else
-      vim.notify( result, vim.log.levels.ERROR )
+      vim.notify( result.output, vim.log.levels.ERROR )
     end
   end
 end

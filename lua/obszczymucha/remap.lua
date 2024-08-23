@@ -372,6 +372,7 @@ vim.keymap.set( "n", "<leader>ca", config.toggle_alpha_nrformats, { desc = "Togg
 
 function M.define_a_mark()
   local mark = vim.fn.getchar()
+  ---@diagnostic disable-next-line: cast-local-type
   if type( mark ) == "number" then mark = string.char( mark ) end
 
   vim.cmd( "normal! m" .. mark )
