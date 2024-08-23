@@ -256,7 +256,7 @@ vim.keymap.set( "n", "<C-k>", remap( "signature_help" ), { noremap = false, sile
 vim.keymap.set( "n", "gj", remap( "peek_definition" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gr", remap( "references" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "<C-K>", remap( "documentation" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "<A-K>", vim.diagnostic.open_float, { noremap = false, silent = true } )
+vim.keymap.set( "n", "<C-j>", vim.diagnostic.open_float, { noremap = false, silent = true } )
 vim.keymap.set( "n", "<leader>rn", remap( "rename" ), { noremap = false, silent = true, desc = "Rename under cursor" } )
 vim.keymap.set( "n", "<leader>F", remap( "format_file" ),
   { noremap = false, silent = true, nowait = true, desc = "Format file" } )
