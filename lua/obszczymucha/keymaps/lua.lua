@@ -24,4 +24,10 @@ function M.reload()
   vim.notify( "File reinterpreted." )
 end
 
+function M.format_file()
+  vim.cmd( "lua vim.lsp.buf.format { async = false }" )
+  -- vim.defer_fn( function() vim.diagnostic.enable() end, 100 )
+  vim.diagnostic.enable()
+end
+
 return M
