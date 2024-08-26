@@ -122,7 +122,15 @@ if is_wsl then
     vim.cmd( 'normal! "vy' )
     local text = vim.fn.getreg( "v" )
     vim.fn.setreg( '"', current )
-    vim.fn.system( "/mnt/c/Users/alien/scoop/shims/win32yank.exe -i", text )
+
+    local clip = vim.env.CLIP
+
+    if not clip then
+      vim.notify( "CLIP environment variable not defined.", vim.log.levels.ERROR )
+      return
+    end
+
+    vim.fn.system( string.format( "%s -i", clip ), text )
     vim.o.report = original_report
     vim.notify( "Copied to clipboard." )
   end
