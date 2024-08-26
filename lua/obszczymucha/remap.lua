@@ -123,7 +123,7 @@ if is_wsl then
     local text = vim.fn.getreg( "v" )
     vim.fn.setreg( '"', current )
 
-    local clip = vim.env.CLIP
+    local clip = os.getenv( "CLIP" )
 
     if not clip then
       vim.notify( "CLIP environment variable not defined.", vim.log.levels.ERROR )
