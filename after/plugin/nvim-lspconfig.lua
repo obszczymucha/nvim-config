@@ -11,7 +11,7 @@ if mason_lspconfig then
       "rust_analyzer",
       "pyright",
       "ruff_lsp",
-      "tsserver",
+      "ts_ls",
       "lua_ls",
       "bashls",
       "sqlls",
@@ -71,8 +71,8 @@ if lspconfig.bashls then
   }
 end
 
-if lspconfig.tsserver then
-  lspconfig.tsserver.setup {
+if lspconfig.ts_ls then
+  lspconfig.ts_ls.setup {
     on_attach = function( client, bufnr )
       require( "twoslash-queries" ).attach( client, bufnr )
     end
