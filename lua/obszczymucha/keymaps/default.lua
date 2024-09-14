@@ -92,4 +92,8 @@ function M.reload()
   vim.notify( "File reloaded." )
 end
 
+function M.show_test_results()
+  R( 'obszczymucha.debug' ).toggle_popup()
+end
+
 return M

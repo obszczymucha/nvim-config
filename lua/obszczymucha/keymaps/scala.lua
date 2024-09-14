@@ -8,5 +8,8 @@ function M.compile()
   vim.cmd( "MetalsCompileCascade" )
 end
 
-return M
+function M.show_test_results()
+  R( 'obszczymucha.lang.scala.dap-repl-popup' ).toggle()
+end
 
+return M

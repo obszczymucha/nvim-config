@@ -41,13 +41,16 @@ else
   vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
 end
 
+local function remap( name )
+  return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
+end
+
 -- Debug
 vim.keymap.set( "n", "<leader>dv", "<cmd>lua require( 'obszczymucha.debug' ).toggle()<CR>",
   { desc = "Toggle test debug" } )
 vim.keymap.set( "n", "<leader>dV", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizontal()<CR>",
   { desc = "Toggle test debug (horizontal)" } )
-vim.keymap.set( "n", "<leader>dq", "<cmd>lua R( 'obszczymucha.debug' ).toggle_popup()<CR>",
-  { desc = "Toggle test debug (popup)" } )
+vim.keymap.set( "n", "<leader>dq", remap( "show_test_results" ), { noremap = true, desc = "Show test results (popup)" } )
 vim.keymap.set( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>", { desc = "Flip test debug" } )
 vim.keymap.set( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>", { desc = "Clear test debug" } )
 vim.keymap.set( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>",
@@ -209,10 +212,6 @@ vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<
 
 -- Do I really need this?
 vim.keymap.set( "i", "<C-c>", "<Esc>" )
-
-local function remap( name )
-  return string.format( string.format( "<cmd>lua R( 'obszczymucha.remap' ).bind( '%s' )<CR>", name ) )
-end
 
 local function completion_down()
   local cmp = prequirev( "cmp" )
