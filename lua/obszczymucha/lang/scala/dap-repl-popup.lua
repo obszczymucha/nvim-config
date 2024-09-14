@@ -46,7 +46,7 @@ local function apply_highlights()
     { pattern = ".*%*%*%* FAILED %*%*%*", target = ".*",         group = "TestFailed" },
     { pattern = "^Failed:$",              target = ".*",         group = "TestFailed" },
     { pattern = " passed$",               target = "passed",     group = "TestOk" },
-    { pattern = " passed.$",              target = "passed",     group = "TestOk" },
+    { pattern = ".* passed.$",            group = "TestOk" },
     { pattern = "[^%s]-Spec",             target = "[^%s]-Spec", group = "TestingFile" },
   }
 
