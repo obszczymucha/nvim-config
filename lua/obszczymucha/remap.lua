@@ -130,7 +130,7 @@ if is_wsl then
       return
     end
 
-    vim.fn.system( string.format( "%s -i", clip ), text )
+    vim.fn.system( clip, text )
     vim.o.report = original_report
     vim.notify( "Copied to clipboard." )
   end
