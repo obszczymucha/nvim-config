@@ -251,8 +251,10 @@ end
 vim.keymap.set( "i", "<A-j>", completion_down, { silent = true } )
 vim.keymap.set( "i", "<A-k>", completion_up, { silent = true } )
 vim.keymap.set( "i", "<C-k>", remap( "signature_help" ), { silent = true } )
-vim.keymap.set( "c", "<A-j>", [[ "\<C-n>" ]], { expr = true } )
-vim.keymap.set( "c", "<A-k>", [[ "\<C-p>" ]], { expr = true } )
+-- vim.keymap.set( "c", "<A-j>", [[ "\<C-n>" ]], { expr = true } )
+-- vim.keymap.set( "c", "<A-k>", [[ "\<C-p>" ]], { expr = true } )
+vim.keymap.set( "c", "<A-j>", completion_down, { silent = true } )
+vim.keymap.set( "c", "<A-k>", completion_up, { silent = true } )
 vim.keymap.set( "c", "<A-y>", yank( '"' ), { silent = true } )
 vim.keymap.set( "c", "<A-Y>", yank( '+' ), { silent = true } )
 

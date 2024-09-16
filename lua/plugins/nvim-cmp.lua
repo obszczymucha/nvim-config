@@ -8,6 +8,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       {
         "L3MON4D3/LuaSnip",
@@ -47,12 +48,13 @@ return {
           end,
         },
         sources = cmp.config.sources( {
-          { name = "luasnip",  group_index = 2 },
-          { name = "copilot",  group_index = 2 },
-          { name = "nvim_lsp", group_index = 2 },
+          { name = "luasnip",      group_index = 2 },
+          { name = "copilot",      group_index = 2 },
+          { name = "nvim_lsp",     group_index = 2 },
+          { name = "nvim_cmdline", group_index = 2 },
           -- { name = "nvim_lsp_signature_help", group_index = 2 },
-          { name = "nvim_lua", group_index = 2 },
-          { name = "path",     group_index = 2 },
+          { name = "nvim_lua",     group_index = 2 },
+          { name = "path",         group_index = 2 },
         }, {
           { name = "buffer", group_index = 2 }
         } ),
@@ -68,6 +70,30 @@ return {
         } )
       } )
 
+      ---@diagnostic disable-next-line: undefined-field
+      cmp.setup.cmdline( '/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      } )
+
+      ---@diagnostic disable-next-line: undefined-field
+      cmp.setup.cmdline( ':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources( {
+          { name = 'path' }
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmd = { 'Man', '!' }
+            }
+          }
+        } )
+      } )
+
+      ---@diagnostic disable-next-line: undefined-field
       cmp.setup.filetype( { "sql" }, {
         sources = {
           { name = "vim-dadbod-completion" },
