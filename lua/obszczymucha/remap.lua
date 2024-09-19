@@ -143,7 +143,7 @@ else
   vim.keymap.set( "v", "<leader>y", "\"+y" )
 end
 
-if is_wsl then
+if is_wsl or is_macos then
   vim.keymap.set( "n", "<A-p>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', true, true)<CR>",
     { noremap = true, silent = true } )
   vim.keymap.set( "n", "<A-P>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', false, true)<CR>",
