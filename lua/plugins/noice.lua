@@ -12,8 +12,10 @@ return {
           enabled = false,
           -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
           -- See the section on formatting for more details on how to customize.
+          ---@diagnostic disable-next-line: undefined-doc-name
           --- @type NoiceFormat|string
           format = "lsp_progress",
+          ---@diagnostic disable-next-line: undefined-doc-name
           --- @type NoiceFormat|string
           format_done = "lsp_progress_done",
           throttle = 1000 / 30, -- frequency to update lsp progress message
