@@ -169,7 +169,7 @@ ls.add_snippets( LANG, {
         provider_name = f( decapitalize, { 1 } ),
         class_name = f( get_class_details )
       } ) ),
-  s( "gwt", fmt( "// Given\n\t{start}\n\n\t// When\n\n\t// Then", {
+  s( "gwt", fmt( "// Given\n{start}\n\n// When\n\n// Then", {
     start = i( 0 )
   } ) ),
   s( "athat", {
