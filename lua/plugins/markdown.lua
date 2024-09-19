@@ -10,6 +10,12 @@ return {
         execute "silent !brave --app=" . a:url
         endfunction
       ]]
+    elseif is_macos then
+      vim.cmd [[
+        function! OpenMarkdownPreview(url)
+        execute "silent ! open -a Google\ Chrome -n --args --new-window " . a:url
+        endfunction
+      ]]
     else
       vim.cmd [[
         function! OpenMarkdownPreview(url)
