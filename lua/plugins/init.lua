@@ -123,18 +123,6 @@ return {
     }
   },
   { "jbyuki/one-small-step-for-vimkind", lazy = false }, -- :help osv -> QUICKSTART
-  {
-    "AckslD/nvim-neoclip.lua",
-    lazy = false,
-    dependencies = {
-      "kkharji/sqlite.lua"
-    },
-    config = function()
-      require( "neoclip" ).setup( {
-        enable_persistent_history = true
-      } )
-    end,
-  },
   -- Causing errors in checkhealth.
   {
     "folke/zen-mode.nvim",
