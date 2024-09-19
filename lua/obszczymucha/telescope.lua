@@ -6,6 +6,7 @@ local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
 local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
 local common = require( "obszczymucha.common" )
+local action_state = require( "telescope.actions.state" )
 
 local M = {}
 
@@ -150,7 +151,20 @@ function M.noice()
 end
 
 function M.notify()
-  require( "telescope" ).extensions.notify.notify( options )
+  local opts = options
+
+  opts.attach_mappings = function( _, map )
+    local yank_select_buf_clip = function()
+      local buf_select = action_state.get_selected_entry()
+      vim.fn.setreg( '+', buf_select.value.message )
+      vim.notify( "Yanked (+).", vim.log.levels.INFO )
+    end
+
+    map( "i", "<A-y>", yank_select_buf_clip )
+    return true
+  end
+
+  require( "telescope" ).extensions.notify.notify( opts )
 end
 
 function M.breakpoints()
