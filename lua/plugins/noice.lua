@@ -82,6 +82,7 @@ return {
       },
     } )
 
+    ---@diagnostic disable-next-line: different-requires
     require( "telescope" ).load_extension( "noice" )
   end
 }
