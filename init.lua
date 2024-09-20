@@ -29,14 +29,15 @@ prequirev = function( name, ... )
   return result, value
 end
 
+---@diagnostic disable-next-line: undefined-field
 local release = vim.loop.os_uname().release
 ---@diagnostic disable-next-line: lowercase-global
-is_wsl = release:match( "microsoft" ) or release:match( "WSL" )
+is_wsl = release:match( "microsoft" ) and true or release:match( "WSL" ) and true or false
 
----@diagnostic disable-next-line: lowercase-global
+---@diagnostic disable-next-line: lowercase-global, undefined-field
 is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 
----@diagnostic disable-next-line: lowercase-global
+---@diagnostic disable-next-line: lowercase-global, undefined-field
 is_macos = vim.loop.os_uname().sysname == "Darwin"
 
 require( "lazy" ).setup( "plugins", {
