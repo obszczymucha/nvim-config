@@ -1,5 +1,4 @@
 # TODO
 
  * add Smoothie toggle and disable Smoothie when executing macros
- * add nvim-jdtls messages into lualine
-
+ * add per-host customizations (for example I want transparent in the colorscheme on one machine, but not the others)
