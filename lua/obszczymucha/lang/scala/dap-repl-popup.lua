@@ -12,7 +12,7 @@ local function create_popup()
     border = {
       style = "rounded",
       text = {
-        top = " Test results ",
+        top = " Output ",
         top_align = "center",
       },
     },
@@ -27,6 +27,10 @@ local function create_popup()
     },
     bufnr = state.buf
   } )
+
+  state.popup:map( "n", "<leader>dq", function()
+    vim.api.nvim_win_close( state.popup.winid, true )
+  end )
 end
 
 local function setup_highlights()
