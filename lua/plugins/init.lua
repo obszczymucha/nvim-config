@@ -99,6 +99,7 @@ return {
   { "nvim-telescope/telescope-file-browser.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim",    build = "make",                                                     lazy = false },
   { "nvim-telescope/telescope-dap.nvim" },
+  { "nvim-telescope/telescope-ui-select.nvim" },
   { "nvim-telescope/telescope.nvim",               branch = "0.1.x" },
   -- { "nvim-treesitter/nvim-treesitter-context" },
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },

@@ -61,6 +61,11 @@ require( "telescope" ).setup {
       hijack_netrw = true,
       mappings = file_browser_mappings
     },
+    [ "ui-select" ] = {
+      require( "telescope.themes" ).get_dropdown {
+
+      }
+    }
   },
   pickers = {
     live_grep = {
@@ -72,6 +77,7 @@ require( "telescope" ).setup {
 require( "telescope" ).load_extension( "file_browser" )
 require( "telescope" ).load_extension( "dap" )
 require( "telescope" ).load_extension( "fzf" )
+require( "telescope" ).load_extension( "ui-select" )
 
 local function no_ignore_wrapper( f, opts, override )
   if override or g.telescope_no_ignore then
