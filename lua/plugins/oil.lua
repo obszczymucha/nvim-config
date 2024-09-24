@@ -13,9 +13,15 @@ return {
         show_hidden = true,
         natural_sort = true,
       },
+      float = {
+        padding = 2,
+        max_width = 90,
+        max_height = 28
+      }
     }
 
-    vim.keymap.set( "n", "-", "<cmd>Oil<CR>", { desc = "Open current directory" } )
+    vim.keymap.set( "n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory (float)" } )
+    vim.keymap.set( "n", "=", "<cmd>Oil<CR>", { desc = "Open current directory" } )
   end,
   lazy = false
 }
