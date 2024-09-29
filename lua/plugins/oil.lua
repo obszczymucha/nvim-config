@@ -7,7 +7,8 @@ return {
       skip_confirm_for_simple_edits = true,
       columns = { "icon" },
       keymaps = {
-        [ "<M-h>" ] = "actions.select_split"
+        [ "<M-h>" ] = "actions.select_split",
+        [ "<Esc>" ] = "actions.close"
       },
       view_options = {
         show_hidden = true,
