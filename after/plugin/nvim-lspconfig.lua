@@ -18,7 +18,8 @@ if mason_lspconfig then
       "cssls",
       "html",
       "jdtls",
-      "jsonls"
+      "jsonls",
+      "gopls"
     }
   }
 end
@@ -144,7 +145,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 if lspconfig.cssls then lspconfig.cssls.setup { capabilities = capabilities } end
 if lspconfig.html then lspconfig.html.setup { capabilities = capabilities } end
 if lspconfig.jsonls then lspconfig.jsonls.setup { capabilities = capabilities } end
-
+if lspconfig.gopls then lspconfig.gopls.setup {} end
 --local root_pattern = require( "lspconfig.util" ).root_pattern
 
 --if lspconfig.groovyls then
