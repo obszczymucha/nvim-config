@@ -4,7 +4,7 @@ local M = {}
 local config = require( "obszczymucha.user-config" )
 
 -- Telescope
-vim.keymap.set( "n", "<leader>ff", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>", { desc = "Find files" } )
+vim.keymap.set( "n", "<leader>fa", "<cmd>lua R( 'obszczymucha.telescope' ).find_files()<CR>", { desc = "Find files" } )
 vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>", { desc = "Resume find files" } )
 vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>", { desc = "Search" } )
 vim.keymap.set( "n", "<leader>fF", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>",
