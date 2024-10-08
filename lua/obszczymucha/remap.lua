@@ -84,31 +84,84 @@ vim.keymap.set( "n", "<A-4>", [[:lua require( "harpoon.ui" ).nav_file( 4 )<CR>]]
 vim.keymap.set( "n", "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent = true } )
 vim.keymap.set( "n", "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
 
+local function line_up( mode )
+  return function()
+    if vim.fn.line( "." ) == 1 then
+      return
+    end
+
+    if mode == "n" then
+      -- Replaces "<cmd>m .-2<CR>==".
+      vim.cmd( "m .-2 | normal! ==" )
+    elseif mode == "i" then
+      -- This whole crap replaces simple "<Esc><cmd>m .-2<CR>==gi". Oh well... Always a tradeoff.
+      vim.api.nvim_feedkeys( vim.api.nvim_replace_termcodes( "<Esc>", true, false, true ), 'n', true )
+      vim.cmd( "m .-2 | normal! ==" )
+      vim.api.nvim_feedkeys( "gi", 'n', true )
+    elseif mode == "v" then
+      -- Now this sorcery replaces simple ":m '<-2<CR>gv=gv". Took me 35 mins for fucks sake.
+      -- vim.fn.line("'<") or vim.fn.getpos("'<") are unreliable, they take former selection values.
+      -- WTF neovim?!
+      local start_line = vim.fn.line( "v" )
+      local end_line = vim.fn.line( "." )
+
+      if start_line > end_line then
+        start_line, end_line = end_line, start_line
+      end
+
+      -- This doesn't fucking work.
+      vim.cmd( string.format( ":%d,%dm %d", start_line, end_line, start_line - 2 ) )
+      vim.cmd( "normal! gv=gv" )
+      vim.fn.setpos( "'<", { 0, start_line - 1, 0, 0 } )
+      vim.fn.setpos( "'>", { 0, end_line - 1, 0, 0 } )
+    end
+  end
+end
+
+local function line_down( mode )
+  return function()
+    if vim.fn.line( "." ) == vim.fn.line( "$" ) then
+      return
+    end
+
+    if mode == "n" then
+      vim.cmd( "m .+1 | normal! ==" )
+    elseif mode == "i" then
+      vim.api.nvim_feedkeys( vim.api.nvim_replace_termcodes( "<Esc>", true, false, true ), 'n', true )
+      vim.cmd( "m .+1 | normal! ==" )
+      vim.api.nvim_feedkeys( "gi", 'n', true )
+    elseif mode == "v" then
+      vim.cmd( "'<,'>m '>+1" )
+      vim.cmd( "normal! gv=gv" )
+    end
+  end
+end
+
 -- Moving lines
 if is_wsl then
   -- Alacritty doesn't want to send Ctrl+Alt, so the only way is to use AHK.
   -- AHK is sending ^[[1;5R for <C-A-j> and ^[[1;5S for <C-A-k>.
   -- These map to <C-F3> (F27) and <C-F4> (F28) respectively.
-  vim.keymap.set( "n", "<F27>", "<cmd>m .+1<CR>==" )
-  vim.keymap.set( "n", "<F28>", "<cmd>m .-2<CR>==" )
-  vim.keymap.set( "i", "<F27>", "<Esc><cmd>m .+1<CR>==gi" )
-  vim.keymap.set( "i", "<F28>", "<Esc><cmd>m .-2<CR>==gi" )
-  vim.keymap.set( "v", "<F27>", ":m '>+1<CR>gv=gv" )
-  vim.keymap.set( "v", "<F28>", ":m '<-2<CR>gv=gv" )
+  vim.keymap.set( "n", "<F28>", line_up( "n" ) )
+  vim.keymap.set( "n", "<F27>", line_down( "n" ) )
+  vim.keymap.set( "i", "<F28>", line_up( "i" ) )
+  vim.keymap.set( "v", "<F28>", line_up( "v" ) )
+  vim.keymap.set( "i", "<F27>", line_down( "i" ) )
+  vim.keymap.set( "v", "<F27>", line_down( "v" ) )
 elseif is_windows then
-  vim.keymap.set( "n", "<C-F3>", "<cmd>m .+1<CR>==" )
-  vim.keymap.set( "n", "<C-F4>", "<cmd>m .-2<CR>==" )
-  vim.keymap.set( "i", "<C-F3>", "<Esc><cmd>m .+1<CR>==gi" )
-  vim.keymap.set( "i", "<C-F4>", "<Esc><cmd>m .-2<CR>==gi" )
-  vim.keymap.set( "v", "<C-F3>", ":m '>+1<CR>gv=gv" )
-  vim.keymap.set( "v", "<C-F4>", ":m '<-2<CR>gv=gv" )
+  vim.keymap.set( "n", "<C-F4>", line_up( "n" ) )
+  vim.keymap.set( "n", "<C-F3>", line_down( "n" ) )
+  vim.keymap.set( "i", "<C-F4>", line_up( "i" ) )
+  vim.keymap.set( "i", "<C-F3>", line_down( "i" ) )
+  vim.keymap.set( "v", "<C-F4>", line_up( "v" ) )
+  vim.keymap.set( "v", "<C-F3>", line_down( "v" ) )
 else
-  vim.keymap.set( "n", "<C-A-j>", "<cmd>m .+1<CR>==" )
-  vim.keymap.set( "n", "<C-A-k>", "<cmd>m .-2<CR>==" )
-  vim.keymap.set( "i", "<C-A-j>", "<Esc><cmd>m .+1<CR>==gi" )
-  vim.keymap.set( "i", "<C-A-k>", "<Esc><cmd>m .-2<CR>==gi" )
-  vim.keymap.set( "v", "<C-A-j>", ":m '>+1<CR>gv=gv" )
-  vim.keymap.set( "v", "<C-A-k>", ":m '<-2<CR>gv=gv" )
+  vim.keymap.set( "n", "<C-A-k>", line_up( "n" ) )
+  vim.keymap.set( "n", "<C-A-j>", line_down( "n" ) )
+  vim.keymap.set( "i", "<C-A-k>", line_up( "i" ) )
+  vim.keymap.set( "i", "<C-A-j>", line_down( "i" ) )
+  vim.keymap.set( "v", "<C-A-k>", line_up( "v" ) )
+  vim.keymap.set( "v", "<C-A-j>", line_down( "v" ) )
 end
 
 -- Copy / paste
