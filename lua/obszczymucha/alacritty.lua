@@ -1,4 +1,4 @@
-local src = os.getenv( "ALACRITTY_CONFIG" )
+local src = vim.fn.resolve( os.getenv( "ALACRITTY_CONFIG" ) )
 local dest = os.getenv( "WIN_ALACRITTY_CONFIG" )
 
 if not src or not dest then return end
@@ -13,4 +13,3 @@ vim.api.nvim_create_autocmd( "BufWritePost", {
   pattern = { src },
   callback = callback
 } )
-
