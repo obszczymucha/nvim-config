@@ -20,6 +20,6 @@ require( "obszczymucha.code-actions.lua" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
-else
+elseif not is_macos then
   require( "obszczymucha.xmobar" )
 end
