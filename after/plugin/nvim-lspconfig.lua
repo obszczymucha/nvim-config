@@ -10,7 +10,7 @@ if mason_lspconfig then
       "clangd",
       "rust_analyzer",
       "pyright",
-      "ruff_lsp",
+      "ruff",
       "ts_ls",
       "lua_ls",
       "bashls",
@@ -81,7 +81,7 @@ if lspconfig.ts_ls then
 end
 
 if lspconfig.pyright then lspconfig.pyright.setup {} end
-if lspconfig.ruff_lsp then lspconfig.ruff_lsp.setup {} end
+if lspconfig.ruff then lspconfig.ruff.setup {} end
 
 local function filter( arr, func )
   -- Filter in place
