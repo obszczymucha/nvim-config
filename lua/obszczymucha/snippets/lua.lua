@@ -36,5 +36,13 @@ ls.add_snippets( LANG, {
       mixins = i( 2 ),
       start = i( 0 ),
     } )
+  ),
+  s( "sf",
+    fmt( [[
+      string.format( "{pattern}", {args} )
+    ]], {
+      pattern = i( 1 ),
+      args = i( 0 )
+    } )
   )
 } )
