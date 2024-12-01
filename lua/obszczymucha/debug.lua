@@ -104,6 +104,7 @@ local function create_popup()
 end
 
 local function remove_shell_color_syntax()
+  if not state.buf then return end
   local lines = vim.api.nvim_buf_get_lines( state.buf, 0, -1, false )
   local esc = string.char( 27 )
 
@@ -131,6 +132,7 @@ local function setup_highlights()
 end
 
 local function apply_highlights()
+  if not state.buf then return end
   local lines = vim.api.nvim_buf_get_lines( state.buf, 0, -1, false )
   local ns_id = vim.api.nvim_create_namespace( "LuaDebugHighlights" )
 
