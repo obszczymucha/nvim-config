@@ -1,11 +1,3 @@
-local null_ls = prequirev( "null-ls" )
-if not null_ls then return end
-
-local function is_table_constructor( node, _ )
-  if not node or node:type() ~= "table_constructor" then return false end
-  return true
-end
-
 local function reverse_ipairs( t )
   local i = #t + 1
 
@@ -18,6 +10,7 @@ local function reverse_ipairs( t )
 end
 
 local function break_table( node )
+  vim.notify("chuj")
   if not node or node:type() ~= "table_constructor" then return end
 
   local fields = {}
@@ -50,26 +43,4 @@ local function break_table( node )
   vim.api.nvim_feedkeys( vim.api.nvim_replace_termcodes( "s<CR>", true, false, true ), "x", false )
 end
 
-null_ls.register( {
-  name = "my-source",
-  method = null_ls.methods.CODE_ACTION,
-  filetypes = { "lua" },
-  generator = {
-    fn = function( params )
-      local result = {}
-
-      local node = vim.treesitter.get_node()
-
-      if is_table_constructor( node, params ) then
-        table.insert( result, {
-          title = "Break table into multiple lines",
-          action = function()
-            break_table( node )
-          end
-        } )
-      end
-
-      return result
-    end
-  }
-} )
+return break_table
