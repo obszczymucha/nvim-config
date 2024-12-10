@@ -20,6 +20,10 @@ function M.go_to_implementation()
   vim.cmd( "lua vim.lsp.buf.implementation()" )
 end
 
+function M.type_definition()
+  vim.cmd( "lua vim.lsp.buf.type_definition()" )
+end
+
 function M.signature_help()
   vim.cmd( "lua vim.lsp.buf.signature_help()" )
 end
