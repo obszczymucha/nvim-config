@@ -38,6 +38,21 @@ return {
       local cmp = require( "cmp" )
       ---@diagnostic disable-next-line: redundant-parameter
       cmp.setup( {
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            cmp.config.compare.exact,
+            require( "copilot_cmp.comparators" ).prioritize,
+            cmp.config.compare.offset,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order
+          }
+        },
         snippet = {
           -- REQUIRED - you must specify a snippet engine
           expand = function( args )
@@ -48,8 +63,8 @@ return {
           end,
         },
         sources = cmp.config.sources( {
-          { name = "luasnip",      group_index = 2 },
           { name = "copilot",      group_index = 2 },
+          { name = "luasnip",      group_index = 2 },
           { name = "nvim_lsp",     group_index = 2 },
           { name = "nvim_cmdline", group_index = 2 },
           -- { name = "nvim_lsp_signature_help", group_index = 2 },
