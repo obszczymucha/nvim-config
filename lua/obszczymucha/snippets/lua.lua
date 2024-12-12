@@ -44,5 +44,16 @@ ls.add_snippets( LANG, {
       pattern = i( 1 ),
       args = i( 0 )
     } )
+  ),
+  s( "lfn",
+    fmt( [[
+      local function {name}({args})
+        {start}
+      end
+    ]], {
+      name = i( 1 ),
+      args = i( 2 ),
+      start = i( 0 )
+    } )
   )
 } )
