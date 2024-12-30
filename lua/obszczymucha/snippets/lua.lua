@@ -55,5 +55,16 @@ ls.add_snippets( LANG, {
       args = i( 2 ),
       start = i( 0 )
     } )
+  ),
+  s( "fnm",
+    fmt( [[
+      function M.{name}({args})
+        {start}
+      end
+    ]], {
+      name = i( 1 ),
+      args = i( 2 ),
+      start = i( 0 )
+    } )
   )
 } )
