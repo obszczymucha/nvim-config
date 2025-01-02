@@ -3,6 +3,7 @@ if not null_ls then return end
 
 local break_table = require( "obszczymucha.code-actions.lua.break-table" )
 local break_function = require( "obszczymucha.code-actions.lua.break-function" )
+local break_arguments = require( "obszczymucha.code-actions.lua.break-arguments" )
 
 local function is_node( node, node_name, parent )
   if not node or node:type() ~= node_name then return false end
@@ -39,6 +40,7 @@ null_ls.register( {
   }
 }
 )
+
 null_ls.register( {
   name = "my-source",
   method = null_ls.methods.CODE_ACTION,
@@ -54,6 +56,31 @@ null_ls.register( {
           title = "Break function into multiple lines",
           action = function()
             break_function()
+          end
+        } )
+      end
+
+      return result
+    end
+  }
+}
+)
+
+null_ls.register( {
+  name = "my-source",
+  method = null_ls.methods.CODE_ACTION,
+  filetypes = { "lua" },
+  generator = {
+    fn = function()
+      local result = {}
+
+      local node = vim.treesitter.get_node()
+
+      if is_node( node, "parameters" ) then
+        table.insert( result, {
+          title = "Break arguments into multiple lines",
+          action = function()
+            break_arguments()
           end
         } )
       end
