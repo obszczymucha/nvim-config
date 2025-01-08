@@ -39,10 +39,9 @@ ls.add_snippets( LANG, {
   ),
   s( "sf",
     fmt( [[
-      string.format( "{pattern}", {args} )
+      string.format( "{pattern}" )
     ]], {
-      pattern = i( 1 ),
-      args = i( 0 )
+      pattern = i( 0 )
     } )
   ),
   s( "lfn",
