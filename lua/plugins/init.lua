@@ -64,7 +64,9 @@ return {
         },
         ---@diagnostic disable-next-line: unused-local
         overrides = function( colors ) -- add/modify highlights
-          return {}
+          return {
+            Visual = { bg = "#3d3a7a" }
+          }
         end,
         theme = "wave",  -- Load "wave" theme when 'background' option is not set
         background = {   -- map the value of 'background' option to a theme
