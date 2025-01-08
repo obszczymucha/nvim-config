@@ -30,6 +30,22 @@ local function set( key, value )
   M.save()
 end
 
+local function get_root_dir()
+  local root_dir = vim.fn.system( "git rev-parse --show-toplevel" )
+  return not vim.v.shell_error and root_dir or vim.fn.getcwd()
+end
+
+function M.set_local( key, value )
+  local k = string.format( "%s|%s", get_root_dir(), key )
+  config[ k ] = value
+  M.save()
+end
+
+function M.get_local( key )
+  local k = string.format( "%s|%s", get_root_dir(), key )
+  return config[ k ]
+end
+
 function M.auto_center()
   return config.auto_center
 end
