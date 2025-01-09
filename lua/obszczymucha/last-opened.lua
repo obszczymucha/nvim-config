@@ -5,6 +5,11 @@ local utils = require( "obszczymucha.utils" )
 
 local group = vim.api.nvim_create_augroup( "LastOpened", { clear = true } )
 
+local function starts_with( str, prefix )
+  if not prefix then return false end
+  return str:sub( 1, #prefix ) == prefix
+end
+
 local function on_leave_pre()
   local bufnr = vim.api.nvim_get_current_buf()
   local bufname = vim.api.nvim_buf_get_name( bufnr )
@@ -13,7 +18,7 @@ local function on_leave_pre()
 
   local root_dir = utils.get_project_root_dir()
 
-  if not bufname:match(string.format( "^%s", root_dir )) then return end
+  if not starts_with( bufname, root_dir ) then return end
 
   local cursor = vim.api.nvim_win_get_cursor( 0 )
   local data = {
@@ -60,4 +65,5 @@ vim.api.nvim_create_autocmd( "VimEnter", {
   group = group,
   callback = on_enter
 } )
+
 return M
