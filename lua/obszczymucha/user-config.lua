@@ -1,4 +1,5 @@
 local Path = require( "plenary.path" )
+local utils = require( "obszczymucha.utils" )
 local config_file = string.format( "%s/user-config.json", vim.fn.stdpath( "data" ) )
 
 local M = {}
@@ -30,19 +31,14 @@ local function set( key, value )
   M.save()
 end
 
-local function get_root_dir()
-  local root_dir = vim.fn.system( "git rev-parse --show-toplevel" )
-  return not vim.v.shell_error and root_dir or vim.fn.getcwd()
-end
-
 function M.set_local( key, value )
-  local k = string.format( "%s|%s", get_root_dir(), key )
+  local k = string.format( "%s|%s", utils.get_project_root_dir(), key )
   config[ k ] = value
   M.save()
 end
 
 function M.get_local( key )
-  local k = string.format( "%s|%s", get_root_dir(), key )
+  local k = string.format( "%s|%s", utils.get_project_root_dir(), key )
   return config[ k ]
 end
 

@@ -1,6 +1,7 @@
 local M = {}
 
 local config = require( "obszczymucha.user-config" )
+local utils = require( "obszczymucha.utils" )
 
 local group = vim.api.nvim_create_augroup( "LastOpened", { clear = true } )
 
@@ -9,6 +10,10 @@ local function on_leave_pre()
   local bufname = vim.api.nvim_buf_get_name( bufnr )
 
   if not bufname or bufname:match( "^oil:///" ) then return end
+
+  local root_dir = utils.get_project_root_dir()
+
+  if not bufname:match(string.format( "^%s", root_dir )) then return end
 
   local cursor = vim.api.nvim_win_get_cursor( 0 )
   local data = {
