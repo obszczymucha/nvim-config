@@ -40,7 +40,7 @@ local function on_enter()
     local data = config.get_local( "last-opened" )
     if not data or not data.filename or vim.fn.filereadable( data.filename ) == 0 then return end
 
-    vim.defer_fn( function()
+    vim.schedule( function()
       vim.cmd( "edit " .. data.filename )
 
       local buf = vim.api.nvim_win_get_buf( 0 )
@@ -57,7 +57,7 @@ local function on_enter()
       if data.line and data.col then
         vim.api.nvim_win_set_cursor( 0, { data.line, data.col } )
       end
-    end, 10 )
+    end )
   end
 end
 
