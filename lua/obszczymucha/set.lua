@@ -13,6 +13,7 @@ o.relativenumber = true
 o.cursorline = true
 o.cursorlineopt = "line,number"
 o.guicursor = 'n-c:block,i:block-iCursor,r:block-rCursor,v:block-vCursor'
+o.shortmess:append( "I" )
 
 cmd( "hi Cursor guifg=white guibg=black" )
 cmd( "hi iCursor guifg=white guibg=#30d0d0" )
