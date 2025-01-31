@@ -97,7 +97,7 @@ function M.reload()
 end
 
 function M.show_test_results()
-  R( 'obszczymucha.debug' ).toggle_popup()
+  R( 'obszczymucha.debug' ).toggle_popup( "Test results" )
 end
 
 return M

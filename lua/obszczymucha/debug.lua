@@ -77,7 +77,7 @@ function M.toggle_horizontal()
   M.show( "sp", "bel" )
 end
 
-local function create_popup()
+local function create_popup( title )
   if state.popup then return end
 
   state.popup = Popup( {
@@ -86,7 +86,7 @@ local function create_popup()
     border = {
       style = "rounded",
       text = {
-        top = " Debug ",
+        top = string.format( " %s ", title or "Debug" ),
         top_align = "center",
       },
     },
@@ -158,9 +158,9 @@ local function apply_highlights()
   end
 end
 
-function M.toggle_popup()
+function M.toggle_popup( title )
   create_buffer()
-  create_popup()
+  create_popup( title )
 
   if state.popup.winid and vim.api.nvim_win_is_valid( state.popup.winid ) then
     state.popup:unmount()
