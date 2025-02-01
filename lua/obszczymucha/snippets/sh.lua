@@ -12,7 +12,7 @@ ls.add_snippets( LANG, {
   s( "bash", fmt( [[
   #!/usr/bin/env bash
 
-  function main() {{
+  main() {{
     {start}
   }}
 
