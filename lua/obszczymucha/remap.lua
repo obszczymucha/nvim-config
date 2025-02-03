@@ -8,7 +8,8 @@ vim.keymap.set( "n", "<leader>fa", "<cmd>lua R( 'obszczymucha.telescope' ).find_
 vim.keymap.set( "n", "<leader>fA", "<cmd>lua R( 'obszczymucha.telescope' ).find_files( true )<CR>",
   { desc = "Find hidden files" } )
 vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>", { desc = "Resume find files" } )
-vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>", { desc = "Search" } )
+-- vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>", { desc = "Search" } )
+vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope' ).live_multigrep()<CR>", { desc = "Search" } )
 vim.keymap.set( "n", "<leader>fE", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>",
   { desc = "Search hidden" } )
 vim.keymap.set( "n", "<leader>/", "<cmd>lua R( 'obszczymucha.telescope' ).current_buffer_fuzzy_find()<CR>",

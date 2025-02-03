@@ -7,6 +7,10 @@ local actions = require( "telescope.actions" )
 local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
 local common = require( "obszczymucha.common" )
 local action_state = require( "telescope.actions.state" )
+local finders = require( "telescope.finders" )
+local make_entry = require( "telescope.make_entry" )
+local pickers = require( "telescope.pickers" )
+local conf = require( "telescope.config" ).values
 
 local M = {}
 
@@ -191,6 +195,47 @@ function M.neoclip()
   }
 
   require( "telescope" ).extensions.neoclip.neoclip( opts )
+end
+
+function M.live_multigrep( opts )
+  opts = opts or {}
+  opts.cwd = opts.cwd or vim.fn.getcwd()
+
+  local finder = finders.new_async_job {
+    command_generator = function( prompt )
+      if not prompt or prompt == "" then return end
+
+      local tokens = vim.split( prompt, "  " )
+      local args = { "rg" } --, "--vimgrep", "--no-heading", "--with-filename", "--line-number", "--color=never"}
+
+      if tokens[ 1 ] then
+        table.insert( args, "-e" )
+        table.insert( args, tokens[ 1 ] )
+      end
+
+      for i = 2, #tokens do
+        if tokens[ i ] then
+          table.insert( args, "-g" )
+          table.insert( args, tokens[ i ] )
+        end
+      end
+
+      return vim.iter( {
+        args,
+        { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" }
+      } ):flatten():totable()
+    end,
+    entry_maker = make_entry.gen_from_vimgrep( opts ),
+    cwd = opts.cwd
+  }
+
+  pickers.new( opts, {
+    debounce = 100,
+    prompt_title = "Live Multi Grep",
+    finder = finder,
+    previewer = conf.grep_previewer( opts ),
+    sorter = require( "telescope.sorters" ).empty()
+  } ):find()
 end
 
 return M
