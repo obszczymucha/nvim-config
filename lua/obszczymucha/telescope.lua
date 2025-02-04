@@ -206,7 +206,7 @@ function M.live_multigrep( opts )
       if not prompt or prompt == "" then return end
 
       local tokens = vim.split( prompt, "  " )
-      local args = { "rg" } --, "--vimgrep", "--no-heading", "--with-filename", "--line-number", "--color=never"}
+      local args = { "rg" }
 
       if tokens[ 1 ] then
         table.insert( args, "-e" )
