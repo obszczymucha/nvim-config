@@ -205,25 +205,71 @@ function M.live_multigrep( opts )
     command_generator = function( prompt )
       if not prompt or prompt == "" then return end
 
-      local tokens = vim.split( prompt, "  " )
-      local args = { "rg" }
+      if not prompt:find( "||" ) then
+        local tokens = vim.split( prompt, "  " )
+        local args = { "rg" }
 
-      if tokens[ 1 ] then
-        table.insert( args, "-e" )
-        table.insert( args, tokens[ 1 ] )
+        if tokens[ 1 ] then
+          table.insert( args, "-e" )
+          table.insert( args, tokens[ 1 ] )
+        end
+
+        for i = 2, #tokens do
+          if tokens[ i ] then
+            table.insert( args, "-g" )
+            table.insert( args, tokens[ i ] )
+          end
+        end
+
+        vim.list_extend( args, {
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case"
+        } )
+
+        return args
       end
 
-      for i = 2, #tokens do
-        if tokens[ i ] then
-          table.insert( args, "-g" )
-          table.insert( args, tokens[ i ] )
+      local cmd = ""
+      local piped_terms = vim.split( prompt, "||" )
+
+      local globs = {}
+      for _, term in ipairs( piped_terms ) do
+        local tokens = vim.split( vim.trim( term ), "  " )
+        if #tokens > 1 then
+          for i = 2, #tokens do
+            table.insert( globs, tokens[ i ] )
+          end
         end
       end
 
-      return vim.iter( {
-        args,
-        { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" }
-      } ):flatten():totable()
+      for i, term in ipairs( piped_terms ) do
+        local term_cmd = "rg"
+        local tokens = vim.split( vim.trim( term ), "  " )
+
+        if #tokens > 0 then
+          term_cmd = term_cmd .. " -e " .. vim.fn.shellescape( tokens[ 1 ] )
+
+          if i == 1 then
+            for _, glob in ipairs( globs ) do
+              term_cmd = term_cmd .. " -g " .. vim.fn.shellescape( glob )
+            end
+          end
+
+          term_cmd = term_cmd .. " --color=never --no-heading --with-filename --line-number --column --smart-case"
+        end
+
+        if i == 1 then
+          cmd = term_cmd
+        else
+          cmd = cmd .. " | " .. term_cmd
+        end
+      end
+
+      return { "sh", "-c", cmd }
     end,
     entry_maker = make_entry.gen_from_vimgrep( opts ),
     cwd = opts.cwd
