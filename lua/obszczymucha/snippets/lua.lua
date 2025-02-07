@@ -16,7 +16,7 @@ ls.add_snippets( LANG, {
   ),
   s( "modui",
     fmt( [[
-      ModUi.mod( "{name}", function( mod, wow )
+      ModUi.mod( "{name}", function( mod )
         {start}
       end{mixins} )
     ]], {
@@ -27,7 +27,7 @@ ls.add_snippets( LANG, {
   ),
   s( "mixui",
     fmt( [[
-      ModUi.mixin( "{name}", function( mixin, wow )
+      ModUi.mixin( "{name}", function( mixin )
         {start}
       end, function( self, component )
       end{mixins} )
