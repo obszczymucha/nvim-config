@@ -19,9 +19,10 @@ return {
       }
     }                                    -- go to the following link to see all the options in the deafult config file
     require( "bookmarks" ).setup( opts ) -- you must call setup to init sqlite db
-    vim.keymap.set( "n", "ma", "<cmd>BookmarksMark<CR>", { desc = "Mark current line." } )
-    vim.keymap.set( "n", "m,", "<cmd>BookmarksGotoPrev<CR>", { desc = "Go to the previous bookmark." } )
-    vim.keymap.set( "n", "m.", "<cmd>BookmarksGotoNext<CR>", { desc = "Go to the next bookmark." } )
+    vim.keymap.set( "n", "ma", "<cmd>BookmarksQuickMark<CR>", { desc = "Mark current line." } )
+    vim.keymap.set( "n", "ms", "<cmd>BookmarksMark<CR>", { desc = "Mark current line with a name." } )
+    vim.keymap.set( "n", "zh", "<cmd>BookmarksGotoPrev<CR>", { desc = "Go to the previous bookmark." } )
+    vim.keymap.set( "n", "zl", "<cmd>BookmarksGotoNext<CR>", { desc = "Go to the next bookmark." } )
     vim.keymap.set( "n", "mq", "<cmd>BookmarksGoto<CR>", { desc = "Bookmark Telescope." } )
     vim.keymap.set( "n", "mg", "<cmd>BookmarksTree<CR>", { desc = "Bookmark tree." } )
   end,
