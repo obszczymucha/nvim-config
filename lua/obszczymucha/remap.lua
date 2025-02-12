@@ -36,6 +36,8 @@ vim.keymap.set( "n", "gl", "<cmd>GitMessenger<CR>", { silent = true, desc = "Git
 -- Notifications
 if is_wsl then
   vim.keymap.set( "n", "<F38>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
+elseif is_macos then
+  vim.keymap.set( "n", "<F37>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
 else
   vim.keymap.set( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
 end
