@@ -10,35 +10,27 @@ local function should_move_cursor( node )
 
   while current do
     if current:type() == "parameters" or current:type() == "arguments" then
-      return false
-    end
+      local call = current:parent()
 
-    if current:type() == "function_definition" then
-      break
-    end
+      if call and call:type() == "function_call" then
+        local prefix = call:child( 0 )
 
-    current = current:parent()
-  end
+        if prefix and prefix:type() == "dot_index_expression" then
+          local text = vim.treesitter.get_node_text( prefix, 0 )
 
-  current = node
-
-  while current do
-    if current:type() == "function_call" then
-      local prefix = current:child( 0 )
-
-      if prefix and prefix:type() == "dot_index_expression" then
-        local text = vim.treesitter.get_node_text( prefix, 0 )
-
-        for _, name in ipairs( M.function_names ) do
-          if text == name then return true end
+          for _, name in ipairs( M.function_names ) do
+            if text == name then return true end
+          end
         end
+
+        return false
       end
     end
 
     current = current:parent()
   end
 
-  return false
+  return true
 end
 
 local function find_next_paren( row, col )
