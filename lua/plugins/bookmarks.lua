@@ -20,9 +20,9 @@ return {
         map( "n", "mc", bm.bookmark_clean )
         map( "n", "zl", bm.bookmark_next )
         map( "n", "zh", bm.bookmark_prev )
-        map( "n", "mq", bm.bookmark_list )
+        map( "n", "mg", bm.bookmark_list )
         map( "n", "mC", bm.bookmark_clear_all )
-        map( "n", "mg", function() require( "telescope" ).extensions.bookmarks.list() end )
+        map( "n", "mq", function() require( "telescope" ).extensions.bookmarks.list() end )
       end
     }
   end
