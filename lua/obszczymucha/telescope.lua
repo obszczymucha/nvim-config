@@ -157,6 +157,10 @@ function M.git_branches()
   telescope.git_branches()
 end
 
+function M.quickfix_history()
+  telescope.quickfixhistory()
+end
+
 function M.noice()
   require( "telescope" ).extensions.noice.noice( options )
 end
