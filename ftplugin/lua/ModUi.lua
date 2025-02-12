@@ -50,7 +50,7 @@ local function find_next_paren( row, col )
   end
 end
 
----@param operator "'c'" | "'d'"
+---@param operator "'c'" | "'d'" | "'v'"
 function M.custom_ib( operator )
   local cursor = vim.api.nvim_win_get_cursor( 0 )
   local row, col = cursor[ 1 ] - 1, cursor[ 2 ]
@@ -71,5 +71,6 @@ end
 
 vim.keymap.set( "n", "cib", function() M.custom_ib( "c" ) end, { noremap = true, silent = true, buffer = true } )
 vim.keymap.set( "n", "dib", function() M.custom_ib( "d" ) end, { noremap = true, silent = true, buffer = true } )
+vim.keymap.set( "n", "vib", function() M.custom_ib( "v" ) end, { noremap = true, silent = true, buffer = true } )
 
 return M
