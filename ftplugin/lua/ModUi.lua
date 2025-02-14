@@ -5,7 +5,38 @@ local M = {}
 
 M.function_names = { "ModUi.mod", "ModUi.cmod", "ModUi.mixin", "ModUi.cmixin" }
 
+-- This is required because TreeSitter doesn't parse comments, and lua
+-- annotations use parentheses for function signatures.
+local function is_inside_parens_in_line( line, col )
+  local open_count = 0
+  local close_count = 0
+  local in_parens = false
+
+  for i = 1, #line do
+    if i == col + 1 then
+      in_parens = open_count > close_count
+    end
+
+    local c = line:sub( i, i )
+
+    if c == '(' then
+      open_count = open_count + 1
+    elseif c == ')' then
+      close_count = close_count + 1
+    end
+  end
+
+  return in_parens
+end
+
 local function should_move_cursor( node )
+  local cursor = vim.api.nvim_win_get_cursor( 0 )
+  local line = vim.api.nvim_buf_get_lines( 0, cursor[ 1 ] - 1, cursor[ 1 ], false )[ 1 ]
+
+  if is_inside_parens_in_line( line, cursor[ 2 ] ) then
+    return false
+  end
+
   local current = node
 
   while current do
