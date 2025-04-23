@@ -22,7 +22,8 @@ vim.keymap.set( "n", "<leader>rg", "<cmd>lua R( 'obszczymucha.telescope' ).regis
 vim.keymap.set( "n", "<leader>gc", "<cmd>lua R( 'obszczymucha.telescope' ).git_commits()<CR>", { desc = "Git commits" } )
 vim.keymap.set( "n", "<leader>gb", "<cmd>lua R( 'obszczymucha.telescope' ).git_branches()<CR>", { desc = "Git branches" } )
 vim.keymap.set( "n", "<leader>fp", "<cmd>lua R( 'obszczymucha.telescope' ).breakpoints()<CR>", { desc = "Breakpoints" } )
-vim.keymap.set( "n", "<leader>fq", "<cmd>lua R( 'obszczymucha.telescope' ).quickfix_history()<CR>", { desc = "Quickfix history" } )
+vim.keymap.set( "n", "<leader>fq", "<cmd>lua R( 'obszczymucha.telescope' ).quickfix_history()<CR>",
+  { desc = "Quickfix history" } )
 vim.keymap.set( "n", "_", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>", { desc = "File browser" } )
 vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 vim.keymap.set( "n", "<leader>fy", "<cmd>lua R( 'obszczymucha.telescope' ).neoclip()<CR>",
@@ -62,12 +63,19 @@ vim.keymap.set( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<C
 vim.keymap.set( "n", "<leader>gf", "<cmd>e <cfile><CR>", { desc = "Create a file under cursor" } )
 
 -- Window management
-vim.keymap.set( "n", "<A-v>", "<C-w>v<C-w>w" )
-vim.keymap.set( "n", "<A-s>", "<C-w>s<C-w>w" )
+-- vim.keymap.set( "n", "<A-v>", "<C-w>v<C-w>w" )
+-- vim.keymap.set( "n", "<A-s>", "<C-w>s<C-w>w" )
 vim.keymap.set( "n", "<S-A-j>", "<C-w>j" )
 vim.keymap.set( "n", "<S-A-k>", "<C-w>k" )
-vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
-vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
+
+if is_macos then
+  vim.keymap.set( "n", "<S-Left>", "<C-w>h" )
+  vim.keymap.set( "n", "<S-Right>", "<C-w>l" )
+else
+  vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
+  vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
+end
+
 vim.keymap.set( "n", "<A-<>", "<C-w>5<" )
 vim.keymap.set( "n", "<A->>", "<C-w>5>" )
 vim.keymap.set( "n", "<A-,>", "<C-w>5-" )
