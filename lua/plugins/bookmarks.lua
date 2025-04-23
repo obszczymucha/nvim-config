@@ -1,7 +1,7 @@
 local utils = require( "obszczymucha.utils" )
 
 return {
-  "tomasky/bookmarks.nvim",
+  "obszczymucha/bookmarks.nvim",
   event = "VimEnter",
   config = function()
     require( "bookmarks" ).setup {
