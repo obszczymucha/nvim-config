@@ -95,30 +95,33 @@ local function update_mason( registry )
 
     for _, wrapped_package in pairs( package_bundle.wrapped_packages ) do
       local pkg = registry.get_package( wrapped_package.name )
-      pkg:check_new_version( function( success, details )
+      local current_version = pkg:get_installed_version()
+      local latest_version = pkg:get_latest_version()
+
+      if current_version ~= latest_version then
         wrapped_package.version_checked = true
-        wrapped_package.needs_update = success == true or false
+        wrapped_package.needs_update = true
 
-        if wrapped_package.needs_update == false then
-          announce_if_needed()
-          return
-        end
-
-        vim.notify( string.format( "Updating %s from version %s to %s...", details.name, details.current_version,
-          details.latest_version ) )
+        vim.notify( string.format( "Updating %s from version %s to %s...", wrapped_package.name, current_version,
+          latest_version ) )
 
         package_bundle.updated_count = package_bundle.updated_count + 1
         package_bundle.updates_needed = true
 
-        mason_utils.install_package( details.name, details.lastest_version, function()
+        mason_utils.install_package( wrapped_package.name, latest_version, function()
           package_bundle.updated_count = package_bundle.updated_count + 1
-          package_bundle.wrapped_packages[ details.name ].needs_update = false
-          vim.notify( string.format( "%s updated successfully.", details.name ) )
+          package_bundle.wrapped_packages[ wrapped_package.name ].needs_update = false
+          vim.notify( string.format( "%s updated successfully.", wrapped_package.name ) )
 
           announce_if_needed()
         end )
-      end )
+      else
+        wrapped_package.version_checked = true
+        wrapped_package.needs_update = false
+      end
     end
+
+    announce_if_needed()
   end )
 end
 
