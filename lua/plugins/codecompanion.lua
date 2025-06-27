@@ -8,8 +8,13 @@ return {
     {
       "ravitemer/mcphub.nvim",
       cmd = "MCPHub",
-      build = "npm install -g mcp-hub@latest",
-      config = true
+      -- build = "npm install -g mcp-hub@latest",
+      build = 'bundled_build.lua',
+      config = function()
+        require( "mcphub" ).setup( {
+          use_bundled_binary = true
+        } )
+      end
     },
     {
       "Davidyz/VectorCode",
@@ -29,7 +34,7 @@ return {
           delete_on_clearing_chat = false,
           picker = "snacks",
           enable_logging = false,
-          dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history"
+          dir_to_save = vim.fn.stdpath( "data" ) .. "/codecompanion-history"
         }
       },
       mcphub = {
@@ -77,7 +82,7 @@ return {
     } )
   end,
   init = function()
-    vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd( [[cab cc CodeCompanion]] )
     local map = vim.keymap.set
     map( "n", "<leader>fw", "<cmd>CodeCompanionActions<CR>" )
   end,
