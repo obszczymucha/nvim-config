@@ -7,7 +7,7 @@ function M.organize_imports()
     title = ""
   }
 
-  vim.lsp.buf.execute_command( params )
+  vim.lsp.buf_request( 0, "workspace/executeCommand", params )
 end
 
 return M

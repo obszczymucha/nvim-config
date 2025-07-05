@@ -60,9 +60,15 @@ local function apply_highlights()
 
       if start and highlight.target then
         local hl_start = line:find( highlight.target, start )
-        vim.api.nvim_buf_add_highlight( state.buf, ns_id, highlight.group, i - 1, hl_start - 1, -1 )
+        vim.api.nvim_buf_set_extmark( state.buf, ns_id, i - 1, hl_start - 1, {
+          end_col = #line,
+          hl_group = highlight.group
+        } )
       elseif start then
-        vim.api.nvim_buf_add_highlight( state.buf, ns_id, highlight.group, i - 1, start - 1, -1 )
+        vim.api.nvim_buf_set_extmark( state.buf, ns_id, i - 1, start - 1, {
+          end_col = #line,
+          hl_group = highlight.group
+        } )
       end
     end
   end
