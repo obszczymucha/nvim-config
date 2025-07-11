@@ -6,7 +6,8 @@ if not registry then return end
 local packages = {
   "npm-groovy-lint",
   "java-test",
-  "java-debug-adapter"
+  "java-debug-adapter",
+  "codelldb" -- For Rust debugging.
 }
 
 local function are_packages_available( p )
