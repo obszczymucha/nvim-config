@@ -148,7 +148,7 @@ return {
   { "folke/neoconf.nvim" },
   {
     'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
+    version = '^6', -- Recommended
     lazy = false,   -- This plugin is already lazy
   },
   { "rhysd/git-messenger.vim",        lazy = false },
