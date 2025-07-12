@@ -56,26 +56,32 @@ return {
     require( "codecompanion" ).setup( {
       adapters = {
         genai_studio = function()
-          return require("codecompanion.adapters").extend("openai_compatible", {
+          return require( "codecompanion.adapters" ).extend( "openai_compatible", {
             env = {
               url = "https://api.studio.genai.cba",
-              api_key = os.getenv("GENAI_API_KEY")
+              api_key = os.getenv( "GENAI_API_KEY" )
             },
             schema = {
               model = {
                 default = "bedrock-claude-3-7-sonnet"
               }
             }
-          })
+          } )
         end
       },
       strategies = {
         chat = {
-          adapter = "copilot"
+          adapter = {
+            name = "copilot",
+            model = "claude-3.7-sonnet"
+          }
           --adapter = "genai_studio"
         },
         inline = {
-          adapter = "copilot"
+          adapter = {
+            name = "copilot",
+            model = "claude-3.7-sonnet"
+          }
           -- adapter = "genai_studio"
         }
       }
