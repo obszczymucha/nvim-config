@@ -11,7 +11,7 @@ local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local pickers = require( "telescope.pickers" )
 local conf = require( "telescope.config" ).values
-local oil_dir = require( "obszczymucha.telescope.oil_dir" )
+local oil_dir = require( "obszczymucha.telescope.oil-dir" )
 
 local M = {}
 
