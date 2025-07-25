@@ -54,6 +54,11 @@ return {
   },
   config = function()
     require( "codecompanion" ).setup( {
+      display = {
+        action_palette = {
+          provider = "telescope",
+        },
+      },
       adapters = {
         genai_studio = function()
           return require( "codecompanion.adapters" ).extend( "openai_compatible", {
