@@ -7,6 +7,19 @@ local utils = require( "obszczymucha.utils" )
 
 local M = {}
 
+local function sort_by_depth_then_name( directories )
+  table.sort( directories, function( a, b )
+    local depth_a = select( 2, a:gsub( "/", "" ) )
+    local depth_b = select( 2, b:gsub( "/", "" ) )
+
+    if depth_a == depth_b then
+      return a < b
+    end
+
+    return depth_a < depth_b
+  end )
+end
+
 local function is_git_repository( cwd )
   return vim.fn.isdirectory( cwd .. "/.git" ) == 1 or vim.fn.finddir( ".git", cwd .. ";." ) ~= ""
 end
@@ -52,13 +65,13 @@ local function scan_git_directories( cwd )
     table.insert( directories, dir )
   end
 
-  table.sort( directories )
+  sort_by_depth_then_name( directories )
 
   return directories
 end
 
 local function scan_filesystem_directories( cwd, max_depth )
-  local find_cmd = string.format( "find -L %s -maxdepth %d -type d -not -path '*/.*' 2>/dev/null | sort",
+  local find_cmd = string.format( "find -L %s -maxdepth %d -type d -not -path '*/.*' 2>/dev/null",
     vim.fn.shellescape( cwd ), max_depth )
   local found_dirs = vim.fn.systemlist( find_cmd )
 
@@ -69,6 +82,8 @@ local function scan_filesystem_directories( cwd, max_depth )
       table.insert( directories, dir )
     end
   end
+
+  sort_by_depth_then_name( directories )
 
   return directories
 end
@@ -113,12 +128,14 @@ function M.search_directories( opts )
     },
     attach_mappings = function( _, map )
       actions.select_default:replace( open_oil )
+
       map( "i", "<CR>", open_oil )
       map( "n", "<CR>", open_oil )
       map( "i", "<C-u>", actions.results_scrolling_up )
       map( "n", "<C-u>", actions.results_scrolling_up )
       map( "i", "<C-d>", actions.results_scrolling_down )
       map( "n", "<C-d>", actions.results_scrolling_down )
+
       return true
     end,
   } ):find()
