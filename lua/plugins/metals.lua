@@ -1,6 +1,6 @@
 return {
   "scalameta/nvim-metals",
-  ft = "scala",
+  ft = { "scala", "sbt" },
   config = function()
     local metals = require( "metals" )
     local api = vim.api

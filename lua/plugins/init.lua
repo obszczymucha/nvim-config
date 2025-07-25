@@ -2,7 +2,7 @@ return {
   -- the colorscheme should be available when starting Neovim
   {
     "folke/tokyonight.nvim",
-    lazy = true,    -- make sure we load this during startup if it is your main colorscheme
+    lazy = true,     -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     opts = {
       -- your configuration comes here
@@ -94,7 +94,6 @@ return {
     end
   },
   { "marilari88/twoslash-queries.nvim" }, -- Uses ^ to show info
-  { "mfussenegger/nvim-dap" },
   { "mfussenegger/nvim-jdtls" },
   { "neovim/nvim-lspconfig" },
   { "nvim-lua/plenary.nvim" },
