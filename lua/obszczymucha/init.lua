@@ -19,6 +19,7 @@ require( "obszczymucha.osv" )
 require( "obszczymucha.mason-auto-install" )
 require( "obszczymucha.code-actions.lua" )
 require( "obszczymucha.last-opened" )
+require( "obszczymucha.actions" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )
