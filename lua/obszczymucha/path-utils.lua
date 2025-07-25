@@ -1,3 +1,4 @@
+-- luacheck: globals vim
 local M = {}
 
 local function sort_by_depth_then_name( directories )
@@ -14,7 +15,10 @@ local function sort_by_depth_then_name( directories )
 end
 
 local function is_git_repository( cwd )
-  return vim.fn.isdirectory( cwd .. "/.git" ) == 1 or vim.fn.finddir( ".git", cwd .. ";." ) ~= ""
+  local git_path = cwd .. "/.git"
+  return vim.fn.isdirectory( git_path ) == 1 or
+         vim.fn.filereadable( git_path ) == 1 or
+         vim.fn.finddir( ".git", cwd .. ";." ) ~= ""
 end
 
 local function get_tracked_directories( cwd )
