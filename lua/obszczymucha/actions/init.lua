@@ -47,7 +47,7 @@ M.browse = function()
       width = 60,
       height = 18
     },
-    results_title = false,
+    results_title = "Actions",
     prompt_title = "",
   }, {
     prompt_title = "",
