@@ -10,28 +10,41 @@ local M = {}
 function M.search_directories( opts )
   opts = opts or {}
   opts.cwd = opts.cwd or utils.get_project_root_dir()
-  local max_depth = opts.max_depth or 20
 
   local directories = {}
+  local tracked_dirs = {}
+  local tracked_files = vim.fn.systemlist( "git ls-files --directory " .. vim.fn.shellescape( opts.cwd ) )
 
-  local function scan_dir( path, depth )
-    if depth > max_depth then return end
+  for _, file in ipairs( tracked_files ) do
+    if file:match( "/$" ) then
+      local full_path = opts.cwd .. "/" .. file:gsub( "/$", "" )
+      tracked_dirs[ full_path ] = true
+    else
+      local dir = vim.fn.fnamemodify( opts.cwd .. "/" .. file, ":h" )
 
-    local items = vim.fn.glob( path .. "/*", false, true )
-
-    for _, item in ipairs( items ) do
-      if vim.fn.isdirectory( item ) == 1 then
-        local basename = vim.fn.fnamemodify( item, ":t" )
-
-        if not basename:match( "^%." ) then
-          table.insert( directories, item )
-          scan_dir( item, depth + 1 )
-        end
+      while dir ~= opts.cwd and dir ~= "/" do
+        tracked_dirs[ dir ] = true
+        dir = vim.fn.fnamemodify( dir, ":h" )
       end
     end
   end
 
-  scan_dir( opts.cwd, 0 )
+  local untracked_dirs = vim.fn.systemlist( "git ls-files --others --directory --exclude-standard " ..
+    vim.fn.shellescape( opts.cwd ) )
+  for _, dir in ipairs( untracked_dirs ) do
+    if dir:match( "/$" ) then
+      local full_path = opts.cwd .. "/" .. dir:gsub( "/$", "" )
+      tracked_dirs[ full_path ] = true
+    end
+  end
+
+  for dir, _ in pairs( tracked_dirs ) do
+    if vim.fn.isdirectory( dir ) == 1 then
+      table.insert( directories, dir )
+    end
+  end
+
+  table.sort( directories )
 
   local finder = finders.new_table( {
     results = directories,
