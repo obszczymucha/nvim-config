@@ -47,8 +47,8 @@ M.browse = function()
       width = 60,
       height = 18
     },
-    results_title = "Actions",
-    prompt_title = "",
+    results_title = false,
+    prompt_title = "Actions"
   }, {
     prompt_title = "",
     finder = finders.new_table {
