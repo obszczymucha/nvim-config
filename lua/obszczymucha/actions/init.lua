@@ -47,6 +47,12 @@ M.browse = function()
       width = 60,
       height = 18
     },
+    attach_mappings = function( _, map )
+      map( "i", "<A-q>", telescope_actions.close )
+      map( "n", "<A-q>", telescope_actions.close )
+
+      return true
+    end,
     results_title = false,
     prompt_title = "Actions"
   }, {
