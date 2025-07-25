@@ -11,6 +11,7 @@ local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local pickers = require( "telescope.pickers" )
 local conf = require( "telescope.config" ).values
+local oil_dir = require( "obszczymucha.telescope.oil_dir" )
 
 local M = {}
 
@@ -287,6 +288,10 @@ function M.live_multigrep( opts )
     previewer = conf.grep_previewer( opts ),
     sorter = require( "telescope.sorters" ).empty()
   } ):find()
+end
+
+function M.oil_dir()
+  oil_dir.search_directories()
 end
 
 return M

@@ -28,6 +28,8 @@ vim.keymap.set( "n", "_", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()
 vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
 vim.keymap.set( "n", "<leader>fy", "<cmd>lua R( 'obszczymucha.telescope' ).neoclip()<CR>",
   { silent = true, desc = "Neoclip" } )
+vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).oil_dir()<CR>",
+  { desc = "Directory search (Oil)" } )
 
 -- For Mac
 vim.keymap.set( "n", "<M-F1>", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
