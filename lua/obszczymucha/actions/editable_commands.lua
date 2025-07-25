@@ -1,7 +1,7 @@
 return {
-  {
-    name = "Show help",
-    action = "help"
-  }
+  -- {
+  --   name = "Show help",
+  --   action = "help"
+  -- }
 }
 
