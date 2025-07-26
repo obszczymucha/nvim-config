@@ -16,8 +16,8 @@ return {
       },
       float = {
         padding = 2,
-        max_width = 90,
-        max_height = 28
+        max_width = 60,
+        max_height = 24
       }
     }
 
