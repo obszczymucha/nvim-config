@@ -6,9 +6,56 @@ local prefixes = {
   editable_command = "[e]"
 }
 
-local actions_list = require( "obszczymucha.actions.actions" )
-local commands_list = require( "obszczymucha.actions.commands" )
-local editable_commands_list = require( "obszczymucha.actions.editable_commands" )
+local module_names = {
+  action = "obszczymucha.actions.actions",
+  command = "obszczymucha.actions.commands",
+  editable_command = "obszczymucha.actions.editable_commands"
+}
+
+local function find_action_definition( action_name, action_type )
+  local module_name = module_names[ action_type ]
+  local lua_path = module_name and module_name:gsub( "%.", "/" ) .. ".lua"
+  local file_path = lua_path and vim.api.nvim_get_runtime_file( "lua/" .. lua_path, false )[ 1 ]
+
+  if not file_path then return nil end
+
+  local bufnr = vim.fn.bufadd( file_path )
+
+  if not vim.api.nvim_buf_is_loaded( bufnr ) then
+    vim.fn.bufload( bufnr )
+  end
+
+  local parser = vim.treesitter.get_parser( bufnr, "lua" )
+  if not parser then return nil end
+
+  local tree = parser:parse()[ 1 ]
+  local root = tree:root()
+  local query = vim.treesitter.query.parse( "lua", [[
+    (field
+      name: (identifier) @field_name
+      (#eq? @field_name "name")
+      value: (string (string_content) @name_value))
+  ]] )
+
+  for id, node in query:iter_captures( root, bufnr, 0, -1 ) do
+    local capture_name = query.captures[ id ]
+
+    if capture_name == "name_value" and node and type( node.range ) == "function" then
+      local str_text = vim.treesitter.get_node_text( node, bufnr )
+
+      if str_text == action_name then
+        local start_row, start_col, _, _ = node:range()
+        return { file = file_path, line = start_row + 1, col = start_col + 1 }
+      end
+    end
+  end
+
+  return nil
+end
+
+local actions_list = require( module_names.action )
+local commands_list = require( module_names.command )
+local editable_commands_list = require( module_names.editable_command )
 
 local actions = {}
 
@@ -69,6 +116,24 @@ M.browse = function()
     attach_mappings = function( _, map )
       map( "i", "<A-q>", telescope_actions.close )
       map( "n", "<A-q>", telescope_actions.close )
+
+      local function open_action_definition( prompt_bufnr )
+        local selection = action_state.get_selected_entry()
+        local location = selection and selection.value and
+            find_action_definition( selection.value.name, selection.value.type )
+
+        if not location then
+          vim.notify( "Could not find action definition.", vim.log.levels.WARN )
+          return
+        end
+
+        telescope_actions.close( prompt_bufnr )
+        vim.cmd( "edit " .. location.file )
+        vim.api.nvim_win_set_cursor( 0, { location.line, location.col - 1 } )
+      end
+
+      map( "i", "<A-e>", open_action_definition )
+      map( "n", "<A-e>", open_action_definition )
 
       return true
     end,
