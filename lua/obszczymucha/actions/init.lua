@@ -53,7 +53,7 @@ M.browse = function()
 
   local function make_display( entry )
     local prefix = prefixes[ entry.value.type ] or ""
-    return displayer( { { prefix, "Keyword" }, entry.value.name } )
+    return displayer( { { prefix, "Label" }, entry.value.name } )
   end
 
   pickers.new( {
