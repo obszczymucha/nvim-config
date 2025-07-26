@@ -6,14 +6,14 @@ local prefixes = {
   editable_command = "[e]"
 }
 
-local module_names = {
+local action_type_to_module_name = {
   action = "obszczymucha.actions.actions",
   command = "obszczymucha.actions.commands",
   editable_command = "obszczymucha.actions.editable_commands"
 }
 
 local function find_action_definition( action_name, action_type )
-  local module_name = module_names[ action_type ]
+  local module_name = action_type_to_module_name[ action_type ]
   local lua_path = module_name and module_name:gsub( "%.", "/" ) .. ".lua"
   local file_path = lua_path and vim.api.nvim_get_runtime_file( "lua/" .. lua_path, false )[ 1 ]
 
@@ -53,28 +53,16 @@ local function find_action_definition( action_name, action_type )
   return nil
 end
 
-local actions_list = require( module_names.action )
-local commands_list = require( module_names.command )
-local editable_commands_list = require( module_names.editable_command )
-
 local actions = {}
 
-for _, item in ipairs( actions_list ) do
-  local action = vim.deepcopy( item )
-  action.type = "action"
-  table.insert( actions, action )
-end
+for action_type, module_name in pairs( action_type_to_module_name ) do
+  local actions_list = require( module_name )
 
-for _, item in ipairs( commands_list ) do
-  local action = vim.deepcopy( item )
-  action.type = "command"
-  table.insert( actions, action )
-end
-
-for _, item in ipairs( editable_commands_list ) do
-  local action = vim.deepcopy( item )
-  action.type = "editable_command"
-  table.insert( actions, action )
+  for _, item in ipairs( actions_list ) do
+    local action = vim.deepcopy( item )
+    action.type = action_type
+    table.insert( actions, action )
+  end
 end
 
 M.browse = function()
