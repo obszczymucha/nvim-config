@@ -63,8 +63,8 @@ M.browse = function()
         mirror = false,
         prompt_position = "bottom"
       },
-      width = 60,
-      height = 18
+      width = 50,
+      height = 14
     },
     attach_mappings = function( _, map )
       map( "i", "<A-q>", telescope_actions.close )
