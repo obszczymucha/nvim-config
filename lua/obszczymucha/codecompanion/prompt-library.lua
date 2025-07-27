@@ -5,11 +5,11 @@ local constants = {
 }
 
 return {
-  [ "Code workflow" ] = {
+  [ "Code Workflow" ] = {
     strategy = "workflow",
     description = "Use a workflow to guide an LLM in writing code",
     opts = {
-      index = 1,
+      index = 2,
       is_default = false,
       short_name = "cw",
     },
@@ -57,11 +57,11 @@ return {
       },
     },
   },
-  [ "Chat Buffer" ] = {
+  [ "Chat" ] = {
     strategy = "workflow",
     description = "Chat with buffer and file",
     opts = {
-      index = 2,
+      index = 1,
       is_default = false,
       short_name = "c",
     },
@@ -78,8 +78,38 @@ return {
         },
         {
           role = constants.USER_ROLE,
-          content = [[#{buffer} @{files}
+          content = [[#{buffer}
+@{files}
  ]],
+          opts = {
+            auto_submit = false
+          },
+        },
+      }
+    },
+  },
+  [ "Clean Chat" ] = {
+    strategy = "workflow",
+    description = "Chat",
+    opts = {
+      index = 3,
+      is_default = false,
+      short_name = "cc",
+    },
+    prompts = {
+      {
+        {
+          role = constants.SYSTEM_ROLE,
+          content = function( context )
+            return string.format(
+              "You carefully provide accurate, factual, thoughtful, nuanced answers, and are brilliant at reasoning. If you think there might not be a correct answer, you say so. Always spend a few sentences explaining background context, assumptions, and step-by-step thinking BEFORE you try to answer a question. Don't be verbose in your answers, but do provide details and examples where it might help the explanation. You are an expert software engineer for the %s language",
+              context.filetype
+            )
+          end,
+        },
+        {
+          role = constants.USER_ROLE,
+          content = "",
           opts = {
             auto_submit = false
           },
