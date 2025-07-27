@@ -57,6 +57,10 @@ return {
       display = {
         action_palette = {
           provider = "telescope",
+          opts = {
+            show_default_actions = true,
+            show_default_prompt_library = false
+          }
         },
       },
       adapters = {
@@ -89,7 +93,8 @@ return {
           }
           -- adapter = "genai_studio"
         }
-      }
+      },
+      prompt_library = require( "obszczymucha.codecompanion.prompt-library" )
     } )
   end,
   init = function()
