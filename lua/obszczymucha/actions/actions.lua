@@ -11,7 +11,8 @@ return {
     action = function()
       vim.fn.setreg( "+", vim.fn.expand( "%:." ) )
       vim.notify( "Current file path copied" )
-    end
+    end,
+    score = 0
   },
   {
     name = "Yank current file path",
@@ -25,6 +26,7 @@ return {
     action = function()
       vim.fn.setreg( '"', vim.fn.expand( "%:." ) )
       vim.notify( "Current file path yanked" )
-    end
+    end,
+    score = 0
   }
 }

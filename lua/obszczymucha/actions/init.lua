@@ -68,7 +68,6 @@ end
 M.browse = function()
   local pickers = require( "telescope.pickers" )
   local finders = require( "telescope.finders" )
-  local conf = require( "telescope.config" ).values
   local telescope_actions = require( "telescope.actions" )
   local action_state = require( "telescope.actions.state" )
   local entry_display = require( "telescope.pickers.entry_display" )
@@ -139,7 +138,15 @@ M.browse = function()
         }
       end,
     },
-    sorter = conf.generic_sorter( {} ),
+    sorter = require( "telescope.sorters" ).new {
+      scoring_function = function( _, _, _, entry )
+        if entry.value.score then
+          return entry.value.score
+        end
+
+        return 500
+      end,
+    },
     attach_mappings = function( prompt_bufnr )
       telescope_actions.select_default:replace( function()
         telescope_actions.close( prompt_bufnr )
