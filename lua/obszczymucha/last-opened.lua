@@ -3,7 +3,7 @@ local M = {}
 local config = require( "obszczymucha.user-config" )
 local state = require( "obszczymucha.state.last-opened" )
 
-local ignore_filetypes = { "codecompanion", "gdshader", "oil", "qf", "query" }
+local ignore_filetypes = { "codecompanion", "oil", "qf", "query" }
 
 local group = vim.api.nvim_create_augroup( "LastOpened", { clear = true } )
 
