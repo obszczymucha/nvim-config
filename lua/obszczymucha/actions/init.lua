@@ -12,6 +12,26 @@ local action_type_to_module_name = {
   editable_command = "obszczymucha.actions.editable_commands"
 }
 
+local function create_hybrid_sorter()
+  local fuzzy_sorter = require( "telescope.sorters" ).get_generic_fuzzy_sorter()
+  local wrapped_sorter = setmetatable( {}, { __index = fuzzy_sorter } )
+  local original_scoring_fn = fuzzy_sorter.scoring_function
+
+  wrapped_sorter.scoring_function = function( self, prompt, line, entry )
+    if prompt == "" then
+      if entry.value.score then
+        return entry.value.score
+      end
+
+      return 500
+    end
+
+    return original_scoring_fn( self, prompt, line, entry )
+  end
+
+  return wrapped_sorter
+end
+
 local function find_action_definition( action_name, action_type )
   local module_name = action_type_to_module_name[ action_type ]
   local lua_path = module_name and module_name:gsub( "%.", "/" ) .. ".lua"
@@ -138,15 +158,7 @@ M.browse = function()
         }
       end,
     },
-    sorter = require( "telescope.sorters" ).new {
-      scoring_function = function( _, _, _, entry )
-        if entry.value.score then
-          return entry.value.score
-        end
-
-        return 500
-      end,
-    },
+    sorter = create_hybrid_sorter(),
     attach_mappings = function( prompt_bufnr )
       telescope_actions.select_default:replace( function()
         telescope_actions.close( prompt_bufnr )
