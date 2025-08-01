@@ -12,6 +12,22 @@ local action_type_to_module_name = {
   editable_command = "obszczymucha.actions.editable_commands"
 }
 
+local function should_display_action( action )
+  if not action.filetypes then
+    return true
+  end
+
+  local current_filetype = vim.bo.filetype
+
+  for _, filetype in ipairs( action.filetypes ) do
+    if filetype == current_filetype then
+      return true
+    end
+  end
+
+  return false
+end
+
 local function create_hybrid_sorter()
   local fuzzy_sorter = require( "telescope.sorters" ).get_generic_fuzzy_sorter()
   local wrapped_sorter = setmetatable( {}, { __index = fuzzy_sorter } )
@@ -81,7 +97,9 @@ for action_type, module_name in pairs( action_type_to_module_name ) do
   for _, item in ipairs( actions_list ) do
     local action = vim.deepcopy( item )
     action.type = action_type
-    table.insert( actions, action )
+    if should_display_action( action ) then
+      table.insert( actions, action )
+    end
   end
 end
 

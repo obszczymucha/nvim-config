@@ -1,3 +1,5 @@
+local shader_utils = require( "obszczymucha.actions.utils.shader" )
+
 return {
   {
     name = "Copy current file path",
@@ -28,5 +30,27 @@ return {
       vim.notify( "Current file path yanked" )
     end,
     score = 0
+  },
+  {
+    name = "Hook shader reload",
+    action = function()
+      local current_buffer = vim.api.nvim_get_current_buf()
+      local augroup_name = "ShaderReloadHook" .. current_buffer
+
+      vim.api.nvim_create_augroup( augroup_name, { clear = true } )
+      vim.api.nvim_create_autocmd( "BufWritePost", {
+        group = augroup_name,
+        buffer = current_buffer,
+        callback = function() shader_utils.reload_shader() end
+      } )
+
+      vim.notify( "Shader reload hooked.", vim.log.levels.INFO )
+    end,
+    filetypes = { "gdshader" }
+  },
+  {
+    name = "Reload shader",
+    action = function() shader_utils.reload_shader() end,
+    filetypes = { "gdshader" }
   }
 }
