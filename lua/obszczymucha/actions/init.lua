@@ -228,12 +228,12 @@ M.browse = function()
             if score > require( "telescope.algos.fzy" ).get_score_floor() then
               -- Boost score for prefix matches (lower score = better)
               local bonus = 0
-              if action.name:lower():sub(1, #prompt) == prompt:lower() then
-                bonus = -1000  -- Strong bonus for exact prefix match
-              elseif action.name:lower():find("^" .. prompt:lower()) then
-                bonus = -500   -- Bonus for case-insensitive prefix
+              if action.name:lower():sub( 1, #prompt ) == prompt:lower() then
+                bonus = -1000 -- Strong bonus for exact prefix match
+              elseif action.name:lower():find( "^" .. prompt:lower() ) then
+                bonus = -500  -- Bonus for case-insensitive prefix
               end
-              
+
               table.insert( matches, { action = action, score = score + bonus } )
             end
           end
