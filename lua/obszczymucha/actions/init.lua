@@ -13,19 +13,11 @@ local action_type_to_module_name = {
 }
 
 local function should_display_action( action )
-  if not action.filetypes then
-    return true
-  end
+  local filetype_mismatch = action.filetypes and not vim.tbl_contains( action.filetypes, vim.bo.filetype )
+  if filetype_mismatch then return false end
+  if action.condition and type( action.condition ) == "function" and not action.condition() then return false end
 
-  local current_filetype = vim.bo.filetype
-
-  for _, filetype in ipairs( action.filetypes ) do
-    if filetype == current_filetype then
-      return true
-    end
-  end
-
-  return false
+  return true
 end
 
 local function create_hybrid_sorter()

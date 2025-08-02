@@ -1,4 +1,5 @@
 local shader_utils = require( "obszczymucha.actions.utils.shader" )
+local window_utils = require( "obszczymucha.actions.utils.window" )
 
 return {
   {
@@ -52,5 +53,15 @@ return {
     name = "Reload shader",
     action = function() shader_utils.reload_shader() end,
     filetypes = { "gdshader" }
+  },
+  {
+    name = "Flip horizontally",
+    action = function() vim.cmd( "wincmd J" ) end,
+    condition = function() return window_utils.count_visible_windows() > 1 end
+  },
+  {
+    name = "Flip vertically",
+    action = function() vim.cmd( "wincmd L" ) end,
+    condition = function() return window_utils.count_visible_windows() > 1 end
   }
 }
