@@ -6,14 +6,14 @@ return {
     name = "Copy current file path",
     action = function()
       vim.fn.setreg( "+", vim.fn.expand( "%:p" ) )
-      vim.notify( "Current file path copied" )
+      vim.notify( "Current file path copied." )
     end
   },
   {
     name = "Copy current file relative path",
     action = function()
       vim.fn.setreg( "+", vim.fn.expand( "%:." ) )
-      vim.notify( "Current relative file path copied" )
+      vim.notify( "Current relative file path copied." )
     end,
     score = 0
   },
@@ -21,14 +21,14 @@ return {
     name = "Yank current file path",
     action = function()
       vim.fn.setreg( '"', vim.fn.expand( "%:p" ) )
-      vim.notify( "Current file path yanked" )
+      vim.notify( "Current file path yanked." )
     end
   },
   {
     name = "Yank current file relative path",
     action = function()
       vim.fn.setreg( '"', vim.fn.expand( "%:." ) )
-      vim.notify( "Current relative file path yanked" )
+      vim.notify( "Current relative file path yanked." )
     end,
     score = 0
   },

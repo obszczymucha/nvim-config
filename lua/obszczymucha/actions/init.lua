@@ -20,17 +20,36 @@ local function should_display_action( action )
   return true
 end
 
-local function create_hybrid_sorter()
-  local fuzzy_sorter = require( "telescope.sorters" ).get_generic_fuzzy_sorter()
-  local wrapped_sorter = setmetatable( {}, { __index = fuzzy_sorter } )
-  local original_scoring_fn = fuzzy_sorter.scoring_function
+local function create_highlighting_sorter()
+  local empty_sorter = require( "telescope.sorters" ).empty()
+  local wrapped_sorter = setmetatable( {}, { __index = empty_sorter } )
 
-  wrapped_sorter.scoring_function = function( self, prompt, line, entry )
-    if prompt == "" then
-      return entry.value.display_number
+  wrapped_sorter.highlighter = function( _, prompt, line )
+    if prompt == "" then return {} end
+
+    local highlights = {}
+    -- Extract just the action name from the display line
+    -- Format is "N [prefix] action_name"
+    local action_name = line:match( "%d+ %[.-%] (.+)" )
+    if not action_name then
+      -- Fallback: try to match the whole line as action name
+      action_name = line
     end
 
-    return original_scoring_fn( self, prompt, line, entry )
+    local positions = require( "telescope.algos.fzy" ).positions( prompt, action_name )
+    if positions then
+      -- Calculate offset: length of everything before the action name
+      local prefix_length = line:len() - action_name:len()
+
+      for _, pos in ipairs( positions ) do
+        table.insert( highlights, {
+          start = pos + prefix_length,
+          finish = pos + prefix_length
+        } )
+      end
+    end
+
+    return highlights
   end
 
   return wrapped_sorter
@@ -99,10 +118,6 @@ table.sort( actions, function( a, b )
   return a.name < b.name
 end )
 
-for i, action in ipairs( actions ) do
-  action.display_number = i
-end
-
 M.browse = function()
   local pickers = require( "telescope.pickers" )
   local finders = require( "telescope.finders" )
@@ -124,11 +139,6 @@ M.browse = function()
     },
   } )
 
-  local function make_display( entry )
-    local prefix = prefixes[ entry.value.type ] or ""
-    local number = tostring( entry.value.display_number )
-    return displayer( { { number, "Number" }, { prefix, "Label" }, entry.value.name } )
-  end
 
   local picker = pickers.new( {
     layout_strategy = "vertical",
@@ -140,6 +150,8 @@ M.browse = function()
       width = 50,
       height = 14
     },
+    previewer = false,
+    default_text = "",
     attach_mappings = function( _, map )
       map( "i", "<A-q>", telescope_actions.close )
       map( "n", "<A-q>", telescope_actions.close )
@@ -164,9 +176,16 @@ M.browse = function()
 
       for i = 1, 9 do
         local function execute_action( prompt_bufnr )
-          if i <= #actions then
+          local current_picker = action_state.get_current_picker( prompt_bufnr )
+          local all_entries = {}
+
+          for entry in current_picker.manager:iter() do
+            table.insert( all_entries, entry )
+          end
+
+          if all_entries[ i ] then
             telescope_actions.close( prompt_bufnr )
-            local action = actions[i]
+            local action = all_entries[ i ].value
             if action.type == "action" then
               action.action()
             elseif action.type == "command" then
@@ -174,9 +193,12 @@ M.browse = function()
             elseif action.type == "editable_command" then
               vim.fn.feedkeys( ":" .. action.action )
             end
+          else
+            vim.notify( "Debug - No entry found for index " .. i .. ". Available entries: " .. #all_entries,
+              vim.log.levels.WARN )
           end
         end
-        
+
         map( "i", tostring( i ), execute_action )
         map( "n", tostring( i ), execute_action )
       end
@@ -187,17 +209,55 @@ M.browse = function()
     prompt_title = "Actions"
   }, {
     prompt_title = "",
-    finder = finders.new_table {
-      results = actions,
-      entry_maker = function( entry )
-        return {
-          value = entry,
-          display = make_display,
-          ordinal = entry.name,
-        }
+    finder = finders.new_dynamic {
+      fn = function( prompt )
+        local filtered_actions = {}
+
+        if prompt == "" then
+          -- No filtering, use original order
+          for i, action in ipairs( actions ) do
+            local action_copy = vim.deepcopy( action )
+            action_copy.display_index = i
+            table.insert( filtered_actions, action_copy )
+          end
+        else
+          -- Apply fuzzy matching manually
+          local matches = {}
+          for _, action in ipairs( actions ) do
+            local score = require( "telescope.algos.fzy" ).score( prompt, action.name )
+            if score > require( "telescope.algos.fzy" ).get_score_floor() then
+              table.insert( matches, { action = action, score = score } )
+            end
+          end
+
+          -- Sort by fuzzy score (lower is better)
+          table.sort( matches, function( a, b ) return a.score < b.score end )
+
+          -- Assign sequential indices
+          for i, match in ipairs( matches ) do
+            local action_copy = vim.deepcopy( match.action )
+            action_copy.display_index = i
+            action_copy.fuzzy_score = match.score
+            table.insert( filtered_actions, action_copy )
+          end
+        end
+
+        return filtered_actions
       end,
+      entry_maker = function( entry )
+        local telescope_entry = {
+          value = entry,
+          ordinal = entry.name,
+          index = entry.display_index
+        }
+        telescope_entry.display = function( item )
+          local prefix = prefixes[ entry.type ] or ""
+          return displayer( { { item.index, "Number" }, { prefix, "Label" }, entry.name } )
+        end
+        return telescope_entry
+      end
     },
-    sorter = create_hybrid_sorter(),
+    sorter = create_highlighting_sorter(),
     attach_mappings = function( prompt_bufnr )
       telescope_actions.select_default:replace( function()
         telescope_actions.close( prompt_bufnr )
@@ -216,7 +276,8 @@ M.browse = function()
       end )
       return true
     end,
-  } ):find()
+  } )
+  picker:find()
 end
 
 vim.keymap.set( "n", "<leader>fa", "<cmd>lua R( 'obszczymucha.actions' ).browse()<CR>", { desc = "Browse actions" } )
