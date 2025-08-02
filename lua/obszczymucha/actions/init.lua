@@ -27,11 +27,7 @@ local function create_hybrid_sorter()
 
   wrapped_sorter.scoring_function = function( self, prompt, line, entry )
     if prompt == "" then
-      if entry.value.score then
-        return entry.value.score
-      end
-
-      return 500
+      return entry.value.display_number
     end
 
     return original_scoring_fn( self, prompt, line, entry )
@@ -85,7 +81,6 @@ local actions = {}
 
 for action_type, module_name in pairs( action_type_to_module_name ) do
   local actions_list = require( module_name )
-
   for _, item in ipairs( actions_list ) do
     local action = vim.deepcopy( item )
     action.type = action_type
@@ -93,6 +88,19 @@ for action_type, module_name in pairs( action_type_to_module_name ) do
       table.insert( actions, action )
     end
   end
+end
+
+table.sort( actions, function( a, b )
+  local score_a = a.score or 500
+  local score_b = b.score or 500
+  if score_a ~= score_b then
+    return score_a < score_b
+  end
+  return a.name < b.name
+end )
+
+for i, action in ipairs( actions ) do
+  action.display_number = i
 end
 
 M.browse = function()
@@ -110,6 +118,7 @@ M.browse = function()
   local displayer = entry_display.create( {
     separator = " ",
     items = {
+      { width = 1 },
       { width = max_prefix },
       { remaining = true },
     },
@@ -117,10 +126,11 @@ M.browse = function()
 
   local function make_display( entry )
     local prefix = prefixes[ entry.value.type ] or ""
-    return displayer( { { prefix, "Label" }, entry.value.name } )
+    local number = tostring( entry.value.display_number )
+    return displayer( { { number, "Number" }, { prefix, "Label" }, entry.value.name } )
   end
 
-  pickers.new( {
+  local picker = pickers.new( {
     layout_strategy = "vertical",
     layout_config = {
       vertical = {
@@ -151,6 +161,25 @@ M.browse = function()
 
       map( "i", "<A-e>", open_action_definition )
       map( "n", "<A-e>", open_action_definition )
+
+      for i = 1, 9 do
+        local function execute_action( prompt_bufnr )
+          if i <= #actions then
+            telescope_actions.close( prompt_bufnr )
+            local action = actions[i]
+            if action.type == "action" then
+              action.action()
+            elseif action.type == "command" then
+              vim.cmd( action.action )
+            elseif action.type == "editable_command" then
+              vim.fn.feedkeys( ":" .. action.action )
+            end
+          end
+        end
+        
+        map( "i", tostring( i ), execute_action )
+        map( "n", tostring( i ), execute_action )
+      end
 
       return true
     end,
