@@ -20,6 +20,7 @@ require( "obszczymucha.mason-auto-install" )
 require( "obszczymucha.code-actions.lua" )
 require( "obszczymucha.last-opened" )
 require( "obszczymucha.actions" )
+require( "obszczymucha.window-number" )
 
 if is_wsl then
   require( "obszczymucha.alacritty" )

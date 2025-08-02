@@ -2,16 +2,17 @@ local M = {}
 
 local state = require( "obszczymucha.state.window-number" )
 
+vim.api.nvim_set_hl( 0, 'WindowNumberPopup', {
+  fg = '#ffffff'
+} )
+
+vim.api.nvim_set_hl( 0, 'WindowNumberBorder', {
+  fg = '#9370db'
+} )
+
 function M.show()
   local Popup = require( "nui.popup" )
 
-  vim.api.nvim_set_hl( 0, 'WindowNumberPopup', {
-    fg = '#ffffff'
-  } )
-
-  vim.api.nvim_set_hl( 0, 'WindowNumberBorder', {
-    fg = '#9370db'
-  } )
   local windows = vim.api.nvim_list_wins()
   local active_popups = {}
 
@@ -79,4 +80,3 @@ vim.keymap.set( "n", "<leader>w", "<cmd>lua R( 'obszczymucha.window-number' ).sh
   { desc = "Show window numbers" } )
 
 return M
-
