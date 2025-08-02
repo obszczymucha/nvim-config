@@ -47,12 +47,18 @@ return {
 
       vim.notify( "Shader reload hooked.", vim.log.levels.INFO )
     end,
-    filetypes = { "gdshader" }
+    filetypes = { "gdshader" },
+    condition = function()
+      return shader_utils.is_reloadable( vim.api.nvim_get_current_buf() )
+    end
   },
   {
     name = "Reload shader",
     action = function() shader_utils.reload_shader() end,
-    filetypes = { "gdshader" }
+    filetypes = { "gdshader" },
+    condition = function()
+      return shader_utils.is_reloadable( vim.api.nvim_get_current_buf() )
+    end
   },
   {
     name = "Flip horizontally",
