@@ -118,6 +118,8 @@ table.sort( actions, function( a, b )
   return a.name < b.name
 end )
 
+vim.cmd( "highlight ActionsTelescopeBorder guifg=#9f7fff" )
+
 M.browse = function()
   local pickers = require( "telescope.pickers" )
   local finders = require( "telescope.finders" )
@@ -285,6 +287,14 @@ M.browse = function()
       return true
     end,
   } )
+
+  local original_create_window = picker._create_window
+
+  picker._create_window = function( self, title, popup_opts )
+    popup_opts.borderhighlight = "ActionsTelescopeBorder"
+    return original_create_window( self, title, popup_opts )
+  end
+
   picker:find()
 end
 
