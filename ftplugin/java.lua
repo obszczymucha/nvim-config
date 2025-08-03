@@ -11,7 +11,7 @@ local java_debug_plugin = debug_plugin_dir .. "/server/com.microsoft.java.debug.
 local vscode_java_test_extension = test_extension_dir .. "/server/*jar"
 
 local bundles = {
-  vim.fn.glob( java_debug_plugin, 1 )
+  vim.fn.glob( java_debug_plugin, true )
 }
 
 vim.list_extend( bundles, vim.split( vim.fn.glob( vscode_java_test_extension ), "\n" ) )
