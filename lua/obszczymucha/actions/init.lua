@@ -118,8 +118,6 @@ table.sort( actions, function( a, b )
   return a.name < b.name
 end )
 
-vim.cmd( "highlight ActionsTelescopeBorder guifg=#9f7fff" )
-
 M.browse = function()
   local pickers = require( "telescope.pickers" )
   local finders = require( "telescope.finders" )
