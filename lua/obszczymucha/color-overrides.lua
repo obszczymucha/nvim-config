@@ -7,3 +7,9 @@ cmd( "autocmd ColorScheme * syntax match Shebang /#!.*/" )
 
 -- Override lspsaga's colors
 cmd( "autocmd ColorScheme * highlight LspFloatWinNormal guibg=NONE" )
+
+local purple = "#9f7fff"
+vim.api.nvim_set_hl( 0, "NotifyINFOIcon", { fg = "#ffffff" } )
+vim.api.nvim_set_hl( 0, "NotifyINFOTitle", { fg = purple } )
+vim.api.nvim_set_hl( 0, "NotifyINFOBorder", { fg = purple } )
+vim.api.nvim_set_hl( 0, "NotifyINFOBody", { fg = purple } )
