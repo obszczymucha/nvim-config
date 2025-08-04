@@ -118,7 +118,30 @@ function M.highlights()
 end
 
 function M.diagnostics()
-  telescope.diagnostics( { layout_strategy = "vertical" } )
+  local opts = options
+
+  opts.attach_mappings = function( _, map )
+    local yank_select_buf_clip = function()
+      local buf_select = action_state.get_selected_entry()
+      local entry = buf_select.value
+      local position = entry.lnum .. ":" .. entry.col
+      local type = entry.type
+      local message = entry.text
+      local filename = entry.filename
+      local content =
+          "Position: " .. position .. "\n" ..
+          "Type: " .. type .. "\n" ..
+          "Message: " .. message .. "\n" ..
+          "File: " .. filename
+      vim.fn.setreg( '+', content )
+      vim.notify( "Copied (+).", vim.log.levels.INFO )
+    end
+
+    map( "i", "<A-y>", yank_select_buf_clip )
+    return true
+  end
+
+  telescope.diagnostics( opts )
 end
 
 function M.lsp_dynamic_workspace_symbols()
@@ -173,7 +196,7 @@ function M.notify()
     local yank_select_buf_clip = function()
       local buf_select = action_state.get_selected_entry()
       vim.fn.setreg( '+', buf_select.value.message )
-      vim.notify( "Yanked (+).", vim.log.levels.INFO )
+      vim.notify( "Copied (+).", vim.log.levels.INFO )
     end
 
     map( "i", "<A-y>", yank_select_buf_clip )
