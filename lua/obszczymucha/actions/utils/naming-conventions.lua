@@ -18,7 +18,7 @@ function M.is_snake_case()
   local word = M.get_word_under_cursor()
   if word == "" then return false end
 
-  return word:match( "_" ) ~= nil and word:match( "^[%l_]+$" ) ~= nil
+  return word:match( "_" ) ~= nil and word:match( "^[%l%d_]+$" ) ~= nil
 end
 
 function M.to_snake_case()
