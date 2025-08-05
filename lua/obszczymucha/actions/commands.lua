@@ -1,6 +1,6 @@
 return {
-  -- {
-  --   name = "Show help",
-  --   action = "help"
-  -- }
+  {
+    name = "Toggle color highlighting",
+    action = "CccHighlighterToggle",
+  }
 }
