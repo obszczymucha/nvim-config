@@ -15,7 +15,7 @@ local light_purple2 = saturate( purple, 0.9 )
 
 vim.cmd( string.format( "highlight ActionsTelescopeBorder guifg=%s", light_purple ) )
 
-vim.api.nvim_set_hl( 0, "NotifyINFOIcon", { fg = "#aaaaff" } )
+vim.api.nvim_set_hl( 0, "NotifyINFOIcon", { fg = "#b9c0eb" } )
 
 
 local function set_notify_highlights( prefix, color )
