@@ -15,6 +15,7 @@ return {
       },
       formats = { "hex", "rgb", "hsl", "name" },
       default_color = "#ffffff",
+      alpha_show = "hide",
     } )
   end,
   lazy = false
