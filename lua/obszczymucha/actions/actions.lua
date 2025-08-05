@@ -1,5 +1,6 @@
 local shader_utils = require( "obszczymucha.actions.utils.shader" )
 local window_utils = require( "obszczymucha.actions.utils.window" )
+local naming_conventions = require( "obszczymucha.actions.utils.naming-conventions" )
 
 return {
   {
@@ -69,5 +70,17 @@ return {
     name = "Flip vertically",
     action = function() vim.cmd( "wincmd L" ) end,
     condition = function() return window_utils.count_visible_windows() > 1 end
+  },
+  {
+    name = "To snake case",
+    action = function() naming_conventions.to_snake_case() end,
+    condition = naming_conventions.is_camel_case,
+    score = 10
+  },
+  {
+    name = "To Pascal case",
+    action = function() naming_conventions.to_pascal_case() end,
+    condition = naming_conventions.is_snake_case,
+    score = 10
   }
 }
