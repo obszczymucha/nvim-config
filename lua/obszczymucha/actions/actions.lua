@@ -15,7 +15,7 @@ return {
       vim.fn.setreg( "+", vim.fn.expand( "%:." ) )
       vim.notify( "Current relative file path copied." )
     end,
-    score = 0
+    score = 100
   },
   {
     name = "Yank current file path",
@@ -30,7 +30,7 @@ return {
       vim.fn.setreg( '"', vim.fn.expand( "%:." ) )
       vim.notify( "Current relative file path yanked." )
     end,
-    score = 0
+    score = 100
   },
   {
     name = "Hook shader reload",
