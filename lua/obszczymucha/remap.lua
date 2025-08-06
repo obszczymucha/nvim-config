@@ -73,6 +73,8 @@ vim.keymap.set( "n", "<S-A-k>", "<C-w>k" )
 if is_macos then
   vim.keymap.set( "n", "<S-Left>", "<C-w>h" )
   vim.keymap.set( "n", "<S-Right>", "<C-w>l" )
+  vim.keymap.set( "n", "<S-Down>", "<C-w>j" )
+  vim.keymap.set( "n", "<S-Up>", "<C-w>k" )
 else
   vim.keymap.set( "n", "<S-A-h>", "<C-w>h" )
   vim.keymap.set( "n", "<S-A-l>", "<C-w>l" )
