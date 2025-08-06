@@ -1,6 +1,7 @@
 local shader_utils = require( "obszczymucha.actions.utils.shader" )
 local window_utils = require( "obszczymucha.actions.utils.window" )
 local naming_conventions = require( "obszczymucha.actions.utils.naming-conventions" )
+local file_utils = require( "obszczymucha.actions.utils.file" )
 local config = require( "obszczymucha.user-config" )
 
 return {
@@ -14,8 +15,14 @@ return {
   {
     name = "Copy current file relative path",
     action = function()
-      vim.fn.setreg( "+", vim.fn.expand( "%:." ) )
-      vim.notify( "Current relative file path copied." )
+      local rel_path = file_utils.get_relative_path()
+
+      if rel_path then
+        vim.fn.setreg( "+", rel_path )
+        vim.notify( "Current relative file path copied." )
+      else
+        vim.notify( "File is not within current working directory.", vim.log.levels.WARN )
+      end
     end,
     score = 100
   },
@@ -29,8 +36,14 @@ return {
   {
     name = "Yank current file relative path",
     action = function()
-      vim.fn.setreg( '"', vim.fn.expand( "%:." ) )
-      vim.notify( "Current relative file path yanked." )
+      local rel_path = file_utils.get_relative_path()
+
+      if rel_path then
+        vim.fn.setreg( '"', rel_path )
+        vim.notify( "Current relative file path yanked." )
+      else
+        vim.notify( "File is not within current working directory.", vim.log.levels.WARN )
+      end
     end,
     score = 100
   },
