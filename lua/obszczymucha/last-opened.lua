@@ -2,6 +2,7 @@ local M = {}
 
 local config = require( "obszczymucha.user-config" )
 local state = require( "obszczymucha.state.last-opened" )
+local utils = require( "obszczymucha.utils" )
 
 local ignore_filetypes = { "codecompanion", "oil", "qf", "query" }
 
@@ -35,6 +36,8 @@ vim.api.nvim_create_autocmd( "BufLeave", {
 local function on_leave_pre()
   on_buf_leave()
   if not state.last_buffer then return end
+  local project_root = utils.get_project_root_dir()
+  if project_root == vim.fn.expand( "~" ) then return end
 
   config.set_local( "last-opened", state.last_buffer )
 end
