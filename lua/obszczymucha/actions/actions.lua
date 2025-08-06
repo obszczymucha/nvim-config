@@ -1,6 +1,7 @@
 local shader_utils = require( "obszczymucha.actions.utils.shader" )
 local window_utils = require( "obszczymucha.actions.utils.window" )
 local naming_conventions = require( "obszczymucha.actions.utils.naming-conventions" )
+local config = require( "obszczymucha.user-config" )
 
 return {
   {
@@ -82,5 +83,13 @@ return {
     action = function() naming_conventions.to_pascal_case() end,
     condition = naming_conventions.is_snake_case,
     score = 10
+  },
+  {
+    name = "Toggle auto-center",
+    action = function() config.toggle_auto_center() end,
+  },
+  {
+    name = "Toggle alpha nrformats",
+    action = function() config.toggle_alpha_nrformats() end,
   }
 }

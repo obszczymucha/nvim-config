@@ -381,10 +381,6 @@ vim.keymap.set( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<C
 vim.keymap.set( "n", "<A-r>", remap( "reload" ), { silent = true } )
 vim.keymap.set( "n", "<A-S-r>", ":LspRestart<CR> | :lua vim.notify( \"LSP restarted.\" )<CR>", { silent = true } )
 
--- Custom persistable settings
-vim.keymap.set( "n", "<leader>cq", config.toggle_auto_center, { desc = "Toggle auto-center" } )
-vim.keymap.set( "n", "<leader>ca", config.toggle_alpha_nrformats, { desc = "Toggle alpha nrformats" } )
-
 -- Custom search
 -- Currently disabled, because noice gives much better search capability.
 -- The only problem that needs to be fixed is the E486 when searching for
