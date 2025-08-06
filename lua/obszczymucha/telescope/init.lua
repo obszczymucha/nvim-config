@@ -37,7 +37,12 @@ local file_browser_mappings = {
 local options = {
   layout_strategy = "vertical",
   layout_config = {
-    preview_cutoff = 1
+    width = 80,
+    preview_cutoff = 1,
+    vertical = {
+      mirror = false,
+      prompt_position = "bottom"
+    }
   }
 }
 
