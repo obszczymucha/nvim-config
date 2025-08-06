@@ -1,5 +1,6 @@
 local cmd = vim.cmd
-local saturate = require( "obszczymucha.utils" ).saturate
+local utils = require("obszczymucha.utils")
+local saturate, brightness = utils.saturate, utils.brightness
 
 cmd( "autocmd ColorScheme * hi CursorLineNr ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None" )
 cmd( "autocmd ColorScheme * hi LineNr ctermfg=11 guifg=#4b5271" )
@@ -12,11 +13,13 @@ cmd( "autocmd ColorScheme * highlight LspFloatWinNormal guibg=NONE" )
 local purple = "#9f7fff"
 local light_purple = saturate( purple, 0.6 )
 local light_purple2 = saturate( purple, 0.9 )
+local dark_purple = brightness(purple, 0.4)
+
+cmd( string.format( "hi WinSeparator guifg=%s guibg=NONE", dark_purple ) )
 
 vim.cmd( string.format( "highlight ActionsTelescopeBorder guifg=%s", light_purple ) )
 
 vim.api.nvim_set_hl( 0, "NotifyINFOIcon", { fg = "#b9c0eb" } )
-
 
 local function set_notify_highlights( prefix, color )
   local info_highlights = { "Title", "Border", "Body" }
