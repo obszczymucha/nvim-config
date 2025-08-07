@@ -4,17 +4,11 @@ return {
   config = function()
     -- Decorate both functions to move notifications one row higher
     local stages_util = require( "notify.stages.util" )
-    local original_available_slot = stages_util.available_slot
-    local original_slot_after_previous = stages_util.slot_after_previous
+    local original_get_slot_range = stages_util.get_slot_range
 
-    stages_util.available_slot = function( ... )
-      local row = original_available_slot( ... )
-      return row and row - 1 or row
-    end
-
-    stages_util.slot_after_previous = function( ... )
-      local row = original_slot_after_previous( ... )
-      return row and row - 1 or row
+    stages_util.get_slot_range = function( direction )
+      local top, bottom = original_get_slot_range( direction )
+      return direction == stages_util.DIRECTION.TOP_DOWN and 0, bottom or top, bottom
     end
 
     local function custom_render( bufnr, notif, highlights )
