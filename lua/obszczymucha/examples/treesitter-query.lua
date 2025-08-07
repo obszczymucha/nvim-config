@@ -7,6 +7,8 @@ function M.function_names()
   local bufnr = 0
   local lang = "lua"
   local parser = vim.treesitter.get_parser( bufnr, lang )
+  if not parser then return nil end
+
   local tree = parser:parse()[ 1 ]
   local root = tree:root()
 
@@ -29,6 +31,8 @@ function M.function_names_detailed()
   local bufnr = 0
   local lang = "lua"
   local parser = vim.treesitter.get_parser( bufnr, lang )
+  if not parser then return nil end
+
   local tree = parser:parse()[ 1 ]
   local root = tree:root()
   local query = vim.treesitter.query.parse( lang, [[
