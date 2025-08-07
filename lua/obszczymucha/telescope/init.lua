@@ -1,7 +1,6 @@
 local g = vim.g
 local telescope = prequirev( "telescope.builtin" )
 if not telescope then return end
-
 local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
 local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
@@ -12,9 +11,18 @@ local make_entry = require( "telescope.make_entry" )
 local pickers = require( "telescope.pickers" )
 local conf = require( "telescope.config" ).values
 local oil_dir = require( "obszczymucha.telescope.oil-dir" )
-
 local M = {}
-
+local options = {
+  layout_strategy = "vertical",
+  layout_config = {
+    width = 80,
+    preview_cutoff = 1,
+    vertical = {
+      mirror = false,
+      prompt_position = "bottom"
+    }
+  }
+}
 local mappings = {
   i = {
     [ "<A-j>" ] = actions.move_selection_next,
@@ -27,25 +35,30 @@ local mappings = {
     [ "<A-d>" ] = actions.preview_scrolling_down
   }
 }
+local show_hidden_state = false
+local function toggle_hidden_files( prompt_bufnr )
+  local current_picker = action_state.get_current_picker( prompt_bufnr )
+  show_hidden_state = not show_hidden_state
+
+  local find_command = { "fd", "--type", "f", "--color", "never" }
+  if show_hidden_state then
+    table.insert( find_command, "--hidden" )
+    table.insert( find_command, "--no-ignore" )
+  end
+
+  local new_finder = finders.new_oneshot_job(
+    find_command,
+    { entry_maker = make_entry.gen_from_file( {} ) }
+  )
+
+  current_picker:refresh( new_finder, { reset_prompt = false } )
+end
 
 local file_browser_mappings = {
   i = common.merge_tables( mappings, {
     [ "<A-D>" ] = file_browser_actions.remove
   } )
 }
-
-local options = {
-  layout_strategy = "vertical",
-  layout_config = {
-    width = 80,
-    preview_cutoff = 1,
-    vertical = {
-      mirror = false,
-      prompt_position = "bottom"
-    }
-  }
-}
-
 require( "telescope" ).setup {
   defaults = {
     file_previewer = previewers.vim_buffer_cat.new,
@@ -65,15 +78,12 @@ require( "telescope" ).setup {
       case_mode = "smart_case",
     },
     file_browser = {
-      --theme = "ivy",
-      -- disables netrw and use telescope-file-browser in its place
       display_stat = { date = false, size = true },
       hijack_netrw = true,
       mappings = file_browser_mappings
     },
     [ "ui-select" ] = {
       require( "telescope.themes" ).get_dropdown {
-
       }
     }
   },
@@ -83,13 +93,11 @@ require( "telescope" ).setup {
     },
   }
 }
-
 require( "telescope" ).load_extension( "file_browser" )
 require( "telescope" ).load_extension( "dap" )
 require( "telescope" ).load_extension( "fzf" )
 require( "telescope" ).load_extension( "ui-select" )
 require( "telescope" ).load_extension( "bookmarks" )
-
 local function no_ignore_wrapper( f, opts, override )
   if override or g.telescope_no_ignore then
     f( vim.tbl_extend( "force", options, opts ) )
@@ -97,9 +105,23 @@ local function no_ignore_wrapper( f, opts, override )
     f( options )
   end
 end
-
 function M.find_files( no_ignore )
-  no_ignore_wrapper( telescope.find_files, { no_ignore = true, hidden = true }, no_ignore )
+  show_hidden_state = no_ignore or g.telescope_no_ignore or false
+  local opts = vim.tbl_extend( "force", options, {
+    attach_mappings = function( _, map )
+      for mode, mode_mappings in pairs( mappings ) do
+        for key, func in pairs( mode_mappings ) do
+          map( mode, key, func )
+        end
+      end
+      map( "i", "<A-.>", toggle_hidden_files )
+      return true
+    end
+  } )
+  if no_ignore or g.telescope_no_ignore then
+    opts = vim.tbl_extend( "force", opts, { no_ignore = true, hidden = true } )
+  end
+  telescope.find_files( opts )
 end
 
 function M.live_grep( no_ignore )
@@ -124,7 +146,6 @@ end
 
 function M.diagnostics()
   local opts = options
-
   opts.attach_mappings = function( _, map )
     local yank_select_buf_clip = function()
       local buf_select = action_state.get_selected_entry()
@@ -141,11 +162,9 @@ function M.diagnostics()
       vim.fn.setreg( '+', content )
       vim.notify( "Copied (+).", vim.log.levels.INFO )
     end
-
     map( "i", "<A-y>", yank_select_buf_clip )
     return true
   end
-
   telescope.diagnostics( opts )
 end
 
@@ -159,14 +178,9 @@ function M.file_browser()
     layout_config = {
       preview_cutoff = 1
     },
-    --layout_config = {
-    --width = 0.9,
-    --preview_width = 0.6
-    --},
-    path = "%:p:h", -- This opens current buffer's directory.
+    path = "%:p:h",
     quiet = true
   }
-
   require( "telescope" ).extensions.file_browser.file_browser( opts )
 end
 
@@ -196,18 +210,15 @@ end
 
 function M.notify()
   local opts = options
-
   opts.attach_mappings = function( _, map )
     local yank_select_buf_clip = function()
       local buf_select = action_state.get_selected_entry()
       vim.fn.setreg( '+', buf_select.value.message )
       vim.notify( "Copied (+).", vim.log.levels.INFO )
     end
-
     map( "i", "<A-y>", yank_select_buf_clip )
     return true
   end
-
   require( "telescope" ).extensions.notify.notify( opts )
 end
 
@@ -227,34 +238,28 @@ function M.neoclip()
       }
     }
   }
-
   require( "telescope" ).extensions.neoclip.neoclip( opts )
 end
 
 function M.live_multigrep( opts )
   opts = opts or {}
   opts.cwd = opts.cwd or vim.fn.getcwd()
-
   local finder = finders.new_async_job {
     command_generator = function( prompt )
       if not prompt or prompt == "" then return end
-
       if not prompt:find( "||" ) then
         local tokens = vim.split( prompt, "  " )
         local args = { "rg" }
-
         if tokens[ 1 ] then
           table.insert( args, "-e" )
           table.insert( args, tokens[ 1 ] )
         end
-
         for i = 2, #tokens do
           if tokens[ i ] then
             table.insert( args, "-g" )
             table.insert( args, tokens[ i ] )
           end
         end
-
         vim.list_extend( args, {
           "--color=never",
           "--no-heading",
@@ -263,13 +268,10 @@ function M.live_multigrep( opts )
           "--column",
           "--smart-case"
         } )
-
         return args
       end
-
       local cmd = ""
       local piped_terms = vim.split( prompt, "||" )
-
       local globs = {}
       for _, term in ipairs( piped_terms ) do
         local tokens = vim.split( vim.trim( term ), "  " )
@@ -279,36 +281,29 @@ function M.live_multigrep( opts )
           end
         end
       end
-
       for i, term in ipairs( piped_terms ) do
         local term_cmd = "rg"
         local tokens = vim.split( vim.trim( term ), "  " )
-
         if #tokens > 0 then
           term_cmd = term_cmd .. " -e " .. vim.fn.shellescape( tokens[ 1 ] )
-
           if i == 1 then
             for _, glob in ipairs( globs ) do
               term_cmd = term_cmd .. " -g " .. vim.fn.shellescape( glob )
             end
           end
-
           term_cmd = term_cmd .. " --color=never --no-heading --with-filename --line-number --column --smart-case"
         end
-
         if i == 1 then
           cmd = term_cmd
         else
           cmd = cmd .. " | " .. term_cmd
         end
       end
-
       return { "sh", "-c", cmd }
     end,
     entry_maker = make_entry.gen_from_vimgrep( opts ),
     cwd = opts.cwd
   }
-
   pickers.new( opts, {
     debounce = 100,
     prompt_title = "Live Multi Grep",
