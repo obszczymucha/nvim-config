@@ -108,7 +108,6 @@ return {
   { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
-  { "windwp/nvim-autopairs" },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
