@@ -106,7 +106,6 @@ return {
   { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                lazy = false },
   { "psliwka/vim-smoothie",                        lazy = false },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
-  { "rcarriga/nvim-notify",                        lazy = false },
   { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
