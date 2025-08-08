@@ -86,16 +86,6 @@ vim.keymap.set( "n", "<A-.>", "<C-w>5+" )
 -- Quit
 vim.keymap.set( "n", "<A-q>", "<cmd>q<CR>", { desc = "Exit" } )
 
--- Harpoon
-vim.keymap.set( "n", "<A-a>", [[:lua require( "obszczymucha.harpoon" ).add_file()<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-3>", [[:lua require( "harpoon.ui" ).nav_file( 3 )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-4>", [[:lua require( "harpoon.ui" ).nav_file( 4 )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent = true } )
-vim.keymap.set( "n", "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
-
 -- Moving lines
 if is_wsl then
   -- Alacritty doesn't want to send Ctrl+Alt, so the only way is to use AHK.

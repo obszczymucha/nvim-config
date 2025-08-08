@@ -79,7 +79,6 @@ return {
     end
   },
   { "MunifTanjim/nui.nvim" },
-  { "ThePrimeagen/harpoon" },
   { "jenterkin/vim-autosource" },
   { "kyazdani42/nvim-web-devicons" },
   {
