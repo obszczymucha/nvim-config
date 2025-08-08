@@ -1,4 +1,4 @@
-local color_utils = require('obszczymucha.actions.utils.color')
+local color_utils = require( "obszczymucha.actions.utils.color" )
 
 return {
   {
