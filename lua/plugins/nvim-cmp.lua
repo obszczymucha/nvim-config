@@ -1,7 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    lazy = false,
+    event = { "InsertEnter", "CmdlineEnter" },
     priority = 100,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -12,7 +12,7 @@ return {
       "hrsh7th/cmp-nvim-lsp-signature-help",
       {
         "L3MON4D3/LuaSnip",
-        lazy = false,
+        event = { "InsertEnter", "CmdlineEnter" },
         version = "v2.*",
         build = "make install_jsregexp",
         dependencies = {
@@ -25,7 +25,7 @@ return {
       "saadparwaiz1/cmp_luasnip",
       {
         "zbirenbaum/copilot-cmp",
-        lazy = false,
+        event = { "InsertEnter", "CmdlineEnter" },
         config = function()
           require( "copilot_cmp" ).setup( {
             suggestion = { enabled = false },

@@ -29,5 +29,8 @@ return {
     vim.keymap.set( "n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory (float)" } )
     vim.keymap.set( "n", "=", "<cmd>Oil<CR>", { desc = "Open current directory" } )
   end,
-  lazy = false
+  keys = {
+    { "-", "<cmd>Oil --float<CR>", desc = "Open current directory (float)" },
+    { "=", "<cmd>Oil<CR>", desc = "Open current directory" }
+  }
 }

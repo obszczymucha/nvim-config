@@ -1,6 +1,8 @@
 return {
   "AckslD/nvim-neoclip.lua",
-  lazy = false,
+  keys = {
+    { "<leader>p", "<cmd>Telescope neoclip<cr>", desc = "Paste from clipboard history" }
+  },
   dependencies = {
     "kkharji/sqlite.lua"
   },

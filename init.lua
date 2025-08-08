@@ -46,4 +46,36 @@ require( "lazy" ).setup( "plugins", {
   }
 } )
 
-require( "obszczymucha" )
+-- Load essential modules immediately for autocmds that need to run on VimEnter
+require( "obszczymucha.globals" )
+require( "obszczymucha.utils" )
+require( "obszczymucha.user-config" )
+require( "obszczymucha.common" )
+require( "obszczymucha.last-opened" )
+
+-- Defer heavy custom configuration loading
+vim.defer_fn(function()
+  require( "obszczymucha.set" )
+  require( "obszczymucha.color-overrides" )
+  require( "obszczymucha.macros" )
+  require( "obszczymucha.telescope" )
+  require( "obszczymucha.dap-ui" )
+  require( "obszczymucha.lua-test" )
+  require( "obszczymucha.jest-test" )
+  require( "obszczymucha.rust-test" )
+  require( "obszczymucha.documentation" )
+  require( "obszczymucha.debug" )
+  require( "obszczymucha.autocmds" )
+  require( "obszczymucha.groovyls" )
+  require( "obszczymucha.osv" )
+  require( "obszczymucha.mason-auto-install" )
+  require( "obszczymucha.code-actions.lua" )
+  require( "obszczymucha.actions" )
+  require( "obszczymucha.window-number" )
+
+  if is_wsl then
+    require( "obszczymucha.alacritty" )
+  elseif not is_macos then
+    require( "obszczymucha.xmobar" )
+  end
+end, 0)

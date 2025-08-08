@@ -12,15 +12,17 @@ end
 
 return {
   "ThePrimeagen/harpoon",
+  keys = {
+    { "<A-a>", function() add_file() end, desc = "Add file to harpoon" },
+    { "<A-f>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", desc = "Harpoon quick menu" },
+    { "<A-1>", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>", desc = "Harpoon file 1" },
+    { "<A-2>", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>", desc = "Harpoon file 2" },
+    { "<A-3>", "<cmd>lua require('harpoon.ui').nav_file(3)<CR>", desc = "Harpoon file 3" },
+    { "<A-4>", "<cmd>lua require('harpoon.ui').nav_file(4)<CR>", desc = "Harpoon file 4" },
+    { "<A-5>", "<cmd>lua require('harpoon.ui').nav_file(5)<CR>", desc = "Harpoon file 5" },
+    { "<A-6>", "<cmd>lua require('harpoon.ui').nav_file(6)<CR>", desc = "Harpoon file 6" },
+  },
   config = function()
-    vim.keymap.set( "n", "<A-a>", add_file, { silent = true } )
-    vim.keymap.set( "n", "<A-f>", [[:lua require( "harpoon.ui" ).toggle_quick_menu()<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-1>", [[:lua require( "harpoon.ui" ).nav_file( 1 )<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-2>", [[:lua require( "harpoon.ui" ).nav_file( 2 )<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-3>", [[:lua require( "harpoon.ui" ).nav_file( 3 )<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-4>", [[:lua require( "harpoon.ui" ).nav_file( 4 )<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-5>", [[:lua require( "harpoon.ui" ).nav_file( 5 )<CR>]], { silent = true } )
-    vim.keymap.set( "n", "<A-6>", [[:lua require( "harpoon.ui" ).nav_file( 6 )<CR>]], { silent = true } )
-  end,
-  lazy = false
+    -- Configuration happens on first keypress
+  end
 }
