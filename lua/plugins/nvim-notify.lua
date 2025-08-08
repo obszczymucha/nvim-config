@@ -16,10 +16,47 @@ return {
       local namespace = base.namespace()
       local icon = notif.icon
 
-      local message = {
-        string.format( "%s  %s", icon, notif.message[ 1 ] ),
-        unpack( notif.message, 2 ),
-      }
+      local function parse_highlights( text )
+        local parts = {}
+        local clean_text = ""
+        local last_pos = 1
+
+        for highlight_group, content, end_pos in text:gmatch( "@([%w%.]+)@([^@]-)@@()" ) do
+          local before_match = text:sub( last_pos, text:find( "@" .. highlight_group .. "@", last_pos ) - 1 )
+          if before_match ~= "" then
+            table.insert( parts, {
+              text = before_match,
+              highlight = highlights.body
+            } )
+            clean_text = clean_text .. before_match
+          end
+          table.insert( parts, {
+            text = content,
+            highlight = highlight_group
+          } )
+          clean_text = clean_text .. content
+          last_pos = end_pos
+        end
+
+        if last_pos <= #text then
+          local remaining = text:sub( last_pos )
+          table.insert( parts, {
+            text = remaining,
+            highlight = highlights.body
+          } )
+          clean_text = clean_text .. remaining
+        end
+
+        return parts, clean_text
+      end
+
+      local parts, clean_message = parse_highlights( notif.message[ 1 ] )
+
+      local first_line = string.format( "%s  %s", icon, clean_message )
+      local message = { first_line }
+      for i = 2, #notif.message do
+        table.insert( message, notif.message[ i ] )
+      end
 
       vim.api.nvim_buf_set_lines( bufnr, 0, -1, false, message )
 
@@ -30,11 +67,26 @@ return {
         end_col = icon_length + 1,
         priority = 50,
       } )
-      vim.api.nvim_buf_set_extmark( bufnr, namespace, 0, icon_length + 1, {
-        hl_group = highlights.body,
-        end_line = #message,
-        priority = 50,
-      } )
+
+      local col_offset = icon_length + 2
+
+      for _, part in ipairs( parts ) do
+        vim.api.nvim_buf_set_extmark( bufnr, namespace, 0, col_offset, {
+          hl_group = part.highlight,
+          end_col = col_offset + #part.text,
+          priority = 50,
+        } )
+        col_offset = col_offset + #part.text
+      end
+
+      if #message > 1 then
+        vim.api.nvim_buf_set_extmark( bufnr, namespace, 1, 0, {
+          hl_group = highlights.body,
+          end_line = #message - 1,
+          end_col = 0,
+          priority = 50,
+        } )
+      end
     end
 
     local notify = require( "notify" )
