@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath( "data" ) .. "/lazy/lazy.nvim"
 
-if not vim.loop.fs_stat( lazypath ) then
+if not vim.uv.fs_stat( lazypath ) then
   vim.fn.system( {
     "git",
     "clone",
@@ -17,6 +17,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.gitblame_enabled = 0
+vim.opt.shortmess:append( "I" ) -- Disable intro message
 
 ---@diagnostic disable-next-line: lowercase-global, different-requires
 prequire = require( "obszczymucha.common" ).prequire
@@ -29,15 +30,14 @@ prequirev = function( name, ... )
   return result, value
 end
 
----@diagnostic disable-next-line: undefined-field
 local release = vim.loop.os_uname().release
 ---@diagnostic disable-next-line: lowercase-global
 is_wsl = release:match( "microsoft" ) and true or release:match( "WSL" ) and true or false
 
----@diagnostic disable-next-line: lowercase-global, undefined-field
+---@diagnostic disable-next-line: lowercase-global
 is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 
----@diagnostic disable-next-line: lowercase-global, undefined-field
+---@diagnostic disable-next-line: lowercase-global
 is_macos = vim.loop.os_uname().sysname == "Darwin"
 
 require( "lazy" ).setup( "plugins", {
@@ -54,7 +54,7 @@ require( "obszczymucha.common" )
 require( "obszczymucha.last-opened" )
 
 -- Defer heavy custom configuration loading
-vim.defer_fn(function()
+vim.defer_fn( function()
   require( "obszczymucha.set" )
   require( "obszczymucha.color-overrides" )
   require( "obszczymucha.macros" )
@@ -78,4 +78,4 @@ vim.defer_fn(function()
   elseif not is_macos then
     require( "obszczymucha.xmobar" )
   end
-end, 0)
+end, 0 )

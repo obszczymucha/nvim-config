@@ -1,15 +1,10 @@
 {
-    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
     "Lua.workspace.checkThirdParty": false,
     "Lua.completion.callSnippet": "Replace",
     "Lua.runtime.version": "LuaJIT",
     "Lua.diagnostics.globals": ["vim"],
     "Lua.telemetry.enable": false,
-    "workspace.library": [
-        "/home/alien/.config/nvim",
-        "/home/alien/.local/share/nvim/lazy/plenary.nvim",
-        "/home/alien/.local/share/nvim/lazy/telescope.nvim", 
-        "/usr/share/nvim/runtime",
-        "/usr/lib/nvim"
+    "Lua.workspace.library": [
     ]
 }
