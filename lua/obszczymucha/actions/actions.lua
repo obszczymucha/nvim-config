@@ -104,5 +104,9 @@ return {
   {
     name = "Toggle alpha nrformats",
     action = function() config.toggle_alpha_nrformats() end,
+  },
+  {
+    name = "Browse highlight groups",
+    action = function() require( "obszczymucha.telescope" ).highlights() end
   }
 }
