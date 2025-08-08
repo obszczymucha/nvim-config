@@ -154,7 +154,22 @@ function M.help_tags()
 end
 
 function M.highlights()
-  telescope.highlights()
+  local opts = vim.tbl_extend( "force", options, {
+    attach_mappings = function( _ )
+      local yank_select_buf_clip = function( prompt_bufnr )
+        local buf_select = action_state.get_selected_entry()
+        vim.fn.setreg( '"', buf_select.value )
+        vim.notify( "Yanked.", vim.log.levels.INFO )
+        actions.close( prompt_bufnr )
+      end
+
+      actions.select_default:replace( yank_select_buf_clip )
+
+      return true
+    end
+  } )
+
+  telescope.highlights( opts )
 end
 
 function M.diagnostics()
