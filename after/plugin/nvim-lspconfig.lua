@@ -3,6 +3,12 @@ if mason then
   mason.setup()
 end
 
+local neoconf = prequirev( "neoconf" )
+if neoconf then neoconf.setup {} end
+
+local lspconfig = prequirev( "lspconfig" )
+if not lspconfig then return end
+
 local mason_lspconfig = prequirev( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
@@ -12,7 +18,6 @@ if mason_lspconfig then
       "pyright",
       "ruff",
       "ts_ls",
-      "lua_ls",
       "bashls",
       "sqlls",
       "cssls",
@@ -20,49 +25,32 @@ if mason_lspconfig then
       "jdtls",
       "jsonls",
       "gopls"
+    },
+    -- Disable automatic setup to prevent duplicates
+    automatic_setup = false,
+    handlers = {
+      -- Set up all servers except lua_ls
+      function(server_name)
+        if server_name ~= "lua_ls" then
+          lspconfig[server_name].setup {}
+        end
+      end
     }
   }
 end
 
-local lspconfig = prequirev( "lspconfig" )
-if not lspconfig then return end
-
-local neoconf = prequirev( "neoconf" )
-if neoconf then neoconf.setup {} end
+-- Add lua_ls keybindings since neoconf can't handle them
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == 'lua_ls' then
+      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>", {buffer = args.buf} )
+      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>", {buffer = args.buf} )
+    end
+  end,
+})
 
 if lspconfig.hls then lspconfig.hls.setup {} end
-
-if lspconfig.lua_ls then
-  lspconfig.lua_ls.setup {
-    settings = {
-      Lua = {
-        completion = {
-          callSnippet = "Replace"
-        },
-        runtime = {
-          -- Tell the language server which version of Lua you"re using (most likely LuaJIT in the case of Neovim)
-          version = "LuaJIT",
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { "vim" },
-        },
-        workspace = {
-          checkThirdParty = false
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-          enable = false,
-        },
-      },
-    },
-    on_attach = function()
-      -- Documentation
-      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
-      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>" )
-    end
-  }
-end
 
 
 if lspconfig.bashls then
