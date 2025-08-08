@@ -266,6 +266,7 @@ function M.neoclip()
   local opts = {
     layout_strategy = "vertical",
     layout_config = {
+      width = 70,
       preview_cutoff = 1,
       preview_height = 0.2,
       vertical = {
@@ -274,6 +275,7 @@ function M.neoclip()
       }
     }
   }
+
   require( "telescope" ).extensions.neoclip.neoclip( opts )
 end
 

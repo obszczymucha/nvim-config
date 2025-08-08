@@ -1,7 +1,7 @@
 return {
   "AckslD/nvim-neoclip.lua",
   keys = {
-    { "<leader>p", "<cmd>Telescope neoclip<cr>", desc = "Paste from clipboard history" }
+    { "<leader>p", function() require( "obszczymucha.telescope" ).neoclip() end, desc = "Paste from clipboard history" }
   },
   dependencies = {
     "kkharji/sqlite.lua"

@@ -24,8 +24,6 @@ vim.keymap.set( "n", "<leader>fq", "<cmd>lua R( 'obszczymucha.telescope' ).quick
   { desc = "Quickfix history" } )
 vim.keymap.set( "n", "_", "<cmd>lua R( 'obszczymucha.telescope' ).file_browser()<CR>", { desc = "File browser" } )
 vim.keymap.set( "n", "<leader>fn", "<cmd>lua R( 'obszczymucha.telescope' ).notify()<CR>", { desc = "Notifications" } )
-vim.keymap.set( "n", "<leader>fy", "<cmd>lua R( 'obszczymucha.telescope' ).neoclip()<CR>",
-  { silent = true, desc = "Neoclip" } )
 vim.keymap.set( "n", "<leader>fg", "<cmd>lua R( 'obszczymucha.telescope' ).oil_dir()<CR>",
   { desc = "Directory search (Oil)" } )
 
