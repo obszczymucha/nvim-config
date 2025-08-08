@@ -175,4 +175,23 @@ function M.brightness( hex_color, brightness_factor )
   return string.format( "#%02x%02x%02x", r, g, b )
 end
 
+---@param str string The string to truncate
+---@param length number The maximum length including the dots
+---@param prefix string? The optional prefix to add before the truncated string
+---@return string Truncated string with prefix if needed
+function M.front_strip( str, length, prefix )
+  if #str <= length then
+    return str
+  end
+
+  local p = prefix or "..."
+  local remaining_length = length - #p
+
+  if remaining_length <= 0 then
+    return string.rep( ".", length )
+  end
+
+  return p .. str:sub( -remaining_length )
+end
+
 return M
