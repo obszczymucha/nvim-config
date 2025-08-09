@@ -289,9 +289,56 @@ function M.live_multigrep( search_term )
     command_generator = function( prompt )
       if not prompt or prompt == "" then return end
 
-      if not prompt:find( "||" ) then
+      if prompt:find( "||" ) then
+        -- For || syntax, use pipes for AND behavior (all terms must match)
+        local piped_terms = vim.split( prompt, "||" )
+        local globs = {}
+
+        -- Collect all globs from all terms
+        for _, term in ipairs( piped_terms ) do
+          local tokens = vim.split( vim.trim( term ), "  " )
+
+          if #tokens > 1 then
+            for i = 2, #tokens do
+              if tokens[ i ] then
+                table.insert( globs, tokens[ i ] )
+              end
+            end
+          end
+        end
+
+        -- Build the piped command
+        local cmd_parts = {}
+
+        for i, term in ipairs( piped_terms ) do
+          local tokens = vim.split( vim.trim( term ), "  " )
+
+          if tokens[ 1 ] then
+            if i == 1 then
+              -- First command searches files
+              local part = "rg -F -e " .. vim.fn.shellescape( tokens[ 1 ] )
+
+              for _, glob in ipairs( globs ) do
+                part = part .. " -g " .. vim.fn.shellescape( glob )
+              end
+
+              part = part .. " --color=never --no-heading --with-filename --line-number --column --smart-case"
+              table.insert( cmd_parts, part )
+            else
+              -- Subsequent rg commands filter stdin, using --no-filename to avoid adding stdin prefix
+              -- Use -F for literal matching to avoid regex interpretation
+              local part = "rg -F -e " .. vim.fn.shellescape( tokens[ 1 ] ) .. " --no-filename --no-line-number"
+              table.insert( cmd_parts, part )
+            end
+          end
+        end
+
+        if #cmd_parts > 0 then
+          return { "sh", "-c", table.concat( cmd_parts, " | " ) }
+        end
+      else
+        local args = { "rg", "-F" } -- Add -F for literal matching
         local tokens = vim.split( prompt, "  " )
-        local args = { "rg" }
 
         if tokens[ 1 ] then
           table.insert( args, "-e" )
@@ -313,47 +360,9 @@ function M.live_multigrep( search_term )
           "--column",
           "--smart-case"
         } )
+
         return args
       end
-
-      local cmd = ""
-      local piped_terms = vim.split( prompt, "||" )
-      local globs = {}
-
-      for _, term in ipairs( piped_terms ) do
-        local tokens = vim.split( vim.trim( term ), "  " )
-
-        if #tokens > 1 then
-          for i = 2, #tokens do
-            table.insert( globs, tokens[ i ] )
-          end
-        end
-      end
-
-      for i, term in ipairs( piped_terms ) do
-        local term_cmd = "rg"
-        local tokens = vim.split( vim.trim( term ), "  " )
-
-        if #tokens > 0 then
-          term_cmd = term_cmd .. " -e " .. vim.fn.shellescape( tokens[ 1 ] )
-
-          if i == 1 then
-            for _, glob in ipairs( globs ) do
-              term_cmd = term_cmd .. " -g " .. vim.fn.shellescape( glob )
-            end
-          end
-
-          term_cmd = term_cmd .. " --color=never --no-heading --with-filename --line-number --column --smart-case"
-        end
-
-        if i == 1 then
-          cmd = term_cmd
-        else
-          cmd = cmd .. " | " .. term_cmd
-        end
-      end
-
-      return { "sh", "-c", cmd }
     end,
     entry_maker = make_entry.gen_from_vimgrep( opts ),
     cwd = opts.cwd
