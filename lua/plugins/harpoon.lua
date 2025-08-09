@@ -5,7 +5,7 @@ local function add_file()
   if buf_name == "" or filetype == "harpoon" then return end
 
   require( "harpoon.mark" ).add_file()
-  vim.notify( "@lsp.type.variable@Harpoon:@@ Added.", vim.log.levels.INFO, {
+  vim.notify( "@variable@Harpoon:@@ Added.", vim.log.levels.INFO, {
     title = "Harpoon",
   } )
 end
