@@ -37,7 +37,9 @@ local mappings = {
     [ "<C-k>" ] = actions.which_key,
     [ "<C-D>" ] = false,
     [ "<A-u>" ] = actions.preview_scrolling_up,
-    [ "<A-d>" ] = actions.preview_scrolling_down
+    [ "<A-d>" ] = actions.preview_scrolling_down,
+    [ "<A-l>" ] = actions.select_vertical,
+    [ "<A-h>" ] = actions.select_horizontal
   }
 }
 
