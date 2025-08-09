@@ -279,8 +279,8 @@ function M.neoclip()
   require( "telescope" ).extensions.neoclip.neoclip( opts )
 end
 
-function M.live_multigrep( opts )
-  opts = opts or {}
+function M.live_multigrep( search_term )
+  local opts = {}
   opts.cwd = opts.cwd or vim.fn.getcwd()
 
   local finder = finders.new_async_job {
@@ -357,13 +357,19 @@ function M.live_multigrep( opts )
     cwd = opts.cwd
   }
 
-  pickers.new( opts, {
+  local picker_opts = {
     debounce = 100,
     prompt_title = "Live Multi Grep",
     finder = finder,
     previewer = conf.grep_previewer( opts ),
     sorter = require( "telescope.sorters" ).empty()
-  } ):find()
+  }
+
+  if search_term then
+    picker_opts.default_text = search_term
+  end
+
+  pickers.new( opts, picker_opts ):find()
 end
 
 function M.oil_dir()
