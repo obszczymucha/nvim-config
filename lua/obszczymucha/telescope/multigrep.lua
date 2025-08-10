@@ -49,10 +49,10 @@ function M.live_multigrep( search_term )
               part = part .. " --color=never --no-heading --with-filename --line-number --column --smart-case"
               table.insert( cmd_parts, part )
             else
-              -- Subsequent rg commands filter stdin, using --no-filename to avoid adding stdin prefix
-              -- Use -F for literal matching to avoid regex interpretation
-              local part = "rg -F -e " .. vim.fn.shellescape( tokens[ 1 ] ) .. " --no-filename --no-line-number"
-              table.insert( cmd_parts, part )
+              -- Use awk to filter lines where the content part (after 3rd colon) contains the search term
+              -- Format is: filename:line:column:content
+              local awk_filter = "awk -F':' '{content=\"\"; for(i=4;i<=NF;i++) content = content $i (i<NF?\":\":\"\"); if(index(tolower(content), tolower(\"" .. tokens[ 1 ]:gsub( "'", "'\"'\"'" ) .. "\")) > 0) print $0}'"
+              table.insert( cmd_parts, awk_filter )
             end
           end
         end
