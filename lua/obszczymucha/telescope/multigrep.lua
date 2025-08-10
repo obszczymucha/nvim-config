@@ -11,7 +11,11 @@ function M.live_multigrep( search_term )
 
   local finder = finders.new_async_job {
     command_generator = function( prompt )
-      if not prompt or prompt == "" then return end
+      if not prompt or prompt == "" then
+        -- Show all non-empty lines when prompt is empty
+        return { "rg", ".", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
+          "--smart-case" }
+      end
 
       if prompt:find( "||" ) then
         -- For || syntax, use pipes for AND behavior (all terms must match)
@@ -51,7 +55,9 @@ function M.live_multigrep( search_term )
             else
               -- Use awk to filter lines where the content part (after 3rd colon) contains the search term
               -- Format is: filename:line:column:content
-              local awk_filter = "awk -F':' '{content=\"\"; for(i=4;i<=NF;i++) content = content $i (i<NF?\":\":\"\"); if(index(tolower(content), tolower(\"" .. tokens[ 1 ]:gsub( "'", "'\"'\"'" ) .. "\")) > 0) print $0}'"
+              local awk_filter =
+                  "awk -F':' '{content=\"\"; for(i=4;i<=NF;i++) content = content $i (i<NF?\":\":\"\"); if(index(tolower(content), tolower(\"" ..
+                  tokens[ 1 ]:gsub( "'", "'\"'\"'" ) .. "\")) > 0) print $0}'"
               table.insert( cmd_parts, awk_filter )
             end
           end
