@@ -36,8 +36,15 @@ local mappings = {
     [ "<C-D>" ] = false,
     [ "<A-u>" ] = actions.preview_scrolling_up,
     [ "<A-d>" ] = actions.preview_scrolling_down,
-    [ "<A-l>" ] = actions.select_vertical,
-    [ "<A-h>" ] = actions.select_horizontal
+    [ "<A-l>" ] = function( prompt_bufnr )
+      local result = actions.select_vertical( prompt_bufnr )
+      vim.schedule( function() vim.cmd( "normal! zz" ) end )
+      return result
+    end,
+    [ "<A-h>" ] = function( prompt_bufnr )
+      local action_set = require( "telescope.actions.set" )
+      action_set.edit( prompt_bufnr, "belowright new" )
+    end
   }
 }
 
