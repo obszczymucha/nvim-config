@@ -1,12 +1,9 @@
--- Core multigrep command generation logic (decoupled from Telescope)
+-- Optimized multigrep command generation using ugrep
 local M = {}
 
--- Decoupled command generation logic
 function M.generate_multigrep_command( prompt )
   if not prompt or prompt == "" then
-    -- Show all non-empty lines when prompt is empty
-    return { "rg", ".", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
-      "--smart-case" }
+    return { "ugrep", ".", "-r", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column-number" }
   end
 
   if prompt:find( "||" ) then
@@ -45,6 +42,8 @@ function M.generate_multigrep_command( prompt )
 
       vim.list_extend( args, {
         "-r",
+        "--mmap",
+        "--jobs=1",
         "--color=never",
         "--no-heading",
         "--with-filename",
@@ -55,7 +54,7 @@ function M.generate_multigrep_command( prompt )
       return args
     end
   else
-    local args = { "rg", "-F" } -- Add -F for literal matching
+    local args = { "ugrep", "-F" }
     local tokens = vim.split( prompt, "  " )
 
     if tokens[ 1 ] then
@@ -65,18 +64,17 @@ function M.generate_multigrep_command( prompt )
 
     for i = 2, #tokens do
       if tokens[ i ] then
-        table.insert( args, "-g" )
-        table.insert( args, tokens[ i ] )
+        table.insert( args, "--include=" .. tokens[ i ] )
       end
     end
 
     vim.list_extend( args, {
+      "-r",
       "--color=never",
       "--no-heading",
       "--with-filename",
       "--line-number",
-      "--column",
-      "--smart-case"
+      "--column-number"
     } )
 
     return args

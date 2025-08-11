@@ -6,7 +6,6 @@ local make_entry = require( "telescope.make_entry" )
 local conf = require( "telescope.config" ).values
 local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
 
--- Expose the core function for external use
 M.generate_multigrep_command = multigrep_core.generate_multigrep_command
 
 function M.live_multigrep( search_term )

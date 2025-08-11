@@ -1,6 +1,3 @@
--- Benchmark script for multigrep functionality
--- Usage: nvim --headless -c "luafile benchmark_multigrep.lua" -c "qa"
-
 local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
 
 local function execute_command( cmd )
@@ -16,7 +13,7 @@ local function benchmark_command( name, prompt, iterations )
 
   if not cmd then
     print( "  ERROR: No command generated" )
-    return 0, {}
+    return 0, {}, 0
   end
 
   print( string.format( "Command for prompt '%s':", prompt ) )
@@ -38,6 +35,7 @@ local function benchmark_command( name, prompt, iterations )
     local duration = (end_time - start_time) / 1e9
 
     local lines = 0
+
     for _ in output:gmatch( "[^\n]+" ) do
       lines = lines + 1
     end
@@ -60,17 +58,17 @@ local function benchmark_command( name, prompt, iterations )
 end
 
 local function run_benchmark()
-  print( "=== Multigrep Lua-based Benchmark (Neovim) ===" )
+  print( "=== Multigrep ugrep Benchmark ===" )
   print( "Testing directory: " .. vim.fn.getcwd() )
   print( "" )
 
   local results = {}
 
   local test_cases = {
-    { "Single term",               "function" },
-    { "Double term (ugrep --bool)", "function || return" },
-    { "Triple term (ugrep --bool)", "function || return || local" },
-    { "With glob pattern",         "function || return  *.lua" }
+    { "Single term",       "function" },
+    { "Double term",       "function || return" },
+    { "Triple term",       "function || return || local" },
+    { "With glob pattern", "function || return  *.lua" }
   }
 
   for _, test_case in ipairs( test_cases ) do
@@ -91,7 +89,7 @@ local function run_benchmark()
       name, data.avg_time, relative, data.result_count or 0 ) )
   end
 
-  local results_file = "BENCHMARK_RESULTS.md"
+  local results_file = "BENCHMARK_CURRENT.md"
   local f = io.open( results_file, "w" )
 
   if not f then
@@ -99,7 +97,7 @@ local function run_benchmark()
     return
   end
 
-  f:write( "# Multigrep Benchmark Results\n\n" )
+  f:write( "# Current Multigrep Performance (ugrep optimized)\n\n" )
   f:write( "**Date:** " .. os.date( "%Y-%m-%d %H:%M:%S" ) .. "\n" )
   f:write( "**Directory:** " .. vim.fn.getcwd() .. "\n\n" )
   f:write( "| Test Case | Average Time | Relative | Results |\n" )
@@ -109,6 +107,7 @@ local function run_benchmark()
     local name = test_case[ 1 ]
     local data = results[ name ]
     local relative = (data.avg_time / baseline - 1) * 100
+
     f:write( string.format( "| %s | %.4fs | %+.1f%% | %d |\n",
       name, data.avg_time, relative, data.result_count or 0 ) )
   end
@@ -118,3 +117,4 @@ local function run_benchmark()
 end
 
 run_benchmark()
+
