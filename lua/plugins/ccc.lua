@@ -103,6 +103,9 @@ return {
       alpha_show = "hide",
       inputs = {
         create_mixed_input()
+      },
+      mappings = {
+        [ "<Esc>" ] = ccc.mapping.quit
       }
     } )
   end,
