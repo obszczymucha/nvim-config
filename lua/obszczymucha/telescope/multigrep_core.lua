@@ -3,7 +3,7 @@ local M = {}
 
 function M.generate_multigrep_command( prompt )
   if not prompt or prompt == "" then
-    return { "ugrep", ".", "-r", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column-number" }
+    return { "ugrep", ".", "-r", "--ignore-files", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column-number" }
   end
 
   if prompt:find( "||" ) then
@@ -44,6 +44,7 @@ function M.generate_multigrep_command( prompt )
         "-r",
         "--mmap",
         "--jobs=1",
+        "--ignore-files",
         "--color=never",
         "--no-heading",
         "--with-filename",
@@ -70,6 +71,7 @@ function M.generate_multigrep_command( prompt )
 
     vim.list_extend( args, {
       "-r",
+      "--ignore-files",
       "--color=never",
       "--no-heading",
       "--with-filename",
