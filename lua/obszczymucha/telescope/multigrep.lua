@@ -4,6 +4,7 @@ local pickers = require( "telescope.pickers" )
 local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local conf = require( "telescope.config" ).values
+local actions = require( "telescope.actions" )
 local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
 
 M.generate_multigrep_command = multigrep_core.generate_multigrep_command
@@ -23,7 +24,15 @@ function M.live_multigrep( search_term )
     prompt_title = "Live Multi Grep",
     finder = finder,
     previewer = conf.grep_previewer( opts ),
-    sorter = require( "telescope.sorters" ).empty()
+    sorter = require( "telescope.sorters" ).empty(),
+    attach_mappings = function( _, map )
+      map( "i", "<CR>", function( prompt_bufnr )
+        local result = actions.select_default( prompt_bufnr )
+        vim.schedule( function() vim.cmd( "normal! zz" ) end )
+        return result
+      end )
+      return true
+    end
   }
 
   if search_term then
