@@ -5,8 +5,10 @@ vim.api.nvim_create_autocmd( "BufWritePost", {
   pattern = "*/lua/plugins/colorscheme.lua",
   callback = function()
     vim.schedule( function()
-      package.loaded[ 'plugins.colorscheme' ] = nil
-      require( 'plugins.colorscheme' ).config()
+      package.loaded[ "plugins.colorscheme" ] = nil
+      package.loaded[ "obszczymucha.color-overrides" ] = nil
+      require( "plugins.colorscheme" ).config()
+      require( "obszczymucha.color-overrides" )
       vim.notify( "Colorscheme reloaded.", vim.log.levels.INFO )
     end )
   end
