@@ -68,8 +68,8 @@ local function run_benchmark()
 
   local test_cases = {
     { "Single term",               "function" },
-    { "Double term (current awk)", "function || return" },
-    { "Triple term (current awk)", "function || return || local" },
+    { "Double term (ugrep --bool)", "function || return" },
+    { "Triple term (ugrep --bool)", "function || return || local" },
     { "With glob pattern",         "function || return  *.lua" }
   }
 
