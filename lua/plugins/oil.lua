@@ -9,6 +9,7 @@ return {
       columns = { "icon" },
       keymaps = {
         [ "<M-h>" ] = "actions.select_split",
+        [ "<M-l>" ] = "actions.select_vsplit",
         [ "<Esc>" ] = "actions.close",
         [ "<A-.>" ] = function()
           local strip = require( "obszczymucha.utils" ).front_strip
