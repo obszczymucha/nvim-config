@@ -3,7 +3,7 @@ return {
   config = function()
     local oil = require( "oil" )
     oil.setup {
-      default_file_explorer = true,
+      default_file_explorer = false,
       delete_to_trash = true,
       skip_confirm_for_simple_edits = true,
       columns = { "icon" },
@@ -29,9 +29,21 @@ return {
 
     vim.keymap.set( "n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory (float)" } )
     vim.keymap.set( "n", "=", "<cmd>Oil<CR>", { desc = "Open current directory" } )
+
+    vim.api.nvim_create_autocmd( "VimEnter", {
+      callback = function( data )
+        if vim.fn.isdirectory( data.file ) == 1 then
+          vim.schedule( function()
+            vim.cmd( "bdelete" )
+            oil.open_float( data.file )
+          end )
+        end
+      end
+    } )
   end,
   keys = {
     { "-", "<cmd>Oil --float<CR>", desc = "Open current directory (float)" },
-    { "=", "<cmd>Oil<CR>", desc = "Open current directory" }
-  }
+    { "=", "<cmd>Oil<CR>",         desc = "Open current directory" }
+  },
+  lazy = false
 }
