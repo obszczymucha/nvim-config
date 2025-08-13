@@ -32,7 +32,7 @@ return {
           tabe = 't',
           tabnew = 'r',
           quit = { 'q', '<ESC>' },
-          close_in_preview = '<ESC>',
+          -- close_in_preview = '<ESC>',
         },
         methods = {
           -- This is very interesting. Allows invoking ":Lspsaga finder tyd"
