@@ -26,6 +26,17 @@ local options = {
   }
 }
 
+local function select_vertical( prompt_bufnr )
+  local result = actions.select_vertical( prompt_bufnr )
+  vim.schedule( function() vim.cmd( "normal! zz" ) end )
+  return result
+end
+
+local function select_horizontal( prompt_bufnr )
+  local action_set = require( "telescope.actions.set" )
+  action_set.edit( prompt_bufnr, "belowright new" )
+end
+
 local mappings = {
   i = {
     [ "<A-j>" ] = actions.move_selection_next,
@@ -36,17 +47,15 @@ local mappings = {
     [ "<C-D>" ] = false,
     [ "<A-u>" ] = actions.preview_scrolling_up,
     [ "<A-d>" ] = actions.preview_scrolling_down,
-    [ "<A-l>" ] = function( prompt_bufnr )
-      local result = actions.select_vertical( prompt_bufnr )
-      vim.schedule( function() vim.cmd( "normal! zz" ) end )
-      return result
-    end,
-    [ "<A-h>" ] = function( prompt_bufnr )
-      local action_set = require( "telescope.actions.set" )
-      action_set.edit( prompt_bufnr, "belowright new" )
-    end
+    [ "<A-l>" ] = select_vertical,
+    [ "<A-h>" ] = select_horizontal
   }
 }
+
+if is_macos then
+  mappings.i[ "<Left>" ] = select_horizontal
+  mappings.i[ "<Right>" ] = select_vertical
+end
 
 local function toggle_hidden_files( prompt_bufnr )
   local current_picker = action_state.get_current_picker( prompt_bufnr )
