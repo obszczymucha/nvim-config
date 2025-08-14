@@ -117,12 +117,12 @@ local function filter_diagnostics( diagnostic )
   return true
 end
 
-local function custom_on_publish_diagnostics( a, params, client_id )
-  filter( params.diagnostics, filter_diagnostics )
-  vim.lsp.diagnostic.on_publish_diagnostics( a, params, client_id )
-end
+local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
 
-vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = custom_on_publish_diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, params, client_id, config)
+  filter( params.diagnostics, filter_diagnostics )
+  original_handler(err, params, client_id, config)
+end
 
 if lspconfig.clangd then lspconfig.clangd.setup {} end
 if lspconfig.sqlls then lspconfig.sqlls.setup {} end
