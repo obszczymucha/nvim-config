@@ -2,13 +2,19 @@ return {
   "stevearc/oil.nvim",
   config = function()
     local oil = require( "oil" )
-    oil.setup {
+
+    local function split_below()
+      vim.o.splitbelow = true
+      oil.select( { horizontal = true } )
+    end
+
+    local opts = {
       default_file_explorer = false,
       delete_to_trash = true,
       skip_confirm_for_simple_edits = true,
       columns = { "icon" },
       keymaps = {
-        [ "<M-h>" ] = "actions.select_split",
+        [ "<M-h>" ] = split_below,
         [ "<M-l>" ] = "actions.select_vsplit",
         [ "<Esc>" ] = "actions.close",
         [ "<A-.>" ] = function()
@@ -26,6 +32,13 @@ return {
         max_height = 24
       }
     }
+
+    if is_macos then
+      opts.keymaps[ "<Left>" ] = split_below
+      opts.keymaps[ "<Right>" ] = "actions.select_vsplit"
+    end
+
+    oil.setup( opts )
 
     vim.keymap.set( "n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory (float)" } )
     vim.keymap.set( "n", "=", "<cmd>Oil<CR>", { desc = "Open current directory" } )
