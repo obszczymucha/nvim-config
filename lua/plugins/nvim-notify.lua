@@ -58,7 +58,9 @@ return {
             highlights._custom_groups = highlights._custom_groups or {}
 
             function highlights:add_custom_group( name, original_color )
-              local custom_name = name .. "_notify_" .. vim.api.nvim_buf_get_number( 0 )
+              -- Generate a unique ID for this notification instance
+              self._instance_id = self._instance_id or tostring( os.clock() ):gsub( "%.", "" ) .. math.random( 1000 )
+              local custom_name = name .. "_notify_" .. self._instance_id
               self._custom_groups[ custom_name ] = original_color
               vim.api.nvim_set_hl( 0, custom_name, { fg = original_color } )
               return custom_name
