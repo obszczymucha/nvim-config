@@ -3,7 +3,7 @@ local M = {}
 
 function M.generate_multigrep_command( prompt )
   if not prompt or prompt == "" then
-    return { "ugrep", ".", "-r", "-i", "--ignore-files", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column-number" }
+    return { "ugrep", ".", "-r", "-i", "--ignore-files", "--ignore-binary", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column-number" }
   end
 
   if prompt:find( "||" ) then
@@ -46,6 +46,7 @@ function M.generate_multigrep_command( prompt )
         "--mmap",
         "--jobs=1",
         "--ignore-files",
+        "--ignore-binary",
         "--color=never",
         "--no-heading",
         "--with-filename",
@@ -74,6 +75,7 @@ function M.generate_multigrep_command( prompt )
       "-r",
       "-i",
       "--ignore-files",
+      "--ignore-binary",
       "--color=never",
       "--no-heading",
       "--with-filename",
