@@ -19,6 +19,10 @@ local function on_buf_leave()
 
   if not filetype or filetype == "" then return end
 
+  local root_dir = utils.get_project_root_dir()
+
+  if root_dir and not vim.startswith( bufname, root_dir ) then return end
+
   state.last_buffer = {
     name = bufname,
     filetype = filetype,
