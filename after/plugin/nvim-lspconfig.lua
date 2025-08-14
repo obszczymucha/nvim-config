@@ -29,26 +29,40 @@ if mason_lspconfig then
     -- Disable automatic setup to prevent duplicates
     automatic_setup = false,
     handlers = {
-      -- Set up all servers except lua_ls
-      function(server_name)
-        if server_name ~= "lua_ls" then
-          lspconfig[server_name].setup {}
+      function( server_name )
+        if server_name == "gopls" then
+          lspconfig.gopls.setup {
+            -- Custom gopls settings here
+            settings = {
+              gopls = {
+                analyses = {
+                  unusedparams = true,
+                },
+                staticcheck = true,
+              },
+            },
+          }
+          return
         end
+
+        lspconfig[ server_name ].setup {}
       end
     }
   }
 end
 
 -- Add lua_ls keybindings since neoconf can't handle them
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+vim.api.nvim_create_autocmd( 'LspAttach', {
+  callback = function( args )
+    local client = vim.lsp.get_client_by_id( args.data.client_id )
     if client and client.name == 'lua_ls' then
-      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>", {buffer = args.buf} )
-      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>", {buffer = args.buf} )
+      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>",
+        { buffer = args.buf } )
+      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>",
+        { buffer = args.buf } )
     end
   end,
-})
+} )
 
 if lspconfig.hls then lspconfig.hls.setup {} end
 
@@ -117,28 +131,10 @@ local function filter_diagnostics( diagnostic )
   return true
 end
 
-local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+local original_handler = vim.lsp.handlers[ "textDocument/publishDiagnostics" ]
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, params, client_id, config)
+vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = function( err, params, client_id, config )
   filter( params.diagnostics, filter_diagnostics )
-  original_handler(err, params, client_id, config)
+  original_handler( err, params, client_id, config )
 end
 
-if lspconfig.clangd then lspconfig.clangd.setup {} end
-if lspconfig.sqlls then lspconfig.sqlls.setup {} end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-if lspconfig.cssls then lspconfig.cssls.setup { capabilities = capabilities } end
-if lspconfig.html then lspconfig.html.setup { capabilities = capabilities } end
-if lspconfig.jsonls then lspconfig.jsonls.setup { capabilities = capabilities } end
-if lspconfig.gopls then lspconfig.gopls.setup {} end
---local root_pattern = require( "lspconfig.util" ).root_pattern
-
---if lspconfig.groovyls then
---lspconfig.groovyls.setup {
---capabilities = capabilities,
---root_dir = root_pattern( "", ".git" )
---}
---end
