@@ -20,6 +20,17 @@ local checks = {
   lazy_updated = false
 }
 
+local function c( text, highlight )
+  return string.format( "@%s@%s@@", highlight or "variable", text )
+end
+
+local lazy_colored = c( "Lazy" )
+local mason_colored = c( "Mason" )
+
+local function pkg_colored( pkg )
+  return c( pkg, "Added" )
+end
+
 local function after_update()
   if checks.maven_updated and checks.lazy_updated then
     -- This needs to be scheduled, otherwise we're getting this error:
@@ -63,9 +74,9 @@ local function update_mason( registry )
     checks.maven_updated = true
 
     if package_bundle.updated_count > 0 then
-      vim.notify( "Mason updated successfully." )
+      vim.notify( string.format( "%s updated successfully.", mason_colored ) )
     else
-      vim.notify( "Mason is up-to-date." )
+      vim.notify( string.format( "%s is up-to-date.", mason_colored ) )
     end
 
     after_update()
@@ -102,7 +113,8 @@ local function update_mason( registry )
         wrapped_package.version_checked = true
         wrapped_package.needs_update = true
 
-        vim.notify( string.format( "Updating %s from version %s to %s...", wrapped_package.name, current_version,
+        vim.notify( string.format( "Updating %s from version %s to %s...", pkg_colored( wrapped_package.name ),
+          current_version,
           latest_version ) )
 
         package_bundle.updated_count = package_bundle.updated_count + 1
@@ -111,7 +123,7 @@ local function update_mason( registry )
         mason_utils.install_package( wrapped_package.name, latest_version, function()
           package_bundle.updated_count = package_bundle.updated_count + 1
           package_bundle.wrapped_packages[ wrapped_package.name ].needs_update = false
-          vim.notify( string.format( "%s updated successfully.", wrapped_package.name ) )
+          vim.notify( string.format( "%s updated successfully.", pkg_colored( wrapped_package.name ) ) )
 
           announce_if_needed()
         end )
@@ -133,7 +145,7 @@ local function update_lazy( lazy )
     pattern = "LazySync",
     callback = function()
       checks.lazy_updated = true
-      vim.notify( "Lazy is up-to-date." )
+      vim.notify( string.format( "%s is up-to-date.", lazy_colored ) )
       vim.api.nvim_del_autocmd( autocmd_id )
       after_update()
     end
@@ -151,7 +163,9 @@ local function update()
     local lazy = prequirev( "lazy" )
     if not registry and not lazy then return end
 
-    vim.notify( string.format( "Updating %s...", registry and lazy and "Mason and Lazy" or registry and "Mason" or "Lazy" ) )
+    vim.notify( string.format( "Updating %s...",
+      registry and lazy and string.format( "%s and %s", lazy_colored, mason_colored ) or registry and mason_colored or
+      lazy_colored ) )
 
     update_mason( registry )
     update_lazy( lazy )
