@@ -100,7 +100,7 @@ return {
   init = function()
     vim.cmd( [[cab cc CodeCompanion]] )
     local map = vim.keymap.set
-    map( "n", "<leader>fw", "<cmd>CodeCompanionActions<CR>" )
+    map( "n", "<leader>gw", "<cmd>CodeCompanionActions<CR>" )
   end,
   lazy = false
 }

@@ -13,7 +13,8 @@ return {
     vim.keymap.set( "n", "<leader>fr", "<cmd>lua R( 'obszczymucha.telescope' ).resume()<CR>",
       { desc = "Resume find files" } )
     -- vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep()<CR>", { desc = "Search" } )
-    vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope.multigrep' ).live_multigrep()<CR>", { desc = "Search" } )
+    vim.keymap.set( "n", "<leader>fe", "<cmd>lua R( 'obszczymucha.telescope.multigrep' ).live_multigrep()<CR>",
+      { desc = "Search" } )
     vim.keymap.set( "n", "<leader>fE", "<cmd>lua R( 'obszczymucha.telescope' ).live_grep( true )<CR>",
       { desc = "Search hidden" } )
     vim.keymap.set( "n", "<leader>/", "<cmd>lua R( 'obszczymucha.telescope' ).current_buffer_fuzzy_find()<CR>",
@@ -38,8 +39,25 @@ return {
       { desc = "Directory search (Oil)" } )
 
     vim.keymap.set( "v", "<leader>fe", function()
-      local selection = require( 'obszczymucha.utils.selection' ).get_selection()
-      R( 'obszczymucha.telescope.multigrep' ).live_multigrep( selection )
+      local selection = require( "obszczymucha.utils.selection" ).get_selection()
+      if not selection then return end
+
+      R( "obszczymucha.telescope.multigrep" ).live_multigrep( vim.trim( selection ) )
+    end, { desc = "Search selection" } )
+
+    vim.keymap.set( "n", "<leader>fw", function()
+      local selection = require( "obszczymucha.utils.selection" ).get_word_under_cursor()
+      R( "obszczymucha.telescope.multigrep" ).live_multigrep( selection )
+    end, { desc = "Search selection" } )
+
+    vim.keymap.set( "n", "<leader>fW", function()
+      local selection = require( "obszczymucha.utils.selection" ).get_whole_word_under_cursor()
+      R( "obszczymucha.telescope.multigrep" ).live_multigrep( selection )
+    end, { desc = "Search selection" } )
+
+    vim.keymap.set( "n", "<leader>fW", function()
+      local selection = require( "obszczymucha.utils.selection" ).get_whole_word_under_cursor()
+      R( "obszczymucha.telescope.multigrep" ).live_multigrep( selection )
     end, { desc = "Search selection" } )
 
     -- For Mac

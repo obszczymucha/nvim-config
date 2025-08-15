@@ -1,12 +1,9 @@
 local M = {}
 
-function M.get_word_under_cursor()
-  local cursor_word = vim.fn.expand( "<cword>" )
-  return cursor_word
-end
+local utils = require( "obszczymucha.utils.selection" )
 
 function M.is_camel_case()
-  local word = M.get_word_under_cursor()
+  local word = utils.get_word_under_cursor()
   if word == "" then return false end
 
   -- Check if word contains lowercase letters followed by uppercase letters
@@ -15,14 +12,14 @@ function M.is_camel_case()
 end
 
 function M.is_snake_case()
-  local word = M.get_word_under_cursor()
+  local word = utils.get_word_under_cursor()
   if word == "" then return false end
 
   return word:match( "_" ) ~= nil and word:match( "^[%l%d_]+$" ) ~= nil
 end
 
 function M.to_snake_case()
-  local word = M.get_word_under_cursor()
+  local word = utils.get_word_under_cursor()
   if word == "" then return end
 
   local snake_case = word:gsub( "(%l)(%u)", "%1_%2" ):lower()
@@ -32,7 +29,7 @@ function M.to_snake_case()
 end
 
 function M.to_pascal_case()
-  local word = M.get_word_under_cursor()
+  local word = utils.get_word_under_cursor()
   if word == "" then return end
 
   local pascal_case = word:gsub( "(%l)(_)(%l)", function( a, _, c ) return a .. c:upper() end )

@@ -14,5 +14,14 @@ function M.get_selection()
   end
 end
 
-return M
+function M.get_word_under_cursor()
+  local cursor_word = vim.fn.expand( "<cword>" )
+  return cursor_word
+end
 
+function M.get_whole_word_under_cursor()
+  local cursor_word = vim.fn.expand( "<cWORD>" )
+  return cursor_word
+end
+
+return M
