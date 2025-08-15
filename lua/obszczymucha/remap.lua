@@ -184,6 +184,8 @@ vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<
   { silent = true, desc = "Go to Treesitter context" } )
 
 vim.keymap.set( "i", "<A-0>", "<C-o>0" )
+vim.keymap.set( "i", "<A-4>", "<C-o>$" )
+vim.keymap.set( "i", "<A-6>", "<C-o>^" )
 
 local function completion_down()
   local cmp = prequirev( "cmp" )
