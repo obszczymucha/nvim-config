@@ -23,17 +23,8 @@ local BASE_FLAGS = {
 }
 
 local MULTI_SEARCH_FLAGS = {
-  "-r",
-  "-i",
   "--mmap",
-  "--jobs=1",
-  "--ignore-files",
-  "--ignore-binary",
-  "--color=never",
-  "--no-heading",
-  "--with-filename",
-  "--line-number",
-  "--column-number"
+  "--jobs=1"
 }
 
 local function clean_prompt( prompt )
@@ -86,6 +77,7 @@ local function build_multi_search( terms )
     table.insert( args, "--include=" .. glob )
   end
 
+  vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
   return args
 end
