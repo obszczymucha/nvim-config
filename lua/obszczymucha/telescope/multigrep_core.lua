@@ -1,4 +1,3 @@
--- Optimized multigrep command generation using ugrep
 local M = {}
 
 local AND_SEPARATOR = " | "
@@ -33,6 +32,7 @@ local function clean_prompt( prompt )
       return prompt:sub( 1, -(#sep + 1) )
     end
   end
+
   return prompt
 end
 
@@ -50,14 +50,20 @@ local function parse_term( term )
   return search_text, globs
 end
 
+local function quote_literal( text )
+  local escaped = text:gsub( '"', '\\"' )
+  return '"' .. escaped .. '"'
+end
+
 local function build_multi_search( terms )
   local all_globs = {}
   local search_terms = {}
 
   for _, term in ipairs( terms ) do
     local search_text, globs = parse_term( term )
+
     if search_text then
-      table.insert( search_terms, search_text )
+      table.insert( search_terms, quote_literal( search_text ) )
       vim.list_extend( all_globs, globs )
     end
   end
@@ -83,12 +89,13 @@ local function build_multi_search( terms )
 end
 
 local function build_single_search( prompt )
-  local args = { "ugrep", "-F" }
+  local args = { "ugrep" }
   local search_text, globs = parse_term( prompt )
 
   if search_text then
     table.insert( args, "-e" )
-    table.insert( args, search_text )
+    table.insert( args, quote_literal( search_text ) )
+    table.insert( args, "--bool" )
   end
 
   for _, glob in ipairs( globs ) do
