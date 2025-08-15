@@ -183,8 +183,7 @@ vim.keymap.set( "n", "<C-i>", function() return config.auto_center() and "<C-i>z
 vim.keymap.set( "n", "gk", ":lua R( 'obszczymucha.navigation' ).go_to_context()<CR>",
   { silent = true, desc = "Go to Treesitter context" } )
 
--- Do I really need this?
-vim.keymap.set( "i", "<C-c>", "<Esc>" )
+vim.keymap.set( "i", "<A-0>", "<C-o>0" )
 
 local function completion_down()
   local cmp = prequirev( "cmp" )
