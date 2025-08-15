@@ -5,6 +5,7 @@ local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local conf = require( "telescope.config" ).values
 local actions = require( "telescope.actions" )
+local action_state = require( "telescope.actions.state" )
 local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
 
 M.generate_multigrep_command = multigrep_core.generate_multigrep_command
@@ -46,6 +47,9 @@ function M.live_multigrep( search_term )
       prevent_duplicate_searches( picker, M.generate_multigrep_command )
 
       map( "i", "<CR>", function( bufnr )
+        local selection = action_state.get_selected_entry()
+        if not selection then return end
+
         local result = actions.select_default( bufnr )
         vim.schedule( function() vim.cmd( "normal! zz" ) end )
         return result

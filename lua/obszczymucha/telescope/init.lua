@@ -3,9 +3,10 @@ if not telescope then return end
 
 local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
+local action_state = require( "telescope.actions.state" )
+local actions_set = require( "telescope.actions.set" )
 local file_browser_actions = require( "telescope" ).extensions.file_browser.actions
 local common = require( "obszczymucha.common" )
-local action_state = require( "telescope.actions.state" )
 local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local oil_dir = require( "obszczymucha.telescope.oil-dir" )
@@ -27,18 +28,31 @@ local options = {
 }
 
 local function select_vertical( prompt_bufnr )
+  local selection = action_state.get_selected_entry()
+  if not selection then return end
+
   local result = actions.select_vertical( prompt_bufnr )
   vim.schedule( function() vim.cmd( "normal! zz" ) end )
   return result
 end
 
 local function select_horizontal( prompt_bufnr )
-  local action_set = require( "telescope.actions.set" )
-  action_set.edit( prompt_bufnr, "belowright new" )
+  local selection = action_state.get_selected_entry()
+  if not selection then return end
+
+  actions_set.edit( prompt_bufnr, "belowright new" )
+end
+
+local function safe_select_default( prompt_bufnr )
+  local selection = action_state.get_selected_entry()
+  if selection then
+    actions.select_default( prompt_bufnr )
+  end
 end
 
 local mappings = {
   i = {
+    [ "<CR>" ] = safe_select_default,
     [ "<A-j>" ] = actions.move_selection_next,
     [ "<A-k>" ] = actions.move_selection_previous,
     [ "<Esc>" ] = actions.close,
