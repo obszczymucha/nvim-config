@@ -1,6 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
-  config = function( self, opts )
+  config = function()
     local dap = require( "dap" )
     dap.defaults.fallback.force_external_terminal = true
     dap.configurations.scala = {
