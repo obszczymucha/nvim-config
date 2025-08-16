@@ -4,7 +4,7 @@ local config = require( "obszczymucha.user-config" )
 local state = require( "obszczymucha.state.last-opened" )
 local utils = require( "obszczymucha.utils" )
 
-local ignore_filetypes = { "codecompanion", "gitcommit", "gitrebase", "oil", "qf", "query" }
+local ignore_filetypes = { "codecompanion", "dap-repl", "gitcommit", "gitrebase", "oil", "qf", "query" }
 
 local group = vim.api.nvim_create_augroup( "LastOpened", { clear = true } )
 
