@@ -277,6 +277,8 @@ vim.keymap.set( "n", "<leader>dt", [[:lua require"dapui".toggle()<CR>]], { silen
 vim.keymap.set( "n", "<leader>dr", [[:lua require"dap".repl.toggle()<CR>]], { silent = true, desc = "Toggle dap repl" } )
 vim.keymap.set( "n", "<F7>", [[:lua require"dap".step_into()<CR>]], { silent = true, desc = "Step into" } )
 vim.keymap.set( "n", "<F8>", [[:lua require"dap".step_over()<CR>]], { silent = true, desc = "Step over" } )
+-- <S-F8
+vim.keymap.set( "n", "<F20>", [[:lua require"dap".step_out()<CR>]], { silent = true, desc = "Step out" } )
 vim.keymap.set( "n", "<F9>", [[:lua require"dap".toggle_breakpoint()<CR>]], { silent = true, desc = "Toggle breakpoint" } )
 -- <S-F9>
 vim.keymap.set( "n", "<F21>", [[:lua require"dap".toggle_breakpoint(vim.fn.input("Condition: "))<CR>]],
