@@ -1,3 +1,4 @@
+local utils = require( "obszczymucha.utils" )
 local mason = prequirev( "mason" )
 if mason then
   mason.setup()
@@ -133,8 +134,18 @@ end
 
 local original_handler = vim.lsp.handlers[ "textDocument/publishDiagnostics" ]
 
-vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = function( err, params, client_id, config )
-  filter( params.diagnostics, filter_diagnostics )
-  original_handler( err, params, client_id, config )
-end
+vim.lsp.handlers[ "textDocument/publishDiagnostics" ] = function( err, params, ctx, config )
+  local client = ctx and vim.lsp.get_client_by_id( ctx.client_id )
 
+  if client and client.name == "gopls" then
+    local root_dir = "file://" .. utils.get_project_root_dir()
+
+    if not vim.startswith( params.uri, root_dir ) then
+      params.diagnostics = {}
+      original_handler( err, params, ctx, config )
+    end
+  end
+
+  filter( params.diagnostics, filter_diagnostics )
+  original_handler( err, params, ctx, config )
+end
