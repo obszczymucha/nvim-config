@@ -12,4 +12,5 @@ return {
       enable_persistent_history = not is_macos
     } )
   end,
+  lazy = false
 }
