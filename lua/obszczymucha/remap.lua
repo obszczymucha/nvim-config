@@ -209,6 +209,12 @@ local function completion_up()
   cmp.select_prev_item()
 end
 
+local function send( keys )
+  return function()
+    vim.api.nvim_feedkeys( vim.api.nvim_replace_termcodes( keys, true, false, true ), "n", false )
+  end
+end
+
 local function yank( register )
   return function()
     local line = vim.fn.getcmdline()
@@ -225,10 +231,10 @@ end
 vim.keymap.set( "i", "<A-j>", completion_down, { silent = true } )
 vim.keymap.set( "i", "<A-k>", completion_up, { silent = true } )
 vim.keymap.set( "i", "<C-k>", remap( "signature_help" ), { silent = true } )
--- vim.keymap.set( "c", "<A-j>", [[ "\<C-n>" ]], { expr = true } )
--- vim.keymap.set( "c", "<A-k>", [[ "\<C-p>" ]], { expr = true } )
-vim.keymap.set( "c", "<A-j>", completion_down, { silent = true } )
-vim.keymap.set( "c", "<A-k>", completion_up, { silent = true } )
+vim.keymap.set( "c", "<A-j>", send( "<Down>" ), { silent = true } )
+vim.keymap.set( "c", "<A-k>", send( "<Up>" ), { silent = true } )
+vim.keymap.set( "c", "<S-A-j>", completion_down, { silent = true } )
+vim.keymap.set( "c", "<S-A-k>", completion_up, { silent = true } )
 vim.keymap.set( "c", "<A-y>", yank( '"' ), { silent = true } )
 vim.keymap.set( "c", "<A-Y>", yank( '+' ), { silent = true } )
 
