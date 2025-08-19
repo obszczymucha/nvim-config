@@ -21,7 +21,7 @@ local checks = {
 }
 
 local function c( text, highlight )
-  return string.format( "@%s@%s@@", highlight or "variable", text )
+  return string.format( "[%s]{%s}", text, highlight or "variable" )
 end
 
 local lazy_colored = c( "Lazy" )

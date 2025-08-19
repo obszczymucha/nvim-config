@@ -95,19 +95,10 @@ end
 ---@param pos number Starting position
 ---@return number|nil start_pos Start position of pattern
 ---@return number|nil end_pos End position of pattern
----@return string|nil color The color value
 ---@return string|nil content The text content
+---@return string|nil color The color value
 local function find_next_pattern( text, pos )
-  local hex_start, hex_end, hex_color, hex_content = text:find( "@(#%x%x%x%x%x%x)@([^@]-)@@", pos )
-  local name_start, name_end, name_color, name_content = text:find( "@([%w%.]+)@([^@]-)@@", pos )
-
-  if hex_start and (not name_start or hex_start < name_start) then
-    return hex_start, hex_end, hex_color, hex_content
-  elseif name_start then
-    return name_start, name_end, name_color, name_content
-  end
-
-  return nil
+  return text:find( "%[(.-)%]{(.-)}", pos )
 end
 
 ---Adds a text part to the parts array
@@ -135,7 +126,7 @@ function M.parse_colored_text( text, highlights )
   local pos = 1
 
   while pos <= #text do
-    local start_pos, end_pos, color, content = find_next_pattern( text, pos )
+    local start_pos, end_pos, content, color = find_next_pattern( text, pos )
 
     if not start_pos then
       -- No more patterns, add remaining text
