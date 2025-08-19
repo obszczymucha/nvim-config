@@ -9,7 +9,8 @@ local function decorate_set_opacity( highlights, custom_groups )
     local result = original_set_opacity( self, alpha )
 
     local util = require( "notify.util" )
-    local background = 0x000000
+    local normal_hl = vim.api.nvim_get_hl( 0, { name = "Normal" } )
+    local background = normal_hl.bg or 0x000000
 
     for group_name, original_color in pairs( custom_groups ) do
       local blended_fg = util.blend( original_color, background, alpha / 100 )
