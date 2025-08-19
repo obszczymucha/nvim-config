@@ -1,24 +1,44 @@
 local M = {}
 
+-- Destination background color for notification window (nil = use original background)
+M.destination_bg = nil
+
 local colors = require( "obszczymucha.colors" )
 
 local function decorate_set_opacity( highlights, custom_groups )
   local original_set_opacity = highlights.set_opacity
 
   function highlights:set_opacity( alpha )
-    local result = original_set_opacity( self, alpha )
-
+    -- Handle custom foreground color blending
     local util = require( "notify.util" )
     local normal_hl = vim.api.nvim_get_hl( 0, { name = "Normal" } )
-    local background = normal_hl.bg or 0x000000
+    local blend_background = normal_hl.bg or 0x000000
 
     for group_name, original_color in pairs( custom_groups ) do
-      local blended_fg = util.blend( original_color, background, alpha / 100 )
-      vim.api.nvim_set_hl( 0, group_name, { fg = blended_fg } )
-      result = true
+      local blended_fg = util.blend( original_color, blend_background, alpha / 100 )
+      local bg_color = nil
+      if M.destination_bg then
+        bg_color = util.blend( M.destination_bg, blend_background, alpha / 100 )
+      end
+      vim.api.nvim_set_hl( 0, group_name, { fg = blended_fg, bg = bg_color } )
     end
 
-    return result
+    -- Handle notification background blending if destination is set
+    if M.destination_bg then
+      local updated = false
+      for group, fields in pairs( highlights.groups ) do
+        -- Always set background, even if original doesn't have one
+        local blended_bg = util.blend( M.destination_bg, blend_background, alpha / 100 )
+        local hl = vim.tbl_extend( "force", fields, { bg = blended_bg } )
+        vim.api.nvim_set_hl( 0, group, hl )
+        updated = true
+      end
+      highlights.opacity = alpha
+      return updated or not vim.tbl_isempty( custom_groups )
+    else
+      -- Use original behavior for background
+      return original_set_opacity( self, alpha ) or not vim.tbl_isempty( custom_groups )
+    end
   end
 end
 
@@ -47,7 +67,7 @@ function M.custom_render( bufnr, notif, highlights )
 
   vim.api.nvim_buf_set_extmark( bufnr, namespace, 0, 0, {
     hl_group = highlights.icon,
-    end_col = icon_length + 1,
+    end_col = icon_length + 2,
     priority = 50,
   } )
 

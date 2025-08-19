@@ -8,6 +8,9 @@ return {
 
     position.setup()
 
+    -- Set destination background color for fade animation (e.g., 0xff0000 for red)
+    -- colors.destination_bg = 0x203040
+
     ---@diagnostic disable-next-line: undefined-field
     notify.setup( {
       minimum_width = 8,
