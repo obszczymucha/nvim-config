@@ -108,5 +108,12 @@ return {
   {
     name = "Browse highlight groups",
     action = function() require( "obszczymucha.telescope" ).highlights() end
+  },
+  {
+    name = "Reset auto-update",
+    action = function()
+      config.set_last_update_timestamp()
+      vim.notify("[Auto-update]{purple} reset.")
+    end
   }
 }

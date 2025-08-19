@@ -55,8 +55,8 @@ function M.get_last_update_timestamp()
   return config[ LAST_UPDATE_TIMESTAMP ]
 end
 
-function M.set_last_update_timestamp()
-  set( LAST_UPDATE_TIMESTAMP, os.time() )
+function M.set_last_update_timestamp( time )
+  set( LAST_UPDATE_TIMESTAMP, time )
 end
 
 function M.alpha_nrformats()
