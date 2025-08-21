@@ -65,5 +65,17 @@ ls.add_snippets( LANG, {
       args = i( 2 ),
       start = i( 0 )
     } )
-  )
+  ),
+  s( "action",
+    fmt( [[
+      ,
+      {{
+        name = "{name}",
+        action = {action}
+      }}
+    ]], {
+      name = i( 1 ),
+      action = i( 0 )
+    } )
+  ),
 } )
