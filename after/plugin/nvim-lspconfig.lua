@@ -13,6 +13,11 @@ if not lspconfig then return end
 local mason_lspconfig = prequirev( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
+    automatic_enable = {
+      exclude = {
+        "rust_analyzer"
+      }
+    },
     ensure_installed = {
       "clangd",
       "rust_analyzer",
