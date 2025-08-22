@@ -411,4 +411,5 @@ vim.keymap.set( "c", "<A-l>", "<Right>", { noremap = true } )
 vim.keymap.set( "c", "<A-4>", "<End>", { noremap = true } )
 vim.keymap.set( "c", "<A-0>", "<Home>", { noremap = true } )
 
+vim.keymap.set( "n", "<A-e>", ":e<CR>", { noremap = true, silent = true } )
 return M
