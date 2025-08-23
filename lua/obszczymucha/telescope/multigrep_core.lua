@@ -108,17 +108,17 @@ end
 
 function M.generate_multigrep_command( prompt )
   if not prompt or prompt == "" then
-    local args = { "ugrep", "." }
-    vim.list_extend( args, BASE_FLAGS )
-    return args
+    return nil
   end
 
   local clean = clean_prompt( prompt )
 
   if clean:find( AND_SEPARATOR ) then
     local terms = vim.split( clean, AND_SEPARATOR )
+
     if #terms > 1 then
       local multi_args = build_multi_search( terms )
+
       if multi_args then
         return multi_args
       end

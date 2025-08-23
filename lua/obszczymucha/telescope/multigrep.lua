@@ -1,14 +1,12 @@
 local M = {}
 
 local pickers = require( "telescope.pickers" )
-local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local conf = require( "telescope.config" ).values
 local actions = require( "telescope.actions" )
 local action_state = require( "telescope.actions.state" )
-local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
-
-M.generate_multigrep_command = multigrep_core.generate_multigrep_command
+local core = require( "obszczymucha.telescope.multigrep_core" )
+local job_finder = require( "obszczymucha.telescope.custom_job_finder" )
 
 local function prevent_duplicate_searches( picker, command_generator )
   local original_on_lines = picker._on_lines
@@ -30,8 +28,8 @@ function M.live_multigrep( search_term )
   local opts = {}
   opts.cwd = opts.cwd or vim.fn.getcwd()
 
-  local finder = finders.new_async_job {
-    command_generator = M.generate_multigrep_command,
+  local finder = job_finder {
+    command_generator = core.generate_multigrep_command,
     entry_maker = make_entry.gen_from_vimgrep( opts ),
     cwd = opts.cwd
   }
@@ -44,7 +42,7 @@ function M.live_multigrep( search_term )
     sorter = require( "telescope.sorters" ).empty(),
     attach_mappings = function( prompt_bufnr, map )
       local picker = require( "telescope.actions.state" ).get_current_picker( prompt_bufnr )
-      prevent_duplicate_searches( picker, M.generate_multigrep_command )
+      prevent_duplicate_searches( picker, core.generate_multigrep_command )
 
       map( "i", "<CR>", function( bufnr )
         local selection = action_state.get_selected_entry()
