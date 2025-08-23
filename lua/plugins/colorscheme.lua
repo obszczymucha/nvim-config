@@ -38,7 +38,17 @@ return {
       overrides = function( colors ) -- add/modify highlights
         return {
           Visual = { bg = "#3d3a7a" },
-          Normal = { bg = "#202030" }
+          Normal = { bg = "#202030" },
+          -- Telescope specific highlights
+          TelescopeNormal = { bg = "#17101a" },  -- Main picker background
+          TelescopeBorder = { bg = "#17101a", fg = "#4c4a69"},  -- Border color
+          TelescopePromptNormal = { bg = "#17101a" },  -- Prompt background
+          -- TelescopePromptBorder = { bg = "#16161d", fg = "#9f7fff" },
+          -- -- TelescopePromptTitle = { bg = "#9f7fff", fg = "#16161d" },
+          -- -- TelescopePreviewTitle = { bg = "#9f7fff", fg = "#16161d" },
+          -- -- TelescopeResultsTitle = { bg = "#9f7fff", fg = "#16161d" },
+          -- TelescopeSelection = { bg = "#2d2d4f" },  -- Selected item background
+          -- TelescopeSelectionCaret = { fg = "#fabd2f" },  -- Caret color
         }
       end,
       theme = "wave",  -- Load "wave" theme when 'background' option is not set

@@ -289,7 +289,7 @@ M.browse = function()
   local original_create_window = picker._create_window
 
   picker._create_window = function( self, bufnr, popup_opts, nowrap )
-    popup_opts.borderhighlight = "ActionsTelescopeBorder"
+    -- popup_opts.borderhighlight = "ActionsTelescopeBorder"
     return original_create_window( self, bufnr, popup_opts, nowrap )
   end
 
