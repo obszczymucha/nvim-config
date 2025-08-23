@@ -240,7 +240,8 @@ vim.keymap.set( "c", "<A-Y>", yank( '+' ), { silent = true } )
 
 -- Filetype-based mappings. See obszczymucha/kemaps
 vim.keymap.set( "n", "gd", remap( "go_to_definition" ), { noremap = false, silent = true } )
-vim.keymap.set( "n", "gD", remap( "type_definition" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "gs", remap( "go_to_declaration" ), { noremap = false, silent = true } )
+vim.keymap.set( "n", "gt", remap( "type_definition" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gi", remap( "go_to_implementation" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "<C-k>", remap( "signature_help" ), { noremap = false, silent = true } )
 vim.keymap.set( "n", "gj", remap( "peek_definition" ), { noremap = false, silent = true } )

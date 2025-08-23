@@ -16,6 +16,10 @@ function M.go_to_definition()
   vim.cmd( "Lspsaga goto_definition" )
 end
 
+function M.go_to_declaration()
+  vim.cmd( "lua vim.lsp.buf.declaration()" )
+end
+
 function M.go_to_implementation()
   vim.cmd( "lua vim.lsp.buf.implementation()" )
 end
