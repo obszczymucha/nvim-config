@@ -62,6 +62,5 @@ return {
     version = '^6', -- Recommended
     ft = "rust"     -- Load only for Rust files
   },
-  { "rhysd/git-messenger.vim",        keys = { { "<leader>gm", "<cmd>GitMessenger<cr>", desc = "Git messenger" } } },
   { "RRethy/nvim-treesitter-endwise", event = "InsertEnter" }
 }
