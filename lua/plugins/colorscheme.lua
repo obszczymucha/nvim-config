@@ -38,7 +38,7 @@ return {
       overrides = function( colors ) -- add/modify highlights
         return {
           Visual = { bg = "#3d3a7a" },
-          Normal = { bg = "#202030" },
+          Normal = { bg = "#1d1d26" },
           -- Telescope specific highlights
           TelescopeNormal = { bg = "#17101a" },  -- Main picker background
           TelescopeBorder = { bg = "#17101a", fg = "#4c4a69"},  -- Border color
