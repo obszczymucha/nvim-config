@@ -68,7 +68,7 @@ return {
           return require( "codecompanion.adapters" ).extend( "openai_compatible", {
             env = {
               url = "https://api.studio.genai.cba",
-              api_key = os.getenv( "GENAI_API_KEY" )
+              api_key = os.getenv( "GENAI_STUDIO_API_KEY" )
             },
             schema = {
               model = {
@@ -80,18 +80,10 @@ return {
       },
       strategies = {
         chat = {
-          adapter = {
-            name = "copilot",
-            model = "claude-3.7-sonnet"
-          }
-          --adapter = "genai_studio"
+          adapter = "genai_studio"
         },
         inline = {
-          adapter = {
-            name = "copilot",
-            model = "claude-3.7-sonnet"
-          }
-          -- adapter = "genai_studio"
+          adapter = "genai_studio"
         }
       },
       prompt_library = require( "obszczymucha.codecompanion.prompt-library" )
