@@ -7,6 +7,30 @@ return {
   },
   config = function()
     require( "noice" ).setup( {
+      routes = {
+        {
+          filter = { event = "msg_show", kind = "" },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = "msg_show", kind = { "shell_out", "shell_err" } },
+          view = "popup",
+          opts = {
+            enter = true,
+            border = {
+              style = "rounded",
+              text = {
+                top = " Shell Output ",
+              },
+            },
+            position = "50%",
+            size = {
+              width = "80%",
+              height = "60%",
+            },
+          },
+        },
+      },
       lsp = {
         progress = {
           enabled = false,
