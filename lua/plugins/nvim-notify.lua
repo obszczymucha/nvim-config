@@ -18,7 +18,7 @@ return {
       stages = "fade_in_slide_out",
       timeout = 2000,
       top_down = true,
-      background_colour = "Normal",
+      background_colour = "#000210",
     } )
   end
 }
