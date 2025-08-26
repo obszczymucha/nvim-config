@@ -3,6 +3,7 @@ local window_utils = require( "obszczymucha.actions.utils.window" )
 local naming_conventions = require( "obszczymucha.actions.utils.naming-conventions" )
 local file_utils = require( "obszczymucha.actions.utils.file" )
 local config = require( "obszczymucha.user-config" )
+local utils = require( "obszczymucha.utils" )
 
 return {
   {
@@ -113,7 +114,15 @@ return {
     name = "Reset auto-update",
     action = function()
       config.set_last_update_timestamp()
-      vim.notify("[Auto-update]{purple} reset.")
+      vim.notify( "[Auto-update]{purple} reset." )
     end
+  },
+  {
+    name = "Print current working directory",
+    action = function() vim.notify( vim.fn.getcwd() ) end
+  },
+  {
+    name = "Print project's root directory",
+    action = function() vim.notify( utils.get_project_root_dir() ) end
   }
 }
