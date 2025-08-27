@@ -9,6 +9,10 @@ return {
     require( "noice" ).setup( {
       routes = {
         {
+          filter = { event = "msg_show", kind = "", find = "^%s*jump" },
+          view = "split",
+        },
+        {
           filter = { event = "msg_show", kind = "" },
           opts = { skip = true },
         },
