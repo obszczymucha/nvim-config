@@ -64,19 +64,21 @@ return {
         },
       },
       adapters = {
-        genai_studio = function()
-          return require( "codecompanion.adapters" ).extend( "openai_compatible", {
-            env = {
-              url = "https://api.studio.genai.cba",
-              api_key = os.getenv( "GENAI_API_KEY" )
-            },
-            schema = {
-              model = {
-                default = "bedrock-claude-3-7-sonnet"
+        http = {
+          genai_studio = function()
+            return require( "codecompanion.adapters" ).extend( "openai_compatible", {
+              env = {
+                url = "https://api.studio.genai.cba",
+                api_key = os.getenv( "GENAI_API_KEY" )
+              },
+              schema = {
+                model = {
+                  default = "bedrock-claude-3-7-sonnet"
+                }
               }
-            }
-          } )
-        end
+            } )
+          end
+        }
       },
       strategies = {
         chat = {
