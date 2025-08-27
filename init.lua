@@ -72,6 +72,7 @@ vim.defer_fn( function()
   require( "obszczymucha.code-actions.lua" )
   require( "obszczymucha.actions" )
   require( "obszczymucha.window-number" )
+  require( "obszczymucha.window-toggle" )
 
   if is_wsl then
     require( "obszczymucha.alacritty" )
