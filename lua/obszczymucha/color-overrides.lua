@@ -14,9 +14,12 @@ local purple = "#9f7fff"
 local light_purple = saturate( purple, 0.6 )
 local light_purple2 = saturate( purple, 0.9 )
 local dark_purple = brightness( purple, 0.4 )
+local light_blue = "#2db7ff"
 
 cmd( string.format( "hi WinSeparator guifg=%s guibg=NONE", dark_purple ) )
--- cmd( string.format( "hi purple guifg=%s", purple ) )
+cmd( string.format( "hi purple guifg=%s", purple ) )
+cmd( string.format( "hi light-purple guifg=%s", light_purple ) )
+cmd( string.format( "hi light-blue guifg=%s", light_blue ) )
 
 vim.cmd( string.format( "highlight ActionsTelescopeBorder guifg=%s", light_purple ) )
 
