@@ -19,10 +19,11 @@ function M.search_directories( opts )
   local finder = finders.new_table( {
     results = directories,
     entry_maker = function( entry )
+      local display = vim.fn.fnamemodify( entry, ":~:." )
       return {
         value = entry,
-        display = vim.fn.fnamemodify( entry, ":~:." ),
-        ordinal = entry,
+        display = display,
+        ordinal = display,
       }
     end,
   } )
