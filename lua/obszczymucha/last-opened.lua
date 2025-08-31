@@ -58,7 +58,7 @@ local function on_enter()
   if not data or not data.path or vim.fn.filereadable( data.path ) == 0 then return end
 
   vim.schedule( function()
-    vim.cmd( "edit " .. data.path )
+    vim.cmd( "edit " .. vim.fn.fnameescape( data.path ) )
 
     local buf = vim.api.nvim_win_get_buf( 0 )
     local line_count = vim.api.nvim_buf_line_count( buf )
