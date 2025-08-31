@@ -17,8 +17,8 @@ end
 local function is_git_repository( cwd )
   local git_path = cwd .. "/.git"
   return vim.fn.isdirectory( git_path ) == 1 or
-         vim.fn.filereadable( git_path ) == 1 or
-         vim.fn.finddir( ".git", cwd .. ";." ) ~= ""
+      vim.fn.filereadable( git_path ) == 1 or
+      vim.fn.finddir( ".git", cwd .. ";." ) ~= ""
 end
 
 local function get_tracked_directories( cwd )
@@ -80,7 +80,7 @@ local function scan_git_directories( cwd )
 end
 
 local function scan_filesystem_directories( cwd, max_depth )
-  local find_cmd = string.format( "find -L %s -maxdepth %d -type d -not -path '*/.*' 2>/dev/null",
+  local find_cmd = string.format( "find -L %s -maxdepth %d -type d -not -name '.*' 2>/dev/null",
     vim.fn.shellescape( cwd ), max_depth )
   local found_dirs = vim.fn.systemlist( find_cmd )
   local directories = {}
@@ -107,4 +107,3 @@ function M.scan_directories( cwd, max_depth )
 end
 
 return M
-
