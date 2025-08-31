@@ -1,3 +1,5 @@
+local last_dir
+
 return {
   "stevearc/oil.nvim",
   config = function()
@@ -54,10 +56,28 @@ return {
         end
       end
     } )
+
+    vim.api.nvim_create_autocmd( "User", {
+      pattern = "OilEnter",
+      callback = function()
+        last_dir = oil.get_current_dir()
+      end
+    } )
   end,
   keys = {
     { "-", "<cmd>Oil --float<CR>", desc = "Open current directory (float)" },
-    { "=", "<cmd>Oil<CR>",         desc = "Open current directory" }
+    { "=", "<cmd>Oil<CR>",         desc = "Open current directory" },
+    {
+      "_",
+      function()
+        if last_dir then
+          vim.cmd( "Oil --float " .. vim.fn.fnameescape( last_dir ) )
+        else
+          vim.cmd( "Oil --float" )
+        end
+      end,
+      desc = "Open last directory (float)"
+    }
   },
   lazy = false
 }
