@@ -17,6 +17,7 @@ return {
         [ "<M-h>" ] = split_below,
         [ "<M-l>" ] = "actions.select_vsplit",
         [ "<Esc>" ] = "actions.close",
+        [ "<C-q>" ] = "actions.send_to_qflist",
         [ "<A-.>" ] = function()
           local strip = require( "obszczymucha.utils" ).front_strip
           vim.notify( strip( oil.get_current_dir(), vim.o.columns - 10 ) )

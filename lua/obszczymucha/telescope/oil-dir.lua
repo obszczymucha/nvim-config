@@ -13,7 +13,7 @@ function M.search_directories( opts )
   opts = opts or {}
   opts.cwd = opts.cwd or utils.get_project_root_dir()
 
-  local max_depth = opts.max_depth or 3
+  local max_depth = opts.max_depth or 4
   local directories = path_utils.scan_directories( opts.cwd, max_depth )
 
   local finder = finders.new_table( {
