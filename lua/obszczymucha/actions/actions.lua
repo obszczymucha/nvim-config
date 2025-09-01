@@ -124,5 +124,14 @@ return {
   {
     name = "Print project's root directory",
     action = function() vim.notify( utils.get_project_root_dir() ) end
+  },
+  {
+    name = "Set new local working directory",
+    action = function()
+      local buf_path = vim.api.nvim_buf_get_name( 0 )
+      local cwd = utils.get_project_root_dir( buf_path )
+      vim.cmd( "lcd " .. cwd )
+      vim.notify( "[New cwd:]{purple} " .. cwd )
+    end
   }
 }

@@ -1,8 +1,21 @@
 local M = {}
 
-function M.get_project_root_dir()
-  local root_dir = vim.fn.system( "git rev-parse --show-toplevel" )
-  return not vim.v.shell_error and root_dir or vim.fn.getcwd()
+function M.get_project_root_dir( dir )
+  local base = dir and vim.fn.fnamemodify( vim.fn.fnameescape( dir ), ":p:h" )
+
+  local cmd = { "git", "rev-parse", "--show-toplevel" }
+  if base then
+    table.insert( cmd, 2, "-C" )
+    table.insert( cmd, 3, base )
+  end
+
+  local result = vim.system( cmd ):wait()
+
+  if result.code == 0 then
+    return vim.trim( result.stdout )
+  else
+    return vim.fn.getcwd()
+  end
 end
 
 ---@param hex_color string Hex color code, e.g. "#ff5733"
