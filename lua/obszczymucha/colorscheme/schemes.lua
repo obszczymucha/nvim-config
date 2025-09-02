@@ -1241,7 +1241,7 @@ M.schemes = {
         dragonBlue = "#65949a",
 
         oldWhite = "#a8dde3",
-        fujiWhite = "#b8eaf0",
+        fujiWhite = "#96bfc5",
         fujiGray = "#4a7a7f",
 
         oniViolet = "#5b9ba6",
@@ -1253,7 +1253,7 @@ M.schemes = {
         lightBlue = "#a3e2e7",
         waveAqua2 = "#7ab6bb",
 
-        springGreen = "#d0f8e0",
+        springGreen = "#80bc98",
         boatYellow1 = "#4a7e83",
         boatYellow2 = "#5a8e93",
         carpYellow = "#6a9ea3",
