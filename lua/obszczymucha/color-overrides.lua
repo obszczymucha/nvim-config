@@ -1,33 +1,34 @@
 local cmd = vim.cmd
-local utils = require( "obszczymucha.utils" )
-local saturate, brightness = utils.saturate, utils.brightness
+local schemes = require("obszczymucha.colorscheme.schemes")
+local config = require("obszczymucha.user-config")
 
-cmd( "autocmd ColorScheme * hi CursorLineNr ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None" )
-cmd( "autocmd ColorScheme * hi LineNr ctermfg=11 guifg=#4b5271" )
-cmd( "autocmd ColorScheme * hi Shebang ctermfg=red ctermbg=black guifg=#ff0000" )
-cmd( "autocmd ColorScheme * syntax match Shebang /#!.*/" )
+local function apply_color_overrides()
+  local scheme_name = config.get_colorscheme()
+  local colors = schemes.get_custom_colors(scheme_name)
 
--- Override lspsaga's colors
-cmd( "autocmd ColorScheme * highlight LspFloatWinNormal guibg=NONE" )
+  cmd( string.format( "hi CursorLineNr ctermfg=214 ctermbg=237 guifg=%s guibg=None", colors.cursor_line ) )
+  cmd( string.format( "hi LineNr ctermfg=11 guifg=%s", colors.line_number ) )
+  cmd( "hi Shebang ctermfg=red ctermbg=black guifg=#ff0000" )
+  cmd( "syntax match Shebang /#!.*/" )
+  cmd( "highlight LspFloatWinNormal guibg=NONE" )
 
-local purple = "#9f7fff"
-local light_purple = saturate( purple, 0.6 )
-local light_purple2 = saturate( purple, 0.9 )
-local dark_purple = brightness( purple, 0.4 )
-local light_blue = "#2db7ff"
+  cmd( string.format( "hi WinSeparator guifg=%s guibg=NONE", colors.dark_accent ) )
+  cmd( string.format( "hi accent guifg=%s", colors.accent ) )
+  cmd( string.format( "hi light-accent guifg=%s", colors.light_accent ) )
+  cmd( string.format( "hi light-blue guifg=%s", colors.light_blue ) )
 
-cmd( string.format( "hi WinSeparator guifg=%s guibg=NONE", dark_purple ) )
-cmd( string.format( "hi purple guifg=%s", purple ) )
-cmd( string.format( "hi light-purple guifg=%s", light_purple ) )
-cmd( string.format( "hi light-blue guifg=%s", light_blue ) )
+  cmd( string.format( "highlight ActionsTelescopeBorder guifg=%s", colors.light_accent ) )
 
-vim.cmd( string.format( "highlight ActionsTelescopeBorder guifg=%s", light_purple ) )
-
-local function set_notify_highlights( prefix, suffixes, color )
-  for _, suffix in ipairs( suffixes ) do
-    vim.api.nvim_set_hl( 0, prefix .. suffix, { fg = color } )
+  local function set_notify_highlights( prefix, suffixes, color )
+    for _, suffix in ipairs( suffixes ) do
+      vim.api.nvim_set_hl( 0, prefix .. suffix, { fg = color } )
+    end
   end
+
+  set_notify_highlights( "NotifyINFO", { "Title", "Border" }, colors.notify_info_border )
+  set_notify_highlights( "NotifyINFO", { "Icon", "Body" }, colors.notify_info_body )
 end
 
-set_notify_highlights( "NotifyINFO", { "Title", "Border" }, light_purple2 )
-set_notify_highlights( "NotifyINFO", { "Icon", "Body" }, "#b9c0eb" )
+cmd( "autocmd ColorScheme * lua require('obszczymucha.color-overrides').apply()" )
+
+return { apply = apply_color_overrides }

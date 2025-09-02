@@ -71,6 +71,7 @@ vim.defer_fn( function()
   require( "obszczymucha.mason-auto-install" )
   require( "obszczymucha.code-actions.lua" )
   require( "obszczymucha.actions" )
+  require( "obszczymucha.colorscheme" )
   require( "obszczymucha.window-number" )
   require( "obszczymucha.window-toggle" )
 

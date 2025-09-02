@@ -80,6 +80,14 @@ function M.toggle_alpha_nrformats( opts )
   vim.notify( string.format( "Alpha nrformats: %s", configured and "on" or "off" ) )
 end
 
+function M.get_colorscheme()
+  return config.colorscheme
+end
+
+function M.set_colorscheme( scheme_name )
+  set( "colorscheme", scheme_name )
+end
+
 M.load()
 
 return M

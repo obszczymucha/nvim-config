@@ -19,6 +19,12 @@ return {
   lazy = false,
   priority = 1000, -- make sure to load this before all the other start plugins
   config = function()
+    local schemes = require( "obszczymucha.colorscheme.schemes" )
+    local user_config = require( "obszczymucha.user-config" )
+
+    local scheme_name = require("obszczymucha.colorscheme.state").preview_override or user_config.get_colorscheme() or "default"
+    local scheme_config = schemes.apply_scheme( scheme_name )
+
     require( 'kanagawa' ).setup( {
       compile = false,  -- enable compiling the colorscheme
       undercurl = true, -- enable undercurls
@@ -31,25 +37,12 @@ return {
       dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
       terminalColors = true, -- define vim.g.terminal_color_{0,17}
       colors = {             -- add/modify theme and palette colors
-        palette = {},
+        palette = scheme_config.palette,
         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
       },
       ---@diagnostic disable-next-line: unused-local
-      overrides = function( colors ) -- add/modify highlights
-        return {
-          Visual = { bg = "#3d3a7a" },
-          Normal = { bg = "#1d1d26" },
-          -- Telescope specific highlights
-          TelescopeNormal = { bg = "#17101a" },  -- Main picker background
-          TelescopeBorder = { bg = "#17101a", fg = "#4c4a69"},  -- Border color
-          TelescopePromptNormal = { bg = "#17101a" },  -- Prompt background
-          -- TelescopePromptBorder = { bg = "#16161d", fg = "#9f7fff" },
-          -- -- TelescopePromptTitle = { bg = "#9f7fff", fg = "#16161d" },
-          -- -- TelescopePreviewTitle = { bg = "#9f7fff", fg = "#16161d" },
-          -- -- TelescopeResultsTitle = { bg = "#9f7fff", fg = "#16161d" },
-          -- TelescopeSelection = { bg = "#2d2d4f" },  -- Selected item background
-          -- TelescopeSelectionCaret = { fg = "#fabd2f" },  -- Caret color
-        }
+      overrides = function( colors )
+        return scheme_config.overrides
       end,
       theme = "wave",  -- Load "wave" theme when 'background' option is not set
       background = {   -- map the value of 'background' option to a theme
