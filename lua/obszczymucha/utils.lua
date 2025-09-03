@@ -21,7 +21,7 @@ end
 ---@param hex_color string Hex color code, e.g. "#ff5733"
 ---@param saturation_factor number Saturation factor, e.g. 0.5 for 50% saturation
 ---@return string Hex color code with adjusted saturation
-function M.saturate( hex_color, saturation_factor )
+function M.saturation( hex_color, saturation_factor )
   -- Remove # if present
   hex_color = hex_color:gsub( "#", "" )
 

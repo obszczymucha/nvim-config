@@ -4,11 +4,11 @@ local event = require( "nui.utils.autocmd" ).event
 local state = require( "obszczymucha.state.sandbox" )
 
 local utils = require( "obszczymucha.utils" )
-local saturate, brightness = utils.saturate, utils.brightness
+local saturation, brightness = utils.saturation, utils.brightness
 
 local purple = "#9f7fff"
-local light_purple = saturate( purple, 0.6 )
-local light_purple2 = saturate( purple, 0.9 )
+local light_purple = saturation( purple, 0.6 )
+local light_purple2 = saturation( purple, 0.9 )
 local dark_purple = brightness( purple, 0.4 )
 
 local colors = { "variable", purple, light_purple, light_purple2, dark_purple }

@@ -3,7 +3,7 @@ local M = {}
 local utils = require( "obszczymucha.utils" )
 
 local function adjust( color )
-  return utils.saturate( utils.brightness( color, 1.25 ), 1.5 )
+  return utils.saturation( utils.brightness( color, 1.25 ), 1.5 )
 end
 
 M.schemes = {
@@ -21,10 +21,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#9f7fff" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -33,7 +33,7 @@ M.schemes = {
       cursor_line = adjust( "#fabd2f" ),
       line_number = adjust( "#4b5271" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#b9c0eb" ),
     }
@@ -101,10 +101,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#4a9fb8" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -113,7 +113,7 @@ M.schemes = {
       cursor_line = adjust( "#5dade2" ),
       line_number = adjust( "#3a5f7a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8d0e6" ),
     }
@@ -181,10 +181,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#7abfdb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -193,7 +193,7 @@ M.schemes = {
       cursor_line = adjust( "#8dcff2" ),
       line_number = adjust( "#4a6f8a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#c8e0f6" ),
     }
@@ -251,20 +251,20 @@ M.schemes = {
         katanaGray = adjust( "#415c7c" ),
       },
       overrides = {
-        Visual = { bg = ("#1a3a5a") },
+        Visual = { bg = "#1a3a5a" },
         Normal = { bg = "#0e1012" },
-        TelescopeNormal = { bg = adjust( "#0c0e10" ) },
-        TelescopeBorder = { bg = adjust( "#0c0e10" ), fg = adjust( "#2a4f6a" ) },
-        TelescopePromptNormal = { bg = adjust( "#0c0e10" ) },
+        TelescopeNormal = { bg = "#141416" },
+        TelescopeBorder = { bg = "#141416", fg = "#4c4a69" },
+        TelescopePromptNormal = { bg = "#141416" },
       }
     },
     custom = {
       accent = adjust( "#2478cb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -273,7 +273,7 @@ M.schemes = {
       cursor_line = "#4d8dc2",
       line_number = adjust( "#2a4f6a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#98b0c6" ),
     }
@@ -341,10 +341,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#2e88c8" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -353,7 +353,7 @@ M.schemes = {
       cursor_line = adjust( "#4e9ad8" ),
       line_number = adjust( "#2c5a76" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#9abcd8" ),
     }
@@ -421,10 +421,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#34b8bb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -433,7 +433,7 @@ M.schemes = {
       cursor_line = adjust( "#5dcec2" ),
       line_number = adjust( "#3a6f6a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8e0d6" ),
     }
@@ -501,10 +501,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#44a8eb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -513,7 +513,7 @@ M.schemes = {
       cursor_line = adjust( "#6dbef2" ),
       line_number = adjust( "#426f9a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#b0d0f6" ),
     }
@@ -581,10 +581,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#64ddff" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.7 )
+        return utils.saturation( accent, 0.7 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.95 )
+        return utils.saturation( accent, 0.95 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.5 )
@@ -593,7 +593,7 @@ M.schemes = {
       cursor_line = adjust( "#8de8ff" ),
       line_number = adjust( "#62a2e0" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.95 )
+        return utils.saturation( accent, 0.95 )
       end,
       notify_info_body = adjust( "#d0efff" ),
     }
@@ -661,10 +661,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#3488cb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -673,7 +673,7 @@ M.schemes = {
       cursor_line = adjust( "#5d9ec2" ),
       line_number = adjust( "#3a4f5a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8c0d6" ),
     }
@@ -741,10 +741,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#3468db" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -753,7 +753,7 @@ M.schemes = {
       cursor_line = adjust( "#5d7ee2" ),
       line_number = adjust( "#3a3f7a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8b0e6" ),
     }
@@ -821,10 +821,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#5488fb" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.7 )
+        return utils.saturation( accent, 0.7 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.95 )
+        return utils.saturation( accent, 0.95 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.5 )
@@ -833,7 +833,7 @@ M.schemes = {
       cursor_line = adjust( "#7d9eff" ),
       line_number = adjust( "#5a5f9a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.95 )
+        return utils.saturation( accent, 0.95 )
       end,
       notify_info_body = adjust( "#c8d0ff" ),
     }
@@ -901,10 +901,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#45a6e6" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -913,7 +913,7 @@ M.schemes = {
       cursor_line = adjust( "#6ebcee" ),
       line_number = adjust( "#436d96" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#b1cef2" ),
     }
@@ -981,10 +981,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#30a2b2" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -993,7 +993,7 @@ M.schemes = {
       cursor_line = adjust( "#59b8c8" ),
       line_number = adjust( "#366966" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a4cace" ),
     }
@@ -1061,10 +1061,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#4a9fb8" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1073,7 +1073,7 @@ M.schemes = {
       cursor_line = adjust( "#5dade2" ),
       line_number = adjust( "#3a5f7a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8d0e6" ),
     }
@@ -1141,10 +1141,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#34b857" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1153,7 +1153,7 @@ M.schemes = {
       cursor_line = adjust( "#5dce6f" ),
       line_number = adjust( "#3a5f45" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8e0b2" ),
     }
@@ -1221,10 +1221,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#34afbd" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1233,7 +1233,7 @@ M.schemes = {
       cursor_line = adjust( "#5dc5d3" ),
       line_number = adjust( "#3a5f6a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a8dde3" ),
     }
@@ -1301,10 +1301,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#32adb5" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1313,7 +1313,7 @@ M.schemes = {
       cursor_line = adjust( "#5bc3cb" ),
       line_number = adjust( "#385d68" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a6dbe1" ),
     }
@@ -1381,10 +1381,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#43b8a8" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1393,7 +1393,7 @@ M.schemes = {
       cursor_line = adjust( "#6cced3" ),
       line_number = adjust( "#416166" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#afe0dc" ),
     }
@@ -1461,10 +1461,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#45b89e" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1473,7 +1473,7 @@ M.schemes = {
       cursor_line = adjust( "#6eced1" ),
       line_number = adjust( "#436164" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#b1e0da" ),
     }
@@ -1541,10 +1541,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#41b89c" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1553,7 +1553,7 @@ M.schemes = {
       cursor_line = adjust( "#6acecf" ),
       line_number = adjust( "#3f6162" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#ade0d8" ),
     }
@@ -1621,10 +1621,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#3fb69a" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1633,7 +1633,7 @@ M.schemes = {
       cursor_line = adjust( "#68cccd" ),
       line_number = adjust( "#3d5f60" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#abddd6" ),
     }
@@ -1701,10 +1701,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#3db498" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1713,7 +1713,7 @@ M.schemes = {
       cursor_line = adjust( "#66cacb" ),
       line_number = adjust( "#3b5d5e" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#a9dbd4" ),
     }
@@ -1781,10 +1781,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#41b8a0" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1793,7 +1793,7 @@ M.schemes = {
       cursor_line = adjust( "#6acedd" ),
       line_number = adjust( "#3f6166" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#ade0dc" ),
     }
@@ -1861,10 +1861,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#43b89e" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1873,7 +1873,7 @@ M.schemes = {
       cursor_line = adjust( "#6ccedb" ),
       line_number = adjust( "#416164" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#afe0da" ),
     }
@@ -1941,10 +1941,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b83430" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -1953,7 +1953,7 @@ M.schemes = {
       cursor_line = adjust( "#ce5d40" ),
       line_number = adjust( "#5f3a20" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0a890" ),
     }
@@ -2021,10 +2021,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b84a30" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2033,7 +2033,7 @@ M.schemes = {
       cursor_line = adjust( "#ce6d50" ),
       line_number = adjust( "#5f4a30" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0b8a0" ),
     }
@@ -2101,10 +2101,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b67030" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2113,7 +2113,7 @@ M.schemes = {
       cursor_line = adjust( "#cc8d50" ),
       line_number = adjust( "#5d5030" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#deb890" ),
     }
@@ -2181,10 +2181,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b84028" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2193,7 +2193,7 @@ M.schemes = {
       cursor_line = adjust( "#ce6548" ),
       line_number = adjust( "#5f4428" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0ac88" ),
     }
@@ -2261,10 +2261,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b47230" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2273,7 +2273,7 @@ M.schemes = {
       cursor_line = adjust( "#ca8f50" ),
       line_number = adjust( "#5b5230" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#dcba90" ),
     }
@@ -2341,10 +2341,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b83448" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2353,7 +2353,7 @@ M.schemes = {
       cursor_line = adjust( "#ce5d68" ),
       line_number = adjust( "#5f3a48" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0a8b8" ),
     }
@@ -2421,10 +2421,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b63434" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2433,7 +2433,7 @@ M.schemes = {
       cursor_line = adjust( "#cc5d5d" ),
       line_number = adjust( "#5d3a3a" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#dea8a8" ),
     }
@@ -2501,10 +2501,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b46e30" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2513,7 +2513,7 @@ M.schemes = {
       cursor_line = adjust( "#ca8b50" ),
       line_number = adjust( "#5b4e30" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#dcb690" ),
     }
@@ -2581,10 +2581,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b83446" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2593,7 +2593,7 @@ M.schemes = {
       cursor_line = adjust( "#ce5d66" ),
       line_number = adjust( "#5f3a46" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0a8b6" ),
     }
@@ -2661,10 +2661,10 @@ M.schemes = {
     custom = {
       accent = adjust( "#b8402c" ),
       light_accent = function( accent )
-        return utils.saturate( accent, 0.6 )
+        return utils.saturation( accent, 0.6 )
       end,
       light_accent2 = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       dark_accent = function( accent )
         return utils.brightness( accent, 0.4 )
@@ -2673,7 +2673,7 @@ M.schemes = {
       cursor_line = adjust( "#ce654c" ),
       line_number = adjust( "#5f442c" ),
       notify_info_border = function( accent )
-        return utils.saturate( accent, 0.9 )
+        return utils.saturation( accent, 0.9 )
       end,
       notify_info_body = adjust( "#e0ac8c" ),
     }
