@@ -3,7 +3,7 @@ local M = {}
 local utils = require( "obszczymucha.utils" )
 
 local function adjust( color )
-  return utils.saturation( utils.brightness( color, 1.25 ), 1.5 )
+  return utils.hue( utils.saturation( utils.brightness( color, 1.25 ), 1.5 ), 5 )
 end
 
 M.schemes = {
