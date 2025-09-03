@@ -381,7 +381,7 @@ vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require('luasnip').jump(1)<CR
 vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>", { expr = true, noremap = true } )
 
 -- Other
-vim.keymap.set( "n", "<S-t>", ":Inspect<CR>", { silent = true, desc = "Inspect Treesitter element" } )
+vim.keymap.set( "n", "<A-t>", ":Inspect<CR>", { silent = true, desc = "Inspect Treesitter element" } )
 vim.keymap.set( "n", "<leader>M", ":Mason<CR>", { silent = true, desc = "Open Mason" } )
 vim.keymap.set( "n", "<leader>L", ":Lazy<CR>", { silent = true, desc = "Open Lazy" } )
 vim.keymap.set( "n", "<leader>m", ":MarkdownPreviewToggle<CR>", { silent = true, desc = "Toggle markdown preview" } )

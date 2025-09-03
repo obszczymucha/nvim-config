@@ -86,12 +86,12 @@ return {
       } )
 
       ---@diagnostic disable-next-line: undefined-field
-      cmp.setup.cmdline( '/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      } )
+      -- cmp.setup.cmdline( '/', {
+      --   mapping = cmp.mapping.preset.cmdline(),
+      --   sources = {
+      --     { name = 'buffer' }
+      --   }
+      -- } )
 
       ---@diagnostic disable-next-line: undefined-field
       cmp.setup.cmdline( ':', {
