@@ -22,7 +22,8 @@ return {
     local schemes = require( "obszczymucha.colorscheme.schemes" )
     local user_config = require( "obszczymucha.user-config" )
 
-    local scheme_name = require("obszczymucha.colorscheme.state").preview_override or user_config.get_colorscheme() or "default"
+    local scheme_name = require( "obszczymucha.colorscheme.state" ).preview_override or user_config.get_colorscheme() or
+    "default"
     local scheme_config = schemes.apply_scheme( scheme_name )
 
     require( 'kanagawa' ).setup( {
@@ -52,5 +53,11 @@ return {
     } )
 
     vim.cmd( "colorscheme kanagawa" )
+
+    -- Apply color overrides immediately after setting the colorscheme
+    local ok, color_overrides = pcall( require, "obszczymucha.color-overrides" )
+    if ok then
+      color_overrides.apply()
+    end
   end
 }
