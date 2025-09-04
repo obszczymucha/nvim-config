@@ -172,7 +172,7 @@ M.schemes = {
       } ),
       overrides = {
         Visual = { bg = adjust( "#0074a3" ) },
-        Normal = { bg = "#101010" },
+        Normal = { bg = "#223240" },
         TelescopeNormal = { bg = adjust( "#000c10" ) },
         TelescopeBorder = { bg = adjust( "#000c10" ), fg = adjust( "#0074a3" ) },
         TelescopePromptNormal = { bg = adjust( "#000c10" ) },
