@@ -2,10 +2,80 @@ local M = {}
 
 local utils = require( "obszczymucha.utils" )
 
+-- Cache for computed colors
+local color_cache = {}
+
 local function adjust( color )
-  -- return color
-  -- return utils.brightness( utils.hue( color, 5 ), 1.1 )
-  return utils.saturation( utils.brightness( utils.hue( color, 0 ), 1.0 ), 0.6 )
+  -- Check cache first
+  if color_cache[ color ] then
+    return color_cache[ color ]
+  end
+
+  -- Compute and cache the result
+  local result = utils.saturation( utils.brightness( utils.hue( color, 0 ), 1.0 ), 0.7 )
+  color_cache[ color ] = result
+  return result
+end
+
+-- Translate descriptive keys to kanagawa palette names
+local function translate_to_kanagawa( palette )
+  return {
+    -- Background colors (darkest to lightest)
+    sumiInk0 = palette.float_background or palette.statusline_background,
+    sumiInk1 = palette.default_background,
+    sumiInk2 = palette.fold_background or palette.colorcolumn_background,
+    sumiInk3 = palette.cursorline_background,
+    sumiInk4 = palette.line_number_background or palette.border_color,
+    sumiInk5 = palette.lighter_background,
+    sumiInk6 = palette.nontext_color or palette.whitespace_color,
+
+    -- UI colors
+    waveBlue1 = palette.visual_background,
+    waveBlue2 = palette.search_background or palette.pmenu_selection_background,
+
+    -- Semantic colors for diff/diagnostics
+    winterGreen = palette.diff_add or palette.diagnostic_ok,
+    winterYellow = palette.diff_change or palette.diagnostic_warning,
+    winterRed = palette.diff_delete or palette.diagnostic_error,
+    winterBlue = palette.diff_text or palette.diagnostic_info,
+
+    -- Git colors
+    autumnGreen = palette.git_add,
+    autumnRed = palette.git_delete,
+    autumnYellow = palette.git_change,
+
+    -- Special highlights
+    samuraiRed = palette.special_keyword,
+    roninYellow = palette.special_builtin,
+    waveAqua1 = palette.special_exception,
+    dragonBlue = palette.special_include,
+
+    -- Text colors
+    oldWhite = palette.dimmed_foreground,
+    fujiWhite = palette.default_foreground,
+    fujiGray = palette.comment,
+
+    -- Syntax colors
+    oniViolet = palette.method,
+    oniViolet2 = palette.parameter,
+    crystalBlue = palette.function_call,
+    springViolet1 = palette.statement,
+    springViolet2 = palette.keyword,
+    springBlue = palette.type,
+    lightBlue = palette.special,
+    waveAqua2 = palette.regex,
+
+    springGreen = palette.string,
+    boatYellow1 = palette.character,
+    boatYellow2 = palette.boolean,
+    carpYellow = palette.identifier,
+
+    sakuraPink = palette.number,
+    waveRed = palette.operator,
+    peachRed = palette.punctuation,
+    surimiOrange = palette.constant,
+    katanaGray = palette.preproc,
+  }
 end
 
 M.schemes = {
@@ -43,55 +113,63 @@ M.schemes = {
 
   [ "blue" ] = {
     kanagawa = {
-      palette = {
-        sumiInk0 = adjust( "#000608" ),
-        sumiInk1 = adjust( "#000c10" ),
-        sumiInk2 = adjust( "#001118" ),
-        sumiInk3 = adjust( "#001721" ),
-        sumiInk4 = "#001118",
-        sumiInk5 = "#002331",
-        sumiInk6 = adjust( "#002939" ),
+      palette = translate_to_kanagawa( {
+        -- Background colors
+        statusline_background = adjust( "#000608" ),
+        default_background = adjust( "#000c10" ),
+        colorcolumn_background = adjust( "#001118" ),
+        cursorline_background = adjust( "#001721" ),
+        line_number_background = "#001118",
+        lighter_background = "#002331",
+        nontext_color = adjust( "#002939" ),
 
-        waveBlue1 = adjust( "#002e41" ),
-        waveBlue2 = adjust( "#003449" ),
+        -- UI colors
+        visual_background = adjust( "#002e41" ),
+        search_background = adjust( "#003449" ),
 
-        winterGreen = adjust( "#003a52" ),
-        winterYellow = adjust( "#00405a" ),
-        winterRed = adjust( "#004562" ),
-        winterBlue = adjust( "#004b6a" ),
-        autumnGreen = adjust( "#005172" ),
-        autumnRed = adjust( "#00577a" ),
-        autumnYellow = adjust( "#005d83" ),
+        -- Diff/Diagnostic colors
+        diff_add = adjust( "#003a52" ),
+        diff_change = adjust( "#00405a" ),
+        diff_delete = adjust( "#004562" ),
+        diff_text = adjust( "#004b6a" ),
 
-        samuraiRed = adjust( "#00628b" ),
-        roninYellow = adjust( "#006893" ),
-        waveAqua1 = adjust( "#006e9b" ),
-        dragonBlue = adjust( "#0074a3" ),
+        -- Git colors
+        git_add = adjust( "#005172" ),
+        git_delete = adjust( "#00577a" ),
+        git_change = adjust( "#005d83" ),
 
-        oldWhite = adjust( "#a1e4ff" ),
-        fujiWhite = adjust( "#a9e6ff" ),
-        fujiGray = adjust( "#005d83" ),
+        -- Special highlights
+        special_keyword = adjust( "#00628b" ),
+        special_builtin = adjust( "#006893" ),
+        special_exception = adjust( "#006e9b" ),
+        special_include = adjust( "#0074a3" ),
 
-        oniViolet = adjust( "#007fb4" ),
-        oniViolet2 = adjust( "#0085bc" ),
-        crystalBlue = adjust( "#008bc4" ),
-        springViolet1 = adjust( "#0091cc" ),
-        springViolet2 = adjust( "#0097d4" ),
-        springBlue = adjust( "#009cdc" ),
-        lightBlue = adjust( "#00a2e4" ),
-        waveAqua2 = adjust( "#00a8ed" ),
+        -- Text colors
+        dimmed_foreground = adjust( "#a1e4ff" ),
+        default_foreground = adjust( "#a9e6ff" ),
+        comment = adjust( "#005d83" ),
 
-        springGreen = adjust( "#89ddff" ),
-        boatYellow1 = adjust( "#00aef5" ),
-        boatYellow2 = adjust( "#00b3fd" ),
-        carpYellow = adjust( "#06b7ff" ),
+        -- Syntax colors
+        method = adjust( "#007fb4" ),
+        parameter = adjust( "#0085bc" ),
+        function_call = adjust( "#008bc4" ),
+        statement = adjust( "#0091cc" ),
+        keyword = adjust( "#0097d4" ),
+        type = adjust( "#009cdc" ),
+        special = adjust( "#00a2e4" ),
+        regex = adjust( "#00a8ed" ),
 
-        sakuraPink = adjust( "#0eb9ff" ),
-        waveRed = adjust( "#16bbff" ),
-        peachRed = adjust( "#1fbeff" ),
-        surimiOrange = adjust( "#27c0ff" ),
-        katanaGray = adjust( "#2fc3ff" ),
-      },
+        string = adjust( "#89ddff" ),
+        character = adjust( "#00aef5" ),
+        boolean = adjust( "#00b3fd" ),
+        identifier = adjust( "#06b7ff" ),
+
+        number = adjust( "#0eb9ff" ),
+        operator = adjust( "#16bbff" ),
+        punctuation = adjust( "#1fbeff" ),
+        constant = adjust( "#27c0ff" ),
+        preproc = adjust( "#2fc3ff" ),
+      } ),
       overrides = {
         Visual = { bg = adjust( "#0074a3" ) },
         Normal = { bg = "#101010" },
@@ -114,7 +192,7 @@ M.schemes = {
       light_blue = adjust( "#47caff" ),
       cursor_line = adjust( "#50ccff" ),
       line_number = adjust( "#0074a3" ),
-      notify_info_border = function( accent )
+      notify_info_border = function()
         return adjust( "#0074a3" )
       end,
       notify_info_body = adjust( "#60d1ff" ),
