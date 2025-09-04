@@ -4,7 +4,8 @@ local utils = require( "obszczymucha.utils" )
 
 local function adjust( color )
   -- return color
-  return utils.brightness( utils.hue( color, 5 ), 1.1 )
+  -- return utils.brightness( utils.hue( color, 5 ), 1.1 )
+  return utils.saturation( utils.brightness( utils.hue( color, 0 ), 1.0 ), 0.6 )
 end
 
 M.schemes = {
