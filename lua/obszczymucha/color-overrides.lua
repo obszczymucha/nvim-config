@@ -1,10 +1,10 @@
 local cmd = vim.cmd
-local schemes = require("obszczymucha.colorscheme.schemes")
-local config = require("obszczymucha.user-config")
+local schemes = require( "obszczymucha.colorscheme.schemes" )
+local config = require( "obszczymucha.user-config" )
 
 local function apply_color_overrides()
   local scheme_name = config.get_colorscheme()
-  local colors = schemes.get_custom_colors(scheme_name)
+  local colors = schemes.get_custom_colors( scheme_name )
 
   cmd( string.format( "hi CursorLineNr ctermfg=214 ctermbg=237 guifg=%s guibg=None", colors.cursor_line ) )
   cmd( string.format( "hi LineNr ctermfg=11 guifg=%s", colors.line_number ) )
@@ -27,6 +27,12 @@ local function apply_color_overrides()
 
   set_notify_highlights( "NotifyINFO", { "Title", "Border" }, colors.notify_info_border )
   set_notify_highlights( "NotifyINFO", { "Icon", "Body" }, colors.notify_info_body )
+
+  cmd( "hi Cursor guifg=white guibg=black" )
+  cmd( "hi iCursor guifg=white guibg=#30d0d0" )
+  cmd( "hi rCursor guifg=white guibg=#f7768e" )
+  cmd( "hi vCursor guifg=white guibg=#9d7cd8" )
+  -- cmd( "hi CursorLine guibg=#332a48" )
 end
 
 cmd( "autocmd ColorScheme * lua require('obszczymucha.color-overrides').apply()" )

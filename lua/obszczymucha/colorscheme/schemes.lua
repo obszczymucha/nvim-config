@@ -1,6 +1,7 @@
 local M = {}
 
 local utils = require( "obszczymucha.utils" )
+local saturation, brightness, hue = utils.saturation, utils.brightness, utils.hue
 
 -- Cache for computed colors
 local color_cache = {}
@@ -12,7 +13,7 @@ local function adjust( color )
   end
 
   -- Compute and cache the result
-  local result = utils.saturation( utils.brightness( utils.hue( color, 0 ), 1.0 ), 0.7 )
+  local result = saturation( brightness( hue( color, 0 ), 1.0 ), 0.7 )
   color_cache[ color ] = result
   return result
 end
@@ -146,23 +147,23 @@ M.schemes = {
 
         -- Text colors
         dimmed_foreground = adjust( "#a1e4ff" ),
-        default_foreground = adjust( "#a9e6ff" ),
-        comment = adjust( "#005d83" ),
+        default_foreground = adjust( "#8fdfff" ),
+        comment = adjust( "#006a94" ),
 
         -- Syntax colors
-        method = adjust( "#007fb4" ),
-        parameter = adjust( "#0085bc" ),
-        function_call = adjust( "#008bc4" ),
+        method = adjust( "#007baf" ), -- local
+        parameter = adjust( "#0085bc" ), -- argument
+        function_call = adjust( "#0096d3" ), -- function call
         statement = adjust( "#0091cc" ),
-        keyword = adjust( "#0097d4" ),
-        type = adjust( "#009cdc" ),
+        keyword = adjust( "#009bd9" ), -- parenteses, dots
+        type = adjust( "#009cdc" ), -- require
         special = adjust( "#00a2e4" ),
         regex = adjust( "#00a8ed" ),
 
-        string = adjust( "#89ddff" ),
+        string = adjust( "#7fdaff" ),
         character = adjust( "#00aef5" ),
-        boolean = adjust( "#00b3fd" ),
-        identifier = adjust( "#06b7ff" ),
+        boolean = adjust( "#0093cf" ), -- equal sign
+        identifier = adjust( "#06b7ff" ), -- field
 
         number = adjust( "#0eb9ff" ),
         operator = adjust( "#16bbff" ),
@@ -171,8 +172,8 @@ M.schemes = {
         preproc = adjust( "#2fc3ff" ),
       } ),
       overrides = {
-        Visual = { bg = adjust( "#0074a3" ) },
-        Normal = { bg = "#1e2c3a" },
+        Visual = { bg = adjust( "#004c6b" ) },
+        Normal = { bg = brightness( "#1e2c3a", 0.8 ) },
         TelescopeNormal = { bg = adjust( "#000c10" ) },
         TelescopeBorder = { bg = adjust( "#000c10" ), fg = adjust( "#0074a3" ) },
         TelescopePromptNormal = { bg = adjust( "#000c10" ) },

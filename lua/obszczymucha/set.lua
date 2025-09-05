@@ -14,12 +14,6 @@ o.cursorline = true
 o.cursorlineopt = "line,number"
 o.guicursor = 'n-c:block,i:block-iCursor,r:block-rCursor,v:block-vCursor'
 
-cmd( "hi Cursor guifg=white guibg=black" )
-cmd( "hi iCursor guifg=white guibg=#30d0d0" )
-cmd( "hi rCursor guifg=white guibg=#f7768e" )
-cmd( "hi vCursor guifg=white guibg=#9d7cd8" )
-cmd( "hi CursorLine guibg=#332a48" )
-
 o.tabstop = 2
 o.softtabstop = 2
 o.shiftwidth = 2
