@@ -13,7 +13,7 @@ local function adjust( color )
   end
 
   -- Compute and cache the result
-  local result = saturation( brightness( hue( color, 0 ), 1.0 ), 0.7 )
+  local result = saturation( brightness( hue( color, 0 ), 1.0 ), 0.9 )
   color_cache[ color ] = result
   return result
 end
@@ -163,7 +163,8 @@ M.schemes = {
         string = adjust( "#7fdaff" ),
         character = adjust( "#00aef5" ),
         boolean = adjust( "#0093cf" ), -- equal sign
-        identifier = adjust( "#06b7ff" ), -- field
+        identifier = adjust( "#58cfff" ), -- field
+        -- #58cfff
 
         number = adjust( "#0eb9ff" ),
         operator = adjust( "#16bbff" ),
@@ -173,7 +174,7 @@ M.schemes = {
       } ),
       overrides = {
         Visual = { bg = adjust( "#004c6b" ) },
-        Normal = { bg = brightness( "#1e2c3a", 0.8 ) },
+        Normal = { bg = brightness( "#20253a", 0.5 ) },
         TelescopeNormal = { bg = adjust( "#000c10" ) },
         TelescopeBorder = { bg = adjust( "#000c10" ), fg = adjust( "#0074a3" ) },
         TelescopePromptNormal = { bg = adjust( "#000c10" ) },
