@@ -265,10 +265,10 @@ vim.keymap.set( "n", "<leader>fc", remap( "compile" ),
   { noremap = false, silent = true, nowait = true, desc = "Compile file" } )
 vim.keymap.set( "n", "<leader>j", ":%!jq --sort-keys<CR>",
   { noremap = false, silent = true, nowait = true, desc = "Prettify JSON" } )
-vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>",
-  { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
 vim.keymap.set( "v", "<leader>j", ":'<,'>%!jq<CR>",
   { noremap = false, silent = true, nowait = true, desc = "Prettify JSON" } )
+vim.keymap.set( "n", "<leader>J", ":%!jq -c<CR>",
+  { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
 vim.keymap.set( "v", "<leader>J", ":'<,'>%!jq -c<CR>",
   { noremap = false, silent = true, nowait = true, desc = "Minify JSON" } )
 
