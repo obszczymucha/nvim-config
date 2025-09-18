@@ -7,9 +7,6 @@ end
 local neoconf = prequirev( "neoconf" )
 if neoconf then neoconf.setup {} end
 
-local lspconfig = prequirev( "lspconfig" )
-if not lspconfig then return end
-
 local mason_lspconfig = prequirev( "mason-lspconfig" )
 if mason_lspconfig then
   mason_lspconfig.setup {
@@ -34,62 +31,8 @@ if mason_lspconfig then
     },
     -- Disable automatic setup to prevent duplicates
     automatic_setup = false,
-    handlers = {
-      function( server_name )
-        if server_name == "gopls" then
-          lspconfig.gopls.setup {
-            -- Custom gopls settings here
-            settings = {
-              gopls = {
-                analyses = {
-                  unusedparams = true,
-                },
-                staticcheck = true,
-              },
-            },
-          }
-          return
-        end
-
-        lspconfig[ server_name ].setup {}
-      end
-    }
   }
 end
-
--- Add lua_ls keybindings since neoconf can't handle them
-vim.api.nvim_create_autocmd( 'LspAttach', {
-  callback = function( args )
-    local client = vim.lsp.get_client_by_id( args.data.client_id )
-    if client and client.name == 'lua_ls' then
-      vim.keymap.set( "i", "<C-h>", "<Esc>l<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>",
-        { buffer = args.buf } )
-      vim.keymap.set( "n", "<C-h>", "<cmd>lua R( 'obszczymucha.documentation' ).show_function_help()<CR>",
-        { buffer = args.buf } )
-    end
-  end,
-} )
-
-if lspconfig.hls then lspconfig.hls.setup {} end
-
-
-if lspconfig.bashls then
-  lspconfig.bashls.setup {
-    cmd_env = { GLOB_PATTERN = "*@(.sh|.inc|.bash|.command|.zshrc)" },
-    filetypes = { "sh", "zsh" }
-  }
-end
-
-if lspconfig.ts_ls then
-  lspconfig.ts_ls.setup {
-    on_attach = function( client, bufnr )
-      require( "twoslash-queries" ).attach( client, bufnr )
-    end
-  }
-end
-
-if lspconfig.pyright then lspconfig.pyright.setup {} end
-if lspconfig.ruff then lspconfig.ruff.setup {} end
 
 local function filter( arr, func )
   -- Filter in place

@@ -25,9 +25,6 @@
 --     }
 -- }
 
-local lspconfig = prequirev( "lspconfig" )
-if not lspconfig then return end
-
 ---@diagnostic disable-next-line: unused-local
 local debug = require( "obszczymucha.debug" ).debug
 local clear = require( "obszczymucha.debug" ).clear
@@ -38,15 +35,14 @@ local M = {}
 local is_initialized = false
 
 local function start_server( classpath_entries )
-  local root_pattern = require( "lspconfig.util" ).root_pattern
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  if not lspconfig.groovyls then return end
+  if not vim.lsp.config.groovyls then return end
 
-  local config = {
+  vim.lsp.config.groovyls = {
     capabilities = capabilities,
-    root_dir = root_pattern( "", ".git" ),
+    root_markers = { "", ".git" },
     filetypes = { "groovy" },
     settings = {
       groovy = {
@@ -56,7 +52,6 @@ local function start_server( classpath_entries )
     autostart = true
   }
 
-  lspconfig.groovyls.setup( config )
   --vim.lsp.start_client( config )
 end
 
