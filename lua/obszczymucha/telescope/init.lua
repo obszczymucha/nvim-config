@@ -156,7 +156,13 @@ function M.find_files( no_ignore )
           map( mode, key, func )
         end
       end
-      map( "i", "<A-.>", toggle_hidden_files )
+
+      if is_macos then
+        map( "i", "<M-.>", toggle_hidden_files )
+      else
+        map( "i", "<A-.>", toggle_hidden_files )
+      end
+
       return true
     end
   } )
