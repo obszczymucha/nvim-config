@@ -20,7 +20,7 @@ if mason_lspconfig then
       "clangd",
       "cssls",
       "gopls",
-      "haskell-language-server",
+      "hls",
       "html",
       "jdtls",
       "jsonls",
