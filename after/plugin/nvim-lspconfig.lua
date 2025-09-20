@@ -16,18 +16,20 @@ if mason_lspconfig then
       }
     },
     ensure_installed = {
-      "clangd",
-      "rust_analyzer",
-      "pyright",
-      "ruff",
-      "ts_ls",
       "bashls",
-      "sqlls",
+      "clangd",
       "cssls",
+      "gopls",
+      "haskell-language-server",
       "html",
       "jdtls",
       "jsonls",
-      "gopls"
+      "lua_ls",
+      "pyright",
+      "ruff",
+      "rust_analyzer",
+      "sqlls",
+      "ts_ls",
     },
     -- Disable automatic setup to prevent duplicates
     automatic_setup = false,
