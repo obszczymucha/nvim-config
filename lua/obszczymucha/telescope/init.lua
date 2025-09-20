@@ -10,6 +10,7 @@ local common = require( "obszczymucha.common" )
 local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local oil_dir = require( "obszczymucha.telescope.oil-dir" )
+local window_utils = require( "obszczymucha.utils.window" )
 
 local M = {}
 local g = vim.g
@@ -31,9 +32,17 @@ local function select_vertical( prompt_bufnr )
   local selection = action_state.get_selected_entry()
   if not selection then return end
 
-  local result = actions.select_vertical( prompt_bufnr )
+  local win_id = window_utils.get_last_visible_win_id()
+
+  if win_id then
+    actions.close( prompt_bufnr )
+    vim.api.nvim_set_current_win( win_id )
+    vim.cmd( "edit " .. (selection.path or selection.filename or selection.value) )
+  else
+    actions.select_vertical( prompt_bufnr )
+  end
+
   vim.schedule( function() vim.cmd( "normal! zz" ) end )
-  return result
 end
 
 local function select_horizontal( prompt_bufnr )
