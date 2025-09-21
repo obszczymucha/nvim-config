@@ -7,6 +7,9 @@ local actions = require( "telescope.actions" )
 local action_state = require( "telescope.actions.state" )
 local core = require( "obszczymucha.telescope.multigrep_core" )
 local job_finder = require( "obszczymucha.telescope.custom_job_finder" )
+local state = require( "obszczymucha.telescope.state" )
+
+local refresh = false
 
 local function prevent_duplicate_searches( picker, command_generator )
   local original_on_lines = picker._on_lines
@@ -17,7 +20,8 @@ local function prevent_duplicate_searches( picker, command_generator )
     local command = command_generator( prompt )
     local command_str = vim.inspect( command )
 
-    if last_command_str ~= command_str then
+    if refresh or last_command_str ~= command_str then
+      refresh = false
       last_command_str = command_str
       original_on_lines( ... )
     end
@@ -52,6 +56,14 @@ function M.live_multigrep( search_term )
         vim.schedule( function() vim.cmd( "normal! zz" ) end )
         return result
       end )
+
+      map( "i", "<A-i>", function()
+        state.ignore_case = not state.ignore_case
+        vim.notify( string.format( "Case: %s", state.ignore_case and "ignore" or "smart" ) )
+        refresh = true
+        picker:_on_lines({})
+      end )
+
       return true
     end
   }

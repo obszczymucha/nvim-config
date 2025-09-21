@@ -1,5 +1,7 @@
 local M = {}
 
+local state = require( "obszczymucha.telescope.state" )
+
 local AND_SEPARATOR = " | "
 local GLOB_SEPARATOR = "  "
 
@@ -11,7 +13,6 @@ end
 
 local BASE_FLAGS = {
   "-r",
-  "-i",
   "--ignore-files",
   "--ignore-binary",
   "--color=never",
@@ -85,6 +86,7 @@ local function build_multi_search( terms )
 
   vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
+  vim.list_extend( args, { state.ignore_case and "-i" or "-j" } )
   return args
 end
 
@@ -103,6 +105,7 @@ local function build_single_search( prompt )
   end
 
   vim.list_extend( args, BASE_FLAGS )
+  vim.list_extend( args, { state.ignore_case and "-i" or "-j" } )
   return args
 end
 
