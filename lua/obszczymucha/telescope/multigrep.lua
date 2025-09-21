@@ -38,9 +38,13 @@ function M.live_multigrep( search_term )
     cwd = opts.cwd
   }
 
+  local function get_prompt_title()
+    return string.format( "Live Multi Grep (%s)", state.ignore_case and "ignore case" or "smart case" )
+  end
+
   local picker_opts = {
     debounce = 100,
-    prompt_title = "Live Multi Grep",
+    prompt_title = get_prompt_title(),
     finder = finder,
     previewer = conf.grep_previewer( opts ),
     sorter = require( "telescope.sorters" ).empty(),
@@ -59,9 +63,15 @@ function M.live_multigrep( search_term )
 
       map( "i", "<A-i>", function()
         state.ignore_case = not state.ignore_case
-        vim.notify( string.format( "Case: %s", state.ignore_case and "ignore" or "smart" ) )
+        local new_title = get_prompt_title()
+        picker.prompt_title = new_title
+
+        if picker.prompt_border then
+          picker.prompt_border:change_title( new_title )
+        end
+
         refresh = true
-        picker:_on_lines({})
+        picker:_on_lines( {} )
       end )
 
       return true
