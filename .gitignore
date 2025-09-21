@@ -1,3 +1,4 @@
 plugin/*
 .bookmarks
 lazy-lock.json
+.claude/
