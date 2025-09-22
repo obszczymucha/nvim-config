@@ -9,28 +9,33 @@ if neoconf then neoconf.setup {} end
 
 local mason_lspconfig = prequirev( "mason-lspconfig" )
 if mason_lspconfig then
+  local ensure_installed = {
+    "bashls",
+    "clangd",
+    "cssls",
+    "gopls",
+    "html",
+    "jdtls",
+    "jsonls",
+    "lua_ls",
+    "pyright",
+    "ruff",
+    "rust_analyzer",
+    "sqlls",
+    "ts_ls"
+  }
+
+  if not is_macos and not is_wsl then
+    table.insert( ensure_installed, "hls" )
+  end
+
   mason_lspconfig.setup {
     automatic_enable = {
       exclude = {
         "rust_analyzer"
       }
     },
-    ensure_installed = {
-      "bashls",
-      "clangd",
-      "cssls",
-      "gopls",
-      "hls",
-      "html",
-      "jdtls",
-      "jsonls",
-      "lua_ls",
-      "pyright",
-      "ruff",
-      "rust_analyzer",
-      "sqlls",
-      "ts_ls",
-    },
+    ensure_installed = ensure_installed,
     -- Disable automatic setup to prevent duplicates
     automatic_setup = false,
   }
