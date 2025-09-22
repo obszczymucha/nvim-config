@@ -27,6 +27,18 @@ local MULTI_SEARCH_FLAGS = {
   "--jobs=1"
 }
 
+local function case_sensitivity_flag()
+  local cs = state.case_sensitivity
+
+  if cs == "ignore" then
+    return "-i"
+  elseif cs == "smart" then
+    return "-j"
+  else
+    return nil
+  end
+end
+
 local function clean_prompt( prompt )
   for _, sep in ipairs( TRAILING_SEPARATORS ) do
     if prompt:sub( - #sep ) == sep then
@@ -86,7 +98,13 @@ local function build_multi_search( terms )
 
   vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
-  vim.list_extend( args, { state.ignore_case and "-i" or "-j" } )
+
+  local cs_flag = case_sensitivity_flag()
+
+  if cs_flag then
+    table.insert( args, cs_flag )
+  end
+
   return args
 end
 
@@ -105,7 +123,13 @@ local function build_single_search( prompt )
   end
 
   vim.list_extend( args, BASE_FLAGS )
-  vim.list_extend( args, { state.ignore_case and "-i" or "-j" } )
+
+  local cs_flag = case_sensitivity_flag()
+
+  if cs_flag then
+    table.insert( args, cs_flag )
+  end
+
   return args
 end
 

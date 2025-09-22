@@ -8,6 +8,7 @@ local action_state = require( "telescope.actions.state" )
 local core = require( "obszczymucha.telescope.multigrep_core" )
 local job_finder = require( "obszczymucha.telescope.custom_job_finder" )
 local state = require( "obszczymucha.telescope.state" )
+local case_sensitivity = require( "obszczymucha.telescope.case-sensitivity" )
 
 local refresh = false
 
@@ -39,7 +40,7 @@ function M.live_multigrep( search_term )
   }
 
   local function get_prompt_title()
-    return string.format( "Live Multi Grep (%s)", state.ignore_case and "ignore case" or "smart case" )
+    return string.format( "Live Multi Grep (%s case)", state.case_sensitivity )
   end
 
   local picker_opts = {
@@ -62,7 +63,7 @@ function M.live_multigrep( search_term )
       end )
 
       map( "i", "<A-i>", function()
-        state.ignore_case = not state.ignore_case
+        state.case_sensitivity = case_sensitivity.next( state.case_sensitivity )
         local new_title = get_prompt_title()
         picker.prompt_title = new_title
 
