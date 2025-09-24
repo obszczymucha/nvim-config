@@ -4,6 +4,7 @@ local naming_conventions = require( "obszczymucha.actions.utils.naming-conventio
 local file_utils = require( "obszczymucha.actions.utils.file" )
 local config = require( "obszczymucha.user-config" )
 local utils = require( "obszczymucha.utils" )
+local common = require( "obszczymucha.common" )
 
 return {
   {
@@ -133,5 +134,27 @@ return {
       vim.cmd( "lcd " .. cwd )
       vim.notify( "[New cwd:]{purple} " .. cwd )
     end
-  }
+  },
+  {
+    name = "Hook wallpaper reload",
+    action = function()
+      require( "obszczymucha.actions.utils.animated-wallpaper" ).hook_restart( "animated-wallpaper" )
+    end,
+    filetypes = { "glsl" },
+    condition = function()
+      local bufname = vim.api.nvim_buf_get_name( 0 )
+      return common.ends_with( bufname, "animated-wallpaper/resources/shaders/particles.vert" )
+    end
+  },
+  {
+    name = "Hook wallpaper reload",
+    action = function()
+      require( "obszczymucha.actions.utils.animated-wallpaper" ).hook_restart( "animated-wallpaper2" )
+    end,
+    filetypes = { "glsl" },
+    condition = function()
+      local bufname = vim.api.nvim_buf_get_name( 0 )
+      return common.ends_with( bufname, "animated-wallpaper/resources2/shaders/particles.vert" )
+    end
+  },
 }
