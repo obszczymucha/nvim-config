@@ -118,6 +118,18 @@ table.sort( actions, function( a, b )
   return a.name < b.name
 end )
 
+local function execute_action(action)
+  vim.schedule(function()
+    if action.type == "action" then
+      action.action()
+    elseif action.type == "command" then
+      vim.cmd( action.action )
+    elseif action.type == "editable_command" then
+      vim.fn.feedkeys( ":" .. action.action )
+    end
+  end)
+end
+
 M.browse = function()
   local pickers = require( "telescope.pickers" )
   local finders = require( "telescope.finders" )
@@ -185,14 +197,7 @@ M.browse = function()
 
           if all_entries[ i ] then
             telescope_actions.close( prompt_bufnr )
-            local action = all_entries[ i ].value
-            if action.type == "action" then
-              action.action()
-            elseif action.type == "command" then
-              vim.cmd( action.action )
-            elseif action.type == "editable_command" then
-              vim.fn.feedkeys( ":" .. action.action )
-            end
+            execute_action(all_entries[ i ].value)
           else
             vim.notify( "Debug - No entry found for index " .. i .. ". Available entries: " .. #all_entries,
               vim.log.levels.WARN )
@@ -273,13 +278,7 @@ M.browse = function()
         local selection = action_state.get_selected_entry()
 
         if selection and selection.value then
-          if selection.value.type == "action" then
-            selection.value.action()
-          elseif selection.value.type == "command" then
-            vim.cmd( selection.value.action )
-          elseif selection.value.type == "editable_command" then
-            vim.fn.feedkeys( ":" .. selection.value.action )
-          end
+          execute_action(selection.value)
         end
       end )
       return true
