@@ -7,7 +7,7 @@ local actions = require( "telescope.actions" )
 local action_state = require( "telescope.actions.state" )
 local core = require( "obszczymucha.telescope.multigrep_core" )
 local job_finder = require( "obszczymucha.telescope.custom_job_finder" )
-local state = require( "obszczymucha.telescope.state" )
+local state = require( "obszczymucha.state.telescope" )
 local case_sensitivity = require( "obszczymucha.telescope.case-sensitivity" )
 
 local refresh = false

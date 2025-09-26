@@ -11,10 +11,10 @@ local finders = require( "telescope.finders" )
 local make_entry = require( "telescope.make_entry" )
 local oil_dir = require( "obszczymucha.telescope.oil-dir" )
 local window_utils = require( "obszczymucha.utils.window" )
+local state = require( "obszczymucha.state.telescope" )
 
 local M = {}
 local g = vim.g
-local show_hidden_state = false
 
 local options = {
   layout_strategy = "vertical",
@@ -94,19 +94,23 @@ if is_macos then
   mappings.i[ "<Right>" ] = select_vertical
 end
 
-local function toggle_hidden_files( prompt_bufnr )
-  local current_picker = action_state.get_current_picker( prompt_bufnr )
-  show_hidden_state = not show_hidden_state
-
+local function get_find_command()
   local find_command = { "fd", "--type", "f", "--color", "never" }
 
-  if show_hidden_state then
+  if state.show_hidden then
     table.insert( find_command, "--hidden" )
     table.insert( find_command, "--no-ignore" )
   end
 
+  return find_command
+end
+
+local function toggle_hidden_files( prompt_bufnr )
+  local current_picker = action_state.get_current_picker( prompt_bufnr )
+  state.show_hidden = not state.show_hidden
+
   local new_finder = finders.new_oneshot_job(
-    find_command,
+    get_find_command(),
     { entry_maker = make_entry.gen_from_file( {} ) }
   )
 
@@ -168,9 +172,7 @@ local function no_ignore_wrapper( f, opts, override )
   end
 end
 
-function M.find_files( no_ignore )
-  show_hidden_state = no_ignore or g.telescope_no_ignore or false
-
+function M.find_files()
   local opts = vim.tbl_extend( "force", options, {
     attach_mappings = function( _, map )
       for mode, mode_mappings in pairs( mappings ) do
@@ -186,14 +188,20 @@ function M.find_files( no_ignore )
       end
 
       return true
-    end
+    end,
+    finder = finders.new_oneshot_job(
+      get_find_command(),
+      { entry_maker = make_entry.gen_from_file( {} ) }
+    )
   } )
 
-  if no_ignore or g.telescope_no_ignore then
-    opts = vim.tbl_extend( "force", opts, { no_ignore = true, hidden = true } )
-  end
-
-  telescope.find_files( opts )
+  require( "telescope.pickers" ).new( opts, {
+    prompt_title = "Find Files",
+    finder = opts.finder,
+    sorter = require( "telescope.config" ).values.file_sorter( opts ),
+    previewer = require( "telescope.config" ).values.file_previewer( opts ),
+    attach_mappings = opts.attach_mappings,
+  } ):find()
 end
 
 function M.live_grep( no_ignore )

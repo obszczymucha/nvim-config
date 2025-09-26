@@ -1,6 +1,6 @@
 local M = {}
 
-local state = require( "obszczymucha.telescope.state" )
+local state = require( "obszczymucha.state.telescope" )
 
 local AND_SEPARATOR = " | "
 local GLOB_SEPARATOR = "  "
