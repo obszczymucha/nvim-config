@@ -40,7 +40,13 @@ function M.live_multigrep( search_term )
   }
 
   local function get_prompt_title()
-    return string.format( "Live Multi Grep (%s case)", state.case_sensitivity )
+    local case_part = state.case_sensitivity .. " case"
+
+    if state.show_hidden then
+      case_part = case_part .. ", hidden"
+    end
+
+    return string.format( "Live Multi Grep (%s)", case_part )
   end
 
   local picker_opts = {
@@ -77,6 +83,13 @@ function M.live_multigrep( search_term )
 
       map( "i", "<A-.>", function()
         state.show_hidden = not state.show_hidden
+        local new_title = get_prompt_title()
+        picker.prompt_title = new_title
+
+        if picker.prompt_border then
+          picker.prompt_border:change_title( new_title )
+        end
+
         refresh = true
         picker:_on_lines( {} )
       end )
