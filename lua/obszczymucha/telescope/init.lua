@@ -109,6 +109,13 @@ local function toggle_hidden_files( prompt_bufnr )
   local current_picker = action_state.get_current_picker( prompt_bufnr )
   state.show_hidden = not state.show_hidden
 
+  local new_title = state.show_hidden and "Find Files (hidden)" or "Find Files"
+  current_picker.prompt_title = new_title
+
+  if current_picker.prompt_border then
+    current_picker.prompt_border:change_title( new_title )
+  end
+
   local new_finder = finders.new_oneshot_job(
     get_find_command(),
     { entry_maker = make_entry.gen_from_file( {} ) }
@@ -173,6 +180,10 @@ local function no_ignore_wrapper( f, opts, override )
 end
 
 function M.find_files()
+  local function get_find_files_title()
+    return state.show_hidden and "Find Files (hidden)" or "Find Files"
+  end
+
   local opts = vim.tbl_extend( "force", options, {
     attach_mappings = function( _, map )
       for mode, mode_mappings in pairs( mappings ) do
@@ -196,7 +207,7 @@ function M.find_files()
   } )
 
   require( "telescope.pickers" ).new( opts, {
-    prompt_title = "Find Files",
+    prompt_title = get_find_files_title(),
     finder = opts.finder,
     sorter = require( "telescope.config" ).values.file_sorter( opts ),
     previewer = require( "telescope.config" ).values.file_previewer( opts ),
