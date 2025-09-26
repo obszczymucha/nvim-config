@@ -5,7 +5,7 @@ function M.restart( service_name )
     on_exit = function( _, exit_code )
       vim.schedule( function()
         if exit_code == 0 then
-          vim.notify( string.format( "%s restarted.", service_name ), vim.log.levels.INFO )
+          vim.notify( string.format( "%s restarted", service_name ), vim.log.levels.INFO )
         else
           vim.notify( string.format( "Failed to restart %s (exit code: " .. exit_code .. ")", service_name ),
             vim.log.levels.ERROR )

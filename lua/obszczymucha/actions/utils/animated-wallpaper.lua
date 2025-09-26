@@ -11,7 +11,7 @@ function M.hook_restart( service_name )
     callback = function() require( "obszczymucha.actions.utils.systemctl" ).restart( service_name ) end
   } )
 
-  vim.notify( string.format( "%s restart hooked.", service_name ), vim.log.levels.INFO )
+  vim.notify( string.format( "%s restart hooked", service_name ), vim.log.levels.INFO )
 end
 
 return M

@@ -27,6 +27,10 @@ function M.ends_with( str, suffix )
   return suffix == "" or str:sub( - #suffix ) == suffix
 end
 
+function M.contains( str, substr )
+  return str:find( substr, 1, true ) ~= nil
+end
+
 function M.prequire( ... )
   local status, module = pcall( require, ... )
   if status then return module else return nil end
