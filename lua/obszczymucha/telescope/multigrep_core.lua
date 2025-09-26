@@ -39,6 +39,19 @@ local function case_sensitivity_flag()
   end
 end
 
+local function add_conditional_flags( args )
+  local cs_flag = case_sensitivity_flag()
+
+  if cs_flag then
+    table.insert( args, cs_flag )
+  end
+
+  if state.show_hidden then
+    table.insert( args, "--hidden" )
+    table.insert( args, "--no-ignore-files" )
+  end
+end
+
 local function clean_prompt( prompt )
   for _, sep in ipairs( TRAILING_SEPARATORS ) do
     if prompt:sub( - #sep ) == sep then
@@ -98,12 +111,7 @@ local function build_multi_search( terms )
 
   vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
-
-  local cs_flag = case_sensitivity_flag()
-
-  if cs_flag then
-    table.insert( args, cs_flag )
-  end
+  add_conditional_flags( args )
 
   return args
 end
@@ -123,12 +131,7 @@ local function build_single_search( prompt )
   end
 
   vim.list_extend( args, BASE_FLAGS )
-
-  local cs_flag = case_sensitivity_flag()
-
-  if cs_flag then
-    table.insert( args, cs_flag )
-  end
+  add_conditional_flags( args )
 
   return args
 end

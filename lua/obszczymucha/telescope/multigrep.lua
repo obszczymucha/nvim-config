@@ -75,6 +75,12 @@ function M.live_multigrep( search_term )
         picker:_on_lines( {} )
       end )
 
+      map( "i", "<A-.>", function()
+        state.show_hidden = not state.show_hidden
+        refresh = true
+        picker:_on_lines( {} )
+      end )
+
       return true
     end
   }
