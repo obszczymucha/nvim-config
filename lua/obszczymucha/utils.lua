@@ -1,9 +1,28 @@
 local M = {}
 
-function M.get_project_root_dir( dir )
-  local base = dir and vim.fn.fnamemodify( vim.fn.fnameescape( dir ), ":p:h" )
+local pwd_override_patterns = {
+  "/home/.-/%.config"
+}
 
+local function is_pwd_override( pwd )
+  for _, pattern in ipairs( pwd_override_patterns ) do
+    if pwd:match( pattern ) then
+      return true
+    end
+  end
+
+  return false
+end
+
+function M.get_project_root_dir( dir )
+  if not dir then
+    local env_pwd = os.getenv( "PWD" )
+    if is_pwd_override( env_pwd ) then return env_pwd end
+  end
+
+  local base = dir and vim.fn.fnamemodify( vim.fn.fnameescape( dir ), ":p:h" )
   local cmd = { "git", "rev-parse", "--show-toplevel" }
+
   if base then
     table.insert( cmd, 2, "-C" )
     table.insert( cmd, 3, base )
