@@ -5,17 +5,17 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "j-hui/fidget.nvim",
     "ravitemer/codecompanion-history.nvim",
-    {
-      "ravitemer/mcphub.nvim",
-      cmd = "MCPHub",
-      -- build = "npm install -g mcp-hub@latest",
-      build = 'bundled_build.lua',
-      config = function()
-        require( "mcphub" ).setup( {
-          use_bundled_binary = true
-        } )
-      end
-    },
+    -- {
+    --   "ravitemer/mcphub.nvim",
+    --   cmd = "MCPHub",
+    --   -- build = "npm install -g mcp-hub@latest",
+    --   build = 'bundled_build.lua',
+    --   config = function()
+    --     require( "mcphub" ).setup( {
+    --       use_bundled_binary = true
+    --     } )
+    --   end
+    -- },
     {
       "Davidyz/VectorCode",
       version = "*",
