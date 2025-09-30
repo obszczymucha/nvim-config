@@ -22,14 +22,14 @@ return {
       diagnostics_color = {
         -- Same values as the general color option can be used here.
         error = "DiagnosticError", -- Changes diagnostics' error color.
-        warn  = "DiagnosticWarn", -- Changes diagnostics' warn color.
-        info  = "DiagnosticInfo", -- Changes diagnostics' info color.
-        hint  = "DiagnosticHint", -- Changes diagnostics' hint color.
+        warn  = "DiagnosticWarn",  -- Changes diagnostics' warn color.
+        info  = "DiagnosticInfo",  -- Changes diagnostics' info color.
+        hint  = "DiagnosticHint",  -- Changes diagnostics' hint color.
       },
       symbols = { error = "E", warn = "W", info = "I", hint = "H" },
-      colored = true,       -- Displays diagnostics status in color if set to true.
+      colored = true,           -- Displays diagnostics status in color if set to true.
       update_in_insert = false, -- Update diagnostics in insert mode.
-      always_visible = false, -- Show diagnostics even if there are none.
+      always_visible = false,   -- Show diagnostics even if there are none.
     }
 
     ---@diagnostic disable: unused-local
@@ -96,6 +96,14 @@ return {
       end
     end
 
+    local function mode_color()
+      local mode = require( 'lualine.utils.mode' ).get_mode()
+      local hl = vim.api.nvim_get_hl( 0, { name = 'lualine_a_' .. mode } )
+      if hl.bg then return { fg = string.format( '#%06x', hl.bg ) } end
+
+      return nil
+    end
+
     local filetype_separator = {
       function()
         if vim.bo.ft and vim.bo.ft ~= "" then
@@ -104,7 +112,7 @@ return {
           return ""
         end
       end,
-      color = { fg = "#7fa2bd" },
+      color = mode_color,
       padding = { left = 0, right = 0 }
     }
 
@@ -112,13 +120,13 @@ return {
 
     ins_left_a {
       "mode",
-      fmt = function(str)
-        return str:sub(1, 1)
+      fmt = function( str )
+        return str:sub( 1, 1 )
       end
     }
     ins_left_c "filename"
     ins_right { scala_diagnostics }
-    ins_right { "filetype", padding = no_padding }
+    ins_right { "filetype", padding = no_padding, color = mode_color }
     ins_right( filetype_separator )
     ins_right { "encoding", padding = { left = 0, right = 1 } }
     ins_right { function() return "[" end, padding = no_padding }
