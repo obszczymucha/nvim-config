@@ -58,8 +58,8 @@ return {
         lualine_c = {},
         --lualine_x = { "filetype", "encoding", { "fileformat", icons_enabled = false } },
         lualine_x = {},
-        lualine_y = { "progress" },
-        lualine_z = { "location" }
+        lualine_y = { { "progress", padding = { left = 1, right = 0 } } },
+        lualine_z = { { "location", padding = { left = 1, right = 1 } } }
       },
       inactive_sections = {
         lualine_a = {},
@@ -104,22 +104,18 @@ return {
           return ""
         end
       end,
+      color = { fg = "#7fa2bd" },
       padding = { left = 0, right = 0 }
     }
 
-    local function is_tmuxed()
-      local tmux = os.getenv( "TMUX" )
-      if tmux and tmux ~= "" then
-        return " "
-      else
-        return ""
-      end
-    end
-
     local no_padding = { left = 0, right = 0 }
 
-    ins_left_a { is_tmuxed, padding = no_padding, color = { fg = "#cfcfcf", bg = "#2a2e40" } }
-    ins_left_a "mode"
+    ins_left_a {
+      "mode",
+      fmt = function(str)
+        return str:sub(1, 1)
+      end
+    }
     ins_left_c "filename"
     ins_right { scala_diagnostics }
     ins_right { "filetype", padding = no_padding }
@@ -127,7 +123,7 @@ return {
     ins_right { "encoding", padding = { left = 0, right = 1 } }
     ins_right { function() return "[" end, padding = no_padding }
     ins_right { "fileformat", icons_enabled = false, padding = no_padding }
-    ins_right { function() return "]" end, padding = { left = 0, right = 1 } }
+    ins_right { function() return "]" end, padding = { left = 0, right = 0 } }
 
     table.insert( config.sections.lualine_y, { require( "recorder" ).displaySlots } )
     table.insert( config.sections.lualine_z, { require( "recorder" ).recordingStatus } )
