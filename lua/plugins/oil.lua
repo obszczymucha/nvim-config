@@ -32,7 +32,8 @@ return {
       float = {
         padding = 2,
         max_width = 60,
-        max_height = 24
+        max_height = 24,
+        preview_split = "above"
       }
     }
 
