@@ -58,7 +58,7 @@ return {
         lualine_c = {},
         --lualine_x = { "filetype", "encoding", { "fileformat", icons_enabled = false } },
         lualine_x = {},
-        lualine_y = { { "progress", padding = { left = 1, right = 0 } } },
+        lualine_y = { },
         lualine_z = { { "location", padding = { left = 1, right = 1 } } }
       },
       inactive_sections = {
@@ -83,18 +83,21 @@ return {
       table.insert( config.sections.lualine_c, component )
     end
 
-    local function ins_right( component )
+    local function add_x( component )
       table.insert( config.sections.lualine_x, component )
     end
-
-    local function scala_diagnostics()
-      if vim.bo.filetype == "scala" then
-        local status = vim.g[ "metals_status" ]
-        return not is_blank( status ) and status .. " |" or ""
-      else
-        return ""
-      end
+    local function add_y( component )
+      table.insert( config.sections.lualine_y, component )
     end
+
+    -- local function scala_diagnostics()
+    --   if vim.bo.filetype == "scala" then
+    --     local status = vim.g[ "metals_status" ]
+    --     return not is_blank( status ) and status .. " |" or ""
+    --   else
+    --     return ""
+    --   end
+    -- end
 
     local function mode_color()
       local mode = require( 'lualine.utils.mode' ).get_mode()
@@ -125,15 +128,17 @@ return {
       end
     }
     ins_left_c "filename"
-    ins_right { scala_diagnostics }
-    ins_right { "filetype", padding = no_padding, color = mode_color }
-    ins_right( filetype_separator )
-    ins_right { "encoding", padding = { left = 0, right = 1 } }
-    ins_right { function() return "[" end, padding = no_padding }
-    ins_right { "fileformat", icons_enabled = false, padding = no_padding }
-    ins_right { function() return "]" end, padding = { left = 0, right = 0 } }
 
-    table.insert( config.sections.lualine_y, { require( "recorder" ).displaySlots } )
+    -- add_y { scala_diagnostics }
+    add_x { "filetype", padding = no_padding }
+    add_y( filetype_separator )
+    add_y { "encoding", padding = { left = 0, right = 1 } }
+    add_y { function() return "[" end, padding = no_padding }
+    add_y { "fileformat", icons_enabled = false, padding = no_padding }
+    add_y { function() return "]" end, padding = { left = 0, right = 0 } }
+    add_y { "progress", padding = { left = 1, right = 0 } }
+    add_y { require( "recorder" ).displaySlots }
+
     table.insert( config.sections.lualine_z, { require( "recorder" ).recordingStatus } )
 
     lualine.setup( config )
