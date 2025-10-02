@@ -44,9 +44,6 @@ return {
 
     oil.setup( opts )
 
-    vim.keymap.set( "n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory (float)" } )
-    vim.keymap.set( "n", "=", "<cmd>Oil<CR>", { desc = "Open current directory" } )
-
     vim.api.nvim_create_autocmd( "VimEnter", {
       callback = function( data )
         if vim.fn.isdirectory( data.file ) == 1 then
@@ -67,7 +64,21 @@ return {
   end,
   keys = {
     { "-", "<cmd>Oil --float<CR>", desc = "Open current directory (float)" },
-    { "=", "<cmd>Oil<CR>",         desc = "Open current directory" },
+    { "+", "<cmd>Oil<CR>",         desc = "Open current directory" },
+    {
+      "=",
+      function()
+        if vim.bo.filetype == "oil" then
+          vim.cmd( "close" )
+        else
+          vim.o.splitright = false
+          vim.cmd( "vs" )
+          vim.cmd( "vertical resize 40" )
+          require( "oil" ).open()
+        end
+      end,
+      desc = "Open current directory (vertical split left)"
+    },
     {
       "_",
       function()
