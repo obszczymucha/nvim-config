@@ -12,7 +12,8 @@ return {
     action = function()
       vim.fn.setreg( "+", vim.fn.expand( "%:p" ) )
       vim.notify( "Current file path copied." )
-    end
+    end,
+    score = 100
   },
   {
     name = "Copy current file relative path",
@@ -25,15 +26,15 @@ return {
       else
         vim.notify( "File is not within current working directory.", vim.log.levels.WARN )
       end
-    end,
-    score = 100
+    end
   },
   {
     name = "Yank current file path",
     action = function()
       vim.fn.setreg( '"', vim.fn.expand( "%:p" ) )
       vim.notify( "Current file path yanked." )
-    end
+    end,
+    score = 100
   },
   {
     name = "Yank current file relative path",
@@ -46,8 +47,7 @@ return {
       else
         vim.notify( "File is not within current working directory.", vim.log.levels.WARN )
       end
-    end,
-    score = 100
+    end
   },
   {
     name = "Hook shader reload",
