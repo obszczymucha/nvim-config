@@ -50,10 +50,10 @@ else
   map( "n", "<S-A-l>", "<C-w>l" )
 end
 
-map( "n", "<A-<>", "<C-w>5<" )
-map( "n", "<A->>", "<C-w>5>" )
-map( "n", "<A-,>", "<C-w>5-" )
-map( "n", "<A-.>", "<C-w>5+" )
+map( "n", "<M-C-h>", "<C-w>10<" )
+map( "n", "<M-C-l>", "<C-w>10>" )
+map( "n", "<M-C-u>", "<C-w>5-" )
+map( "n", "<M-C-d>", "<C-w>5+" )
 
 -- Quit
 map( "n", "<A-q>", "<cmd>q<CR>", { desc = "Exit" } )
