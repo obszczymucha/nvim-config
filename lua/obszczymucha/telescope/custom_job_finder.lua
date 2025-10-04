@@ -51,9 +51,6 @@ local function custom_async_job_finder( opts )
     for line in stdout:iter( true ) do
       line_num = line_num + 1
       local entry = entry_maker( line )
-      if entry then
-        entry.index = line_num
-      end
       if process_result( entry ) then
         return
       end

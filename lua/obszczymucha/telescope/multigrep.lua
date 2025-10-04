@@ -55,6 +55,7 @@ function M.live_multigrep( search_term )
     finder = finder,
     previewer = conf.grep_previewer( opts ),
     sorter = require( "telescope.sorters" ).empty(),
+    sorting_strategy = "ascending",
     attach_mappings = function( prompt_bufnr, map )
       local picker = require( "telescope.actions.state" ).get_current_picker( prompt_bufnr )
       prevent_duplicate_searches( picker, core.generate_multigrep_command )
