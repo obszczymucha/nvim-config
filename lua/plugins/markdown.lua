@@ -4,13 +4,7 @@ return {
   ft = { "markdown" },
   build = function() vim.fn[ "mkdp#util#install" ]() end,
   config = function()
-    if is_wsl then
-      vim.cmd [[
-        function! OpenMarkdownPreview(url)
-        execute "silent !brave --app=" . a:url
-        endfunction
-      ]]
-    elseif is_macos then
+    if is_macos then
       vim.cmd [[
         function! OpenMarkdownPreview(url)
         execute "silent ! open -a Google\ Chrome -n --args --new-window " . a:url
@@ -19,7 +13,7 @@ return {
     else
       vim.cmd [[
         function! OpenMarkdownPreview(url)
-        execute "silent !chromium --app=" . a:url
+        execute "silent !brave --app=" . a:url
         endfunction
       ]]
     end
