@@ -1,6 +1,13 @@
 local telescope = prequirev( "telescope.builtin" )
 if not telescope then return end
 
+vim.api.nvim_create_autocmd( "User", {
+  pattern = "TelescopePreviewerLoaded",
+  callback = function()
+    vim.opt_local.number = true
+  end,
+} )
+
 local previewers = require( "telescope.previewers" )
 local actions = require( "telescope.actions" )
 local action_state = require( "telescope.actions.state" )
