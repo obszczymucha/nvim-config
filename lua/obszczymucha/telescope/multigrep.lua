@@ -9,6 +9,7 @@ local core = require( "obszczymucha.telescope.multigrep_core" )
 local job_finder = require( "obszczymucha.telescope.custom_job_finder" )
 local state = require( "obszczymucha.state.telescope" )
 local case_sensitivity = require( "obszczymucha.telescope.case-sensitivity" )
+local utils = require( "telescope.utils" )
 
 local refresh = false
 
@@ -33,9 +34,33 @@ function M.live_multigrep( search_term )
   local opts = {}
   opts.cwd = opts.cwd or vim.fn.getcwd()
 
+  local custom_entry_maker = function( line )
+    local entry = make_entry.gen_from_vimgrep( opts )( line )
+    local original_display = entry.display
+
+    entry.display = function( e )
+      local display_str, hl = original_display( e )
+      local filename = utils.path_tail( e.filename or e.value )
+
+      -- Find where filename starts in the display string
+      local filename_start = display_str:find( filename, 1, true )
+      if filename_start then
+        hl = hl or {}
+        table.insert( hl, {
+          { filename_start - 1, filename_start - 1 + #filename },
+          "TelescopeFilename"
+        } )
+      end
+
+      return display_str, hl
+    end
+
+    return entry
+  end
+
   local finder = job_finder {
     command_generator = core.generate_multigrep_command,
-    entry_maker = make_entry.gen_from_vimgrep( opts ),
+    entry_maker = custom_entry_maker,
     cwd = opts.cwd
   }
 

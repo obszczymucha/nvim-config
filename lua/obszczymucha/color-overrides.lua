@@ -33,6 +33,8 @@ local function apply_color_overrides()
   cmd( "hi rCursor guifg=white guibg=#f7768e" )
   cmd( "hi vCursor guifg=white guibg=#9d7cd8" )
   -- cmd( "hi CursorLine guibg=#332a48" )
+
+  cmd( "hi TelescopeFilename guifg=#b6b6c0" )
 end
 
 cmd( "autocmd ColorScheme * lua require('obszczymucha.color-overrides').apply()" )
