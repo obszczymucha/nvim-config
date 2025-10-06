@@ -25,6 +25,16 @@ local function prevent_duplicate_searches( picker, command_generator )
     if refresh or last_command_str ~= command_str then
       refresh = false
       last_command_str = command_str
+
+      -- Clear results buffer before starting new search
+      if picker.results_bufnr and vim.api.nvim_buf_is_valid( picker.results_bufnr ) then
+        vim.schedule( function()
+          if vim.api.nvim_buf_is_valid( picker.results_bufnr ) then
+            vim.api.nvim_buf_set_lines( picker.results_bufnr, 0, -1, false, {} )
+          end
+        end )
+      end
+
       original_on_lines( ... )
     end
   end
