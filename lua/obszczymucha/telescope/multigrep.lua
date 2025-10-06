@@ -34,9 +34,14 @@ function M.live_multigrep( search_term )
   local opts = {}
   opts.cwd = opts.cwd or vim.fn.getcwd()
 
+  local current_search_terms = {}
+
   local custom_entry_maker = function( line )
     local entry = make_entry.gen_from_vimgrep( opts )( line )
     local original_display = entry.display
+
+    -- Capture current search terms for this specific entry
+    local captured_terms = vim.deepcopy( current_search_terms )
 
     entry.display = function( e )
       local display_str, hl = original_display( e )
@@ -52,14 +57,75 @@ function M.live_multigrep( search_term )
         } )
       end
 
+      -- Highlight search terms in the content
+      for _, search_term in ipairs( captured_terms ) do
+        if search_term and search_term ~= "" then
+          local case_sensitive = state.case_sensitivity == "respect"
+          local search_str, display_search
+
+          if case_sensitive then
+            search_str = search_term
+            display_search = display_str
+          else
+            search_str = search_term:lower()
+            display_search = display_str:lower()
+          end
+
+          local search_start = 1
+          while true do
+            local match_start, match_end = display_search:find( search_str, search_start, true )
+            if not match_start then break end
+
+            hl = hl or {}
+            table.insert( hl, {
+              { match_start - 1, match_end },
+              "TelescopeMatching"
+            } )
+
+            search_start = match_end + 1
+          end
+        end
+      end
+
       return display_str, hl
     end
 
     return entry
   end
 
+  local function command_generator_with_term_tracking( prompt )
+    -- Extract search terms from prompt
+    current_search_terms = {}
+    if prompt and prompt ~= "" then
+      local AND_SEPARATOR = " | "
+      local GLOB_SEPARATOR = "  "
+
+      -- Clean trailing separators
+      local clean = prompt
+      for i = #AND_SEPARATOR, 1, -1 do
+        local sep = AND_SEPARATOR:sub( 1, i )
+        if clean:sub( -#sep ) == sep then
+          clean = clean:sub( 1, -(#sep + 1) )
+          break
+        end
+      end
+
+      -- Split by AND_SEPARATOR to get all terms
+      local terms = vim.split( clean, AND_SEPARATOR )
+      for _, term in ipairs( terms ) do
+        -- Extract search text before glob separator
+        local tokens = vim.split( vim.trim( term ), GLOB_SEPARATOR )
+        if tokens[ 1 ] and tokens[ 1 ] ~= "" then
+          table.insert( current_search_terms, tokens[ 1 ] )
+        end
+      end
+    end
+
+    return core.generate_multigrep_command( prompt )
+  end
+
   local finder = job_finder {
-    command_generator = core.generate_multigrep_command,
+    command_generator = command_generator_with_term_tracking,
     entry_maker = custom_entry_maker,
     cwd = opts.cwd
   }
@@ -83,7 +149,7 @@ function M.live_multigrep( search_term )
     sorting_strategy = "ascending",
     attach_mappings = function( prompt_bufnr, map )
       local picker = require( "telescope.actions.state" ).get_current_picker( prompt_bufnr )
-      prevent_duplicate_searches( picker, core.generate_multigrep_command )
+      prevent_duplicate_searches( picker, command_generator_with_term_tracking )
 
       map( "i", "<CR>", function( bufnr )
         local selection = action_state.get_selected_entry()
