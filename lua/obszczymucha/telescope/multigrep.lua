@@ -67,30 +67,40 @@ function M.live_multigrep( search_term )
         } )
       end
 
-      -- Highlight search terms in the content
-      for _, search_term in ipairs( captured_terms ) do
-        if search_term and search_term ~= "" then
+      -- Find where content starts in the display string
+      -- Content is stored in e.text and appears after filename:line:col:
+      local content_start = nil
+      if e.text then
+        content_start = display_str:find( e.text, 1, true )
+      end
+
+      -- Highlight search terms in the content only
+      for _, term in ipairs( captured_terms ) do
+        if term and term ~= "" then
           local case_sensitive = state.case_sensitivity == "respect"
           local search_str, display_search
 
           if case_sensitive then
-            search_str = search_term
+            search_str = term
             display_search = display_str
           else
-            search_str = search_term:lower()
+            search_str = term:lower()
             display_search = display_str:lower()
           end
 
-          local search_start = 1
+          local search_start = content_start or 1
           while true do
             local match_start, match_end = display_search:find( search_str, search_start, true )
             if not match_start then break end
 
-            hl = hl or {}
-            table.insert( hl, {
-              { match_start - 1, match_end },
-              "TelescopeMatching"
-            } )
+            -- Only highlight if match is in content portion
+            if not content_start or match_start >= content_start then
+              hl = hl or {}
+              table.insert( hl, {
+                { match_start - 1, match_end },
+                "TelescopeMatching"
+              } )
+            end
 
             search_start = match_end + 1
           end
@@ -114,7 +124,7 @@ function M.live_multigrep( search_term )
       local clean = prompt
       for i = #AND_SEPARATOR, 1, -1 do
         local sep = AND_SEPARATOR:sub( 1, i )
-        if clean:sub( -#sep ) == sep then
+        if clean:sub( - #sep ) == sep then
           clean = clean:sub( 1, -(#sep + 1) )
           break
         end
