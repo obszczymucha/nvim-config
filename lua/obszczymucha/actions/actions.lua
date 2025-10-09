@@ -143,7 +143,7 @@ return {
     filetypes = { "glsl" },
     condition = function()
       local bufname = vim.api.nvim_buf_get_name( 0 )
-      return common.contains( bufname, "animated-wallpaper/resources/shaders/particles" )
+      return common.contains( bufname, "animated-wallpaper/resources/shaders" )
     end
   },
   {
@@ -154,7 +154,7 @@ return {
     filetypes = { "glsl" },
     condition = function()
       local bufname = vim.api.nvim_buf_get_name( 0 )
-      return common.contains( bufname, "animated-wallpaper/resources2/shaders/particles" )
+      return common.contains( bufname, "animated-wallpaper/resources2/shaders" )
     end
   },
 }

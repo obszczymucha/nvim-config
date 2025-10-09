@@ -80,4 +80,6 @@ vim.defer_fn( function()
   elseif not is_macos then
     require( "obszczymucha.xmobar" )
   end
+
+  vim.cmd('runtime! lua/obszczymucha/autocmds/*.lua')
 end, 0 )
