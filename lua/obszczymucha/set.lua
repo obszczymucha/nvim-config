@@ -27,6 +27,7 @@ o.splitright = true
 o.fileformats = { 'unix', 'dos', 'mac' }
 o.ignorecase = true -- Enables case insensitive autocompletion (and search).
 o.smartcase = true  -- Makes search case sensitive if there are capital letters in the pattern.
+o.winborder = "rounded"
 
 if config.alpha_nrformats() then
   o.nrformats:append( "alpha" )
