@@ -187,7 +187,7 @@ M.browse = function()
       map( "n", "<A-e>", open_action_definition )
 
       for i = 1, 9 do
-        local function execute_action( prompt_bufnr )
+        local function execute( prompt_bufnr )
           local current_picker = action_state.get_current_picker( prompt_bufnr )
           local all_entries = {}
 
@@ -197,15 +197,15 @@ M.browse = function()
 
           if all_entries[ i ] then
             telescope_actions.close( prompt_bufnr )
-            execute_action(all_entries[ i ].value)
+            execute(all_entries[ i ].value)
           else
             vim.notify( "Debug - No entry found for index " .. i .. ". Available entries: " .. #all_entries,
               vim.log.levels.WARN )
           end
         end
 
-        map( "i", tostring( i ), execute_action )
-        map( "n", tostring( i ), execute_action )
+        map( "i", tostring( i ), execute )
+        map( "n", tostring( i ), execute )
       end
 
       return true

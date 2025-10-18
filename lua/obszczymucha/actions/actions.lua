@@ -157,4 +157,16 @@ return {
       return common.contains( bufname, "animated-wallpaper/resources2/shaders" )
     end
   },
+  {
+    name = "Hook debug",
+    action = function()
+      local bufname = vim.api.nvim_buf_get_name( 0 )
+      require( "obszczymucha.actions.utils.bash" ).hook_debug( bufname )
+    end,
+    filetypes = { "sh" },
+    condition = function()
+      local bufname = vim.api.nvim_buf_get_name( 0 )
+      return not require( "obszczymucha.actions.utils.bash" ).is_hooked( bufname )
+    end
+  }
 }
