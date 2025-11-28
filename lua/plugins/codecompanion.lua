@@ -104,5 +104,5 @@ return {
     local map = vim.keymap.set
     map( "n", "<leader>gw", "<cmd>CodeCompanionActions<CR>" )
   end,
-  lazy = false
+  lazy = true
 }
