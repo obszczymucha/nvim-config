@@ -119,6 +119,12 @@ return {
     end
   },
   {
+    name = "Update Lazy and Mason",
+    action = function()
+      require( "obszczymucha.auto-update" ).update( { force = true } )
+    end
+  },
+  {
     name = "Print current working directory",
     action = function() vim.notify( vim.fn.getcwd() ) end
   },
