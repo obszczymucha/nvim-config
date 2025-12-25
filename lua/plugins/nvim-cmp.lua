@@ -82,7 +82,10 @@ return {
           [ "<CR>" ] = cmp.mapping.confirm( { select = false } ),
           -- <S-Space> workaround. Mapped by sending \u001b[1;5Q in Alacritty or ahk, which translates to <F26> in neovim.
           [ "<F26>" ] = cmp.mapping.complete()
-        } )
+        } ),
+        window = {
+          completion = cmp.config.window.bordered(),
+        }
       } )
 
       ---@diagnostic disable-next-line: undefined-field
@@ -128,6 +131,7 @@ return {
           loadfile( ft_path )()
         end
       end
-    end
+    end,
+    lazy = false
   }
 }
