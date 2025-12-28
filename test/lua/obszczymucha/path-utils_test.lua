@@ -1,9 +1,8 @@
 package.path = "../../?.lua;" .. package.path .. ";../../../lua/?.lua"
+require( "vim-mock" ).setup()
 
-local vim_mock = require( "vim-mock" )
-vim_mock.setup()
+local lu, is_table, is_true = require( "utils" ).luaunit( "assertIsTable", "assertTrue" )
 
-local lu = require( "luaunit" )
 local path_utils = require( "obszczymucha.path-utils" )
 
 PathUtilsSpec = {}
@@ -12,8 +11,8 @@ function PathUtilsSpec:should_scan_git_repository_with_directory()
   local fixture_path = "../../fixtures/git-repo"
   local directories = path_utils.scan_directories( fixture_path, 3 )
 
-  lu.assertIsTable( directories )
-  lu.assertTrue( #directories > 0, "Should find directories in git repo" )
+  is_table( directories )
+  is_true( #directories > 0, "Should find directories in git repo" )
 
   local found_dirs = {}
   for _, dir in ipairs( directories ) do
@@ -21,16 +20,16 @@ function PathUtilsSpec:should_scan_git_repository_with_directory()
     found_dirs[ relative_path ] = true
   end
 
-  lu.assertTrue( found_dirs[ "src" ], "Should find src directory" )
-  lu.assertTrue( found_dirs[ "docs" ], "Should find docs directory" )
+  is_true( found_dirs[ "src" ], "Should find src directory" )
+  is_true( found_dirs[ "docs" ], "Should find docs directory" )
 end
 
 function PathUtilsSpec:should_scan_git_worktree_with_file()
   local fixture_path = "../../fixtures/git-worktree"
   local directories = path_utils.scan_directories( fixture_path, 3 )
 
-  lu.assertIsTable( directories )
-  lu.assertTrue( #directories > 0, "Should find directories in git worktree" )
+  is_table( directories )
+  is_true( #directories > 0, "Should find directories in git worktree" )
 
   local found_dirs = {}
   for _, dir in ipairs( directories ) do
@@ -38,17 +37,17 @@ function PathUtilsSpec:should_scan_git_worktree_with_file()
     found_dirs[ relative_path ] = true
   end
 
-  lu.assertTrue( found_dirs[ "client" ], "Should find client directory" )
-  lu.assertTrue( found_dirs[ "server" ], "Should find server directory" )
-  lu.assertTrue( found_dirs[ "proto" ], "Should find proto directory" )
+  is_true( found_dirs[ "client" ], "Should find client directory" )
+  is_true( found_dirs[ "server" ], "Should find server directory" )
+  is_true( found_dirs[ "proto" ], "Should find proto directory" )
 end
 
 function PathUtilsSpec:should_scan_regular_directory_with_find()
   local fixture_path = "../../fixtures/regular-dir"
   local directories = path_utils.scan_directories( fixture_path, 3 )
 
-  lu.assertIsTable( directories )
-  lu.assertTrue( #directories > 0, "Should find directories in regular directory" )
+  is_table( directories )
+  is_true( #directories > 0, "Should find directories in regular directory" )
 
   local found_dirs = {}
   for _, dir in ipairs( directories ) do
@@ -56,18 +55,18 @@ function PathUtilsSpec:should_scan_regular_directory_with_find()
     found_dirs[ relative_path ] = true
   end
 
-  lu.assertTrue( found_dirs[ "documents" ], "Should find documents directory" )
-  lu.assertTrue( found_dirs[ "downloads" ], "Should find downloads directory" )
-  lu.assertTrue( found_dirs[ "projects" ], "Should find projects directory" )
-  lu.assertTrue( found_dirs[ "projects/project1" ], "Should find nested project directories" )
-  lu.assertTrue( found_dirs[ "projects/project2" ], "Should find nested project directories" )
+  is_true( found_dirs[ "documents" ], "Should find documents directory" )
+  is_true( found_dirs[ "downloads" ], "Should find downloads directory" )
+  is_true( found_dirs[ "projects" ], "Should find projects directory" )
+  is_true( found_dirs[ "projects/project1" ], "Should find nested project directories" )
+  is_true( found_dirs[ "projects/project2" ], "Should find nested project directories" )
 end
 
 function PathUtilsSpec:should_sort_directories_by_depth_then_name()
   local fixture_path = "../../fixtures/regular-dir"
   local directories = path_utils.scan_directories( fixture_path, 3 )
 
-  lu.assertTrue( #directories >= 5, "Should have multiple directories for sorting test" )
+  is_true( #directories >= 5, "Should have multiple directories for sorting test" )
 
   -- Check that top-level directories come before nested ones
   local depths = {}
@@ -79,7 +78,7 @@ function PathUtilsSpec:should_sort_directories_by_depth_then_name()
 
   -- Verify depths are non-decreasing (sorted by depth first)
   for i = 2, #depths do
-    lu.assertTrue( depths[ i ] >= depths[ i - 1 ], "Directories should be sorted by depth first" )
+    is_true( depths[ i ] >= depths[ i - 1 ], "Directories should be sorted by depth first" )
   end
 end
 

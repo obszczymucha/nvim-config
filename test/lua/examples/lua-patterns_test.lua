@@ -1,6 +1,7 @@
 package.path = "../../?.lua;" .. package.path .. ";../../../lua/?.lua"
 
-local lu = require( "luaunit" )
+local lu, eq = require( "utils" ).luaunit( "assertEquals" )
+
 ---@diagnostic disable-next-line: different-requires
 local common = require( "obszczymucha.common" )
 
@@ -18,10 +19,10 @@ function RustTestSpec:should_parse_rust_test_name()
   local short_name, module_name, test_name, case_name = input:match( RustTestSpec.pattern )
 
   -- Then
-  lu.assertEquals( short_name, "mapping_handler" )
-  lu.assertEquals( module_name, "tests" )
-  lu.assertEquals( test_name, "should_match_keys_to_mappings" )
-  lu.assertEquals( case_name, "" )
+  eq( short_name, "mapping_handler" )
+  eq( module_name, "tests" )
+  eq( test_name, "should_match_keys_to_mappings" )
+  eq( case_name, "" )
 end
 
 function RustTestSpec:should_parse_rstest_test_name_with_case_name()
@@ -32,10 +33,10 @@ function RustTestSpec:should_parse_rstest_test_name_with_case_name()
   local short_name, module_name, test_name, case_name = input:match( RustTestSpec.pattern )
 
   -- Then
-  lu.assertEquals( short_name, "mapping_handler" )
-  lu.assertEquals( module_name, "tests" )
-  lu.assertEquals( test_name, "should_match_keys_to_mappings" )
-  lu.assertEquals( case_name, "case_2" )
+  eq( short_name, "mapping_handler" )
+  eq( module_name, "tests" )
+  eq( test_name, "should_match_keys_to_mappings" )
+  eq( case_name, "case_2" )
 end
 
 LuaTestSpec = {
@@ -60,7 +61,7 @@ function LuaTestSpec:should_parse_line_number_with_hash_at_the_start()
   local line_number = input:match( pattern )
 
   -- Then
-  lu.assertEquals( line_number, "27" )
+  eq( line_number, "27" )
 end
 
 function LuaTestSpec:should_parse_line_number()
@@ -74,7 +75,7 @@ function LuaTestSpec:should_parse_line_number()
   local line_number = input:match( pattern )
 
   -- Then
-  lu.assertEquals( line_number, "27" )
+  eq( line_number, "27" )
 end
 
 function LuaTestSpec:should_parse_expected_value()
@@ -88,7 +89,7 @@ function LuaTestSpec:should_parse_expected_value()
   local _, expected = input:match( pattern )
 
   -- Then
-  lu.assertEquals( expected, "\"upa.jas\"" )
+  eq( expected, "\"upa.jas\"" )
 end
 
 function LuaTestSpec:should_parse_general_lua_error()
@@ -102,8 +103,8 @@ function LuaTestSpec:should_parse_general_lua_error()
   local line_number, error_name = input:match( pattern )
 
   -- Then
-  lu.assertEquals( line_number, "4" )
-  lu.assertEquals( error_name, "module 'common' not found:" )
+  eq( line_number, "4" )
+  eq( error_name, "module 'common' not found:" )
 end
 
 function LuaTestSpec:should_parse_general_lua_error2()
@@ -117,8 +118,8 @@ function LuaTestSpec:should_parse_general_lua_error2()
   local line_number, error_name = input:match( pattern )
 
   -- Then
-  lu.assertEquals( line_number, "4" )
-  lu.assertEquals( error_name, "module 'common' not found:" )
+  eq( line_number, "4" )
+  eq( error_name, "module 'common' not found:" )
 end
 
 lu.LuaUnit.run()
