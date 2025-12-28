@@ -3,12 +3,15 @@ local M = {}
 local state = require( "obszczymucha.state.telescope" )
 
 local AND_SEPARATOR = " | "
+local REGEX_SEPARATOR = " |~ "
 local GLOB_SEPARATOR = "  "
 
 local TRAILING_SEPARATORS = {}
 
-for i = #AND_SEPARATOR, 1, -1 do
-  table.insert( TRAILING_SEPARATORS, AND_SEPARATOR:sub( 1, i ) )
+for _, sep in ipairs( { REGEX_SEPARATOR, AND_SEPARATOR } ) do
+  for i = #sep, 1, -1 do
+    table.insert( TRAILING_SEPARATORS, sep:sub( 1, i ) )
+  end
 end
 
 local BASE_FLAGS = {
@@ -116,6 +119,53 @@ local function build_multi_search( terms )
   return args
 end
 
+local function build_regex_search( literals_part, regex_part )
+  local all_globs = {}
+  local search_terms = {}
+
+  -- Parse literal terms
+  if literals_part and literals_part ~= "" then
+    local literal_terms = vim.split( literals_part, AND_SEPARATOR )
+    for _, term in ipairs( literal_terms ) do
+      local search_text, globs = parse_term( term )
+      if search_text then
+        table.insert( search_terms, quote_literal( search_text ) )
+        vim.list_extend( all_globs, globs )
+      end
+    end
+  end
+
+  -- Parse regex term (don't quote it)
+  if regex_part and regex_part ~= "" then
+    local regex_text, globs = parse_term( regex_part )
+    if regex_text then
+      table.insert( search_terms, regex_text )
+      vim.list_extend( all_globs, globs )
+    end
+  end
+
+  if #search_terms == 0 then
+    return nil
+  end
+
+  local args = { "ugrep" }
+  local pattern = table.concat( search_terms, " AND " )
+
+  table.insert( args, "-e" )
+  table.insert( args, pattern )
+  table.insert( args, "--bool" )
+
+  for _, glob in ipairs( all_globs ) do
+    table.insert( args, "--include=" .. glob )
+  end
+
+  vim.list_extend( args, BASE_FLAGS )
+  vim.list_extend( args, MULTI_SEARCH_FLAGS )
+  add_conditional_flags( args )
+
+  return args
+end
+
 local function build_single_search( prompt )
   local args = { "ugrep" }
   local search_text, globs = parse_term( prompt )
@@ -143,7 +193,20 @@ function M.generate_multigrep_command( prompt )
 
   local clean = clean_prompt( prompt )
 
-  if clean:find( AND_SEPARATOR ) then
+  -- Check for regex separator first
+  if clean:find( REGEX_SEPARATOR, 1, true ) then
+    local parts = vim.split( clean, REGEX_SEPARATOR )
+    if #parts == 2 then
+      local literals_part = parts[ 1 ]
+      local regex_part = parts[ 2 ]
+      local regex_args = build_regex_search( literals_part, regex_part )
+      if regex_args then
+        return regex_args
+      end
+    end
+  end
+
+  if clean:find( AND_SEPARATOR, 1, true ) then
     local terms = vim.split( clean, AND_SEPARATOR )
 
     if #terms > 1 then

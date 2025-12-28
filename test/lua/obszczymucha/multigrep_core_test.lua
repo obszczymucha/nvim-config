@@ -2,62 +2,13 @@ package.path = "../../?.lua;" .. package.path .. ";../../../lua/?.lua"
 require( "vim-mock" ).setup()
 
 local lu, eq = require( "utils" ).luaunit( "assertEquals", "assertTrue", "assertFalse" )
-
-local multigrep_core = require( "obszczymucha.telescope.multigrep_core" )
+local test_utils = require( "multigrep_test_utils" )
 local state = require( "obszczymucha.state.telescope" )
 
+local execute_search = test_utils.execute_search
+local has_match = test_utils.has_match
+
 MultigrepCoreSpec = {}
-
-local FIXTURE_DIR = "../../fixtures/multigrep"
-
-local function execute_search( prompt )
-  local command = multigrep_core.generate_multigrep_command( prompt )
-  if not command then return {} end
-
-  table.insert( command, FIXTURE_DIR )
-
-  local escaped_args = {}
-  for _, arg in ipairs( command ) do
-    if arg:match( "%s" ) or arg:match( "[\"']" ) then
-      local escaped = arg:gsub( "'", "'\\''" )
-      table.insert( escaped_args, "'" .. escaped .. "'" )
-    else
-      table.insert( escaped_args, arg )
-    end
-  end
-
-  local cmd_str = table.concat( escaped_args, " " )
-  local handle = io.popen( cmd_str )
-  if not handle then return {} end
-
-  local results = {}
-
-  for line in handle:lines() do
-    table.insert( results, line )
-  end
-
-  handle:close()
-
-  return results, cmd_str
-end
-
-local function has_match( results, expected_filename, line_num, expected_content )
-  local expected_line = string.format( "%s:%d:%s", expected_filename, line_num, expected_content )
-
-  for _, line in ipairs( results ) do
-    for filename, line_number, content in line:gmatch( ".*/(.-):(%d-):%d-:(.*)" ) do
-      if filename == expected_filename and tonumber( line_number ) == line_num then
-        if content == expected_content then
-          return
-        else
-          error( string.format( "Was: %s  Expected: %s", content, expected_content ), 2 )
-        end
-      end
-    end
-  end
-
-  error( string.format( "Expected exact line: %s", expected_line ), 2 )
-end
 
 function MultigrepCoreSpec:setUp()
   state.case_sensitivity = "respect"
