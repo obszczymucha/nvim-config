@@ -1,4 +1,4 @@
 Another file with different content.
-Hello from file2.
+Hello from world.
 Testing search functionality.
 The fox is not lazy.

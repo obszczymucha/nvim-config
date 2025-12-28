@@ -31,22 +31,32 @@ local function execute_search( prompt )
   if not handle then return {} end
 
   local results = {}
+
   for line in handle:lines() do
     table.insert( results, line )
   end
+
   handle:close()
 
   return results, cmd_str
 end
 
-local function has_match( results, filename, line_num, expected_content )
-  local expected_line = string.format( "%s:%d:%s", filename, line_num, expected_content )
+local function has_match( results, expected_filename, line_num, expected_content )
+  local expected_line = string.format( "%s:%d:%s", expected_filename, line_num, expected_content )
+
   for _, line in ipairs( results ) do
-    if line == expected_line then
-      return
+    for filename, line_number, content in line:gmatch( ".*/(.-):(%d-):%d-:(.*)" ) do
+      if filename == expected_filename and tonumber( line_number ) == line_num then
+        if content == expected_content then
+          return
+        else
+          error( string.format( "Was: %s  Expected: %s", content, expected_content ), 2 )
+        end
+      end
     end
   end
-  lu.fail( string.format( "Expected exact line: %s", expected_line ) )
+
+  error( string.format( "Expected exact line: %s", expected_line ), 2 )
 end
 
 function MultigrepCoreSpec:setUp()
@@ -59,17 +69,17 @@ function MultigrepCoreSpec:should_find_hello_case_insensitive()
   local results = execute_search( "hello" )
 
   eq( #results, 11 )
-  has_match( results, "file1.txt", 2, "Hello world" )
-  has_match( results, "file1.txt", 5, "hello test" )
-  has_match( results, "file2.txt", 2, "Hello from" )
-  has_match( results, "code.lua", 1, "function hello()" )
-  has_match( results, "code.lua", 2, 'print("Hello world")'  )
-  has_match( results, "code.lua", 7, "hello()" )
-  has_match( results, "code.lua", 11, "hello = hello, test = test" )
+  has_match( results, "file1.txt", 2, "Hello world Princess Kenny." )
+  has_match( results, "file1.txt", 5, "Running hello test to verify the search works." )
+  has_match( results, "file2.txt", 2, "Hello from world." )
+  has_match( results, "code.lua", 1, "local function hello()" )
+  has_match( results, "code.lua", 2, '  print("Hello world")' )
+  has_match( results, "code.lua", 7, "  local result = hello()" )
+  has_match( results, "code.lua", 11, "return { hello = hello, test = test }" )
   has_match( results, "code.js", 1, "function hello() {" )
-  has_match( results, "code.js", 2, 'console.log("Hello world");'  )
-  has_match( results, "code.js", 7, "hello();" )
-  has_match( results, "code.js", 11, "hello, test" )
+  has_match( results, "code.js", 2, '  console.log("Hello world");' )
+  has_match( results, "code.js", 7, "  const result = hello();" )
+  has_match( results, "code.js", 11, "module.exports = { hello, test };" )
 end
 
 function MultigrepCoreSpec:should_respect_case_when_searching()
@@ -77,39 +87,39 @@ function MultigrepCoreSpec:should_respect_case_when_searching()
   local results = execute_search( "hello" )
 
   eq( #results, 7 )
-  has_match( results, "file1.txt", 5, "hello test" )
-  has_match( results, "code.lua", 1, "function hello()" )
-  has_match( results, "code.lua", 7, "hello()" )
-  has_match( results, "code.lua", 11, "hello = hello, test = test" )
+  has_match( results, "file1.txt", 5, "Running hello test to verify the search works." )
+  has_match( results, "code.lua", 1, "local function hello()" )
+  has_match( results, "code.lua", 7, "  local result = hello()" )
+  has_match( results, "code.lua", 11, "return { hello = hello, test = test }" )
   has_match( results, "code.js", 1, "function hello() {" )
-  has_match( results, "code.js", 7, "hello();" )
-  has_match( results, "code.js", 11, "hello, test" )
+  has_match( results, "code.js", 7, "  const result = hello();" )
+  has_match( results, "code.js", 11, "module.exports = { hello, test };" )
 end
 
 function MultigrepCoreSpec:should_find_fox_in_multiple_files()
   local results = execute_search( "fox" )
 
   eq( #results, 2 )
-  has_match( results, "file1.txt", 1, "fox" )
-  has_match( results, "file2.txt", 4, "fox" )
+  has_match( results, "file1.txt", 1, "The quick brown fox jumps over the lazy dog." )
+  has_match( results, "file2.txt", 4, "The fox is not lazy." )
 end
 
 function MultigrepCoreSpec:should_find_with_multi_search()
   local results = execute_search( "hello | test" )
 
   eq( #results, 3 )
-  has_match( results, "file1.txt", 5, "hello test" )
-  has_match( results, "code.lua", 11, "hello = hello, test = test" )
-  has_match( results, "code.js", 11, "hello, test" )
+  has_match( results, "file1.txt", 5, "Running hello test to verify the search works." )
+  has_match( results, "code.lua", 11, "return { hello = hello, test = test }" )
+  has_match( results, "code.js", 11, "module.exports = { hello, test };" )
 end
 
 function MultigrepCoreSpec:should_filter_by_glob_pattern()
   local results = execute_search( "hello  *.lua" )
 
   eq( #results, 3 )
-  has_match( results, "code.lua", 1, "function hello()" )
-  has_match( results, "code.lua", 7, "hello()" )
-  has_match( results, "code.lua", 11, "hello = hello, test = test" )
+  has_match( results, "code.lua", 1, "local function hello()" )
+  has_match( results, "code.lua", 7, "  local result = hello()" )
+  has_match( results, "code.lua", 11, "return { hello = hello, test = test }" )
 end
 
 function MultigrepCoreSpec:should_return_empty_for_no_matches()
