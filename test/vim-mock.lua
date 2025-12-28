@@ -106,6 +106,55 @@ function M.setup()
     return string.sub( str, 1, string.len( prefix ) ) == prefix
   end
 
+  vim.split = vim.split or function( s, sep, opts )
+    local plain = opts and opts.plain or false
+    local trimempty = opts and opts.trimempty or false
+    local t = {}
+    local pattern = plain and sep or "[^" .. sep .. "]+"
+
+    if plain then
+      local pos = 1
+      while true do
+        local first, last = s:find( sep, pos, true )
+        if not first then
+          table.insert( t, s:sub( pos ) )
+          break
+        end
+        table.insert( t, s:sub( pos, first - 1 ) )
+        pos = last + 1
+      end
+    else
+      for substr in s:gmatch( pattern ) do
+        table.insert( t, substr )
+      end
+    end
+
+    if trimempty then
+      local filtered = {}
+      for _, v in ipairs( t ) do
+        if v ~= "" then
+          table.insert( filtered, v )
+        end
+      end
+      return filtered
+    end
+
+    return t
+  end
+
+  vim.trim = vim.trim or function( s )
+    return s:match( "^%s*(.-)%s*$" )
+  end
+
+  vim.list_extend = vim.list_extend or function( dst, src, start, finish )
+    start = start or 1
+    finish = finish or #src
+    for i = start, finish do
+      table.insert( dst, src[ i ] )
+    end
+    return dst
+  end
+
   -- Mock prequirev and prequire (protected require with verbose)
   ---@diagnostic disable-next-line: lowercase-global
   _G.prequire = _G.prequire or function( name, ... )

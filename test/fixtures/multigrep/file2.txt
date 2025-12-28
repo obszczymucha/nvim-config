@@ -1,0 +1,4 @@
+Another file with different content.
+Hello from file2.
+Testing search functionality.
+The fox is not lazy.
