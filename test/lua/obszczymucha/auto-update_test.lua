@@ -1,7 +1,11 @@
-package.path = "../../?.lua;" .. package.path .. ";../../../lua/obszczymucha/?.lua"
+package.path = "../../?.lua;" .. package.path .. ";../../../lua/?.lua"
+
+local vim_mock = require( "vim-mock" )
+vim_mock.setup()
+
 local lu = require( "luaunit" )
 ---@diagnostic disable-next-line: different-requires
-local should_update = require( "auto-update" ).should_update
+local should_update = require( "obszczymucha.auto-update" ).should_update
 
 AutoUpdateSpec = {}
 

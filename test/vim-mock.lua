@@ -11,6 +11,11 @@ function M.setup()
   end
 
   vim.fn.isdirectory = vim.fn.isdirectory or function( path )
+    -- Mock .git directories for test fixtures
+    if path:match( "/git%-repo/%.git$" ) or path:match( "/git%-worktree/%.git$" ) then
+      return 1
+    end
+
     local file = io.popen( "test -d " .. path .. " && echo 1 || echo 0" )
     if not file then return 0 end
     local result = file:read( "*a" ):gsub( "%s+", "" )
@@ -99,6 +104,31 @@ function M.setup()
 
   vim.startswith = vim.startswith or function( str, prefix )
     return string.sub( str, 1, string.len( prefix ) ) == prefix
+  end
+
+  -- Mock prequirev and prequire (protected require with verbose)
+  ---@diagnostic disable-next-line: lowercase-global
+  _G.prequire = _G.prequire or function( name, ... )
+    -- Provide stubs for common dependencies
+    if name == "obszczymucha.user-config" then
+      return { get_last_update_timestamp = function() return nil end }
+    elseif name == "obszczymucha.mason-utils" then
+      return {}
+    elseif name == "plenary.async" then
+      return {}
+    end
+
+    local success, result = pcall( require, name, ... )
+    if success then return result else return nil end
+  end
+
+  ---@diagnostic disable-next-line: lowercase-global
+  _G.prequirev = _G.prequirev or function( name, ... )
+    local result = _G.prequire( name, ... )
+    if not result then
+      print( string.format( "Warning: '%s' could not be found.", name ) )
+    end
+    return result
   end
 end
 
