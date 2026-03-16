@@ -305,14 +305,25 @@ end
 -- <C-F10>
 map( "n", "<F34>", terminate_dap_session, { silent = true, desc = "Terminate" } )
 
--- Surround mappings
-map( "v", "<leader>\"", "<Esc>`>a\"<Esc>`<i\"<Esc>w", { desc = "Surround with \"" } )
-map( "v", "<leader>'", "<Esc>`>a'<Esc>`<i'<Esc>w", { desc = "Surround with '" } )
-map( "v", "<leader>`", "<Esc>`>a`<Esc>`<i`<Esc>w", { desc = "Surround with `" } )
-map( "v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>w", { desc = "Surround with {}" } )
-map( "v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>w", { desc = "Surround with ()" } )
-map( "v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>w", { desc = "Surround with []" } )
-map( "v", "<leader><", "<Esc>`>a><Esc>`<i<<Esc>w", { desc = "Surround with <>" } )
+local function surround( keybind, before, after, desc )
+  map(
+    "v",
+    string.format( "<leader>%s", keybind ),
+    string.format( "<Esc>`>a%s<Esc>`<i%s<Esc>w", after, before ),
+    { desc = desc }
+  )
+end
+
+surround('"', '"', '"', 'Surround with "' )
+surround( "'", "'", "'", "Surround with '" )
+surround( "*", "*", "*", "Surround with *" )
+surround( "2*", "**", "**", "Surround with **" )
+surround( "`", "`", "`", "Surround with `" )
+surround( "{", "{", "}", "Surround with {}" )
+surround( "(", "(", ")", "Surround with ()" )
+surround( "[", "[", "]", "Surround with []" )
+surround( "<", "<", ">", "Surround with <>" )
+
 map( "v", "<leader><BS>", "<Esc>`>x`<x" )
 map( "n", "<leader><BS>", "\"_v%<Esc>`>x`<x" )
 map( "i", "<A-W>", remap( "fast_continuous_wrap" ), { silent = true } )
