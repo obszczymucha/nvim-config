@@ -23,19 +23,6 @@ return {
   { "tpope/vim-fugitive",                          cmd = "Git" },
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  },
   { "jbyuki/one-small-step-for-vimkind", ft = "lua" }, -- :help osv -> QUICKSTART
   -- Causing errors in checkhealth.
   {
@@ -62,5 +49,6 @@ return {
     version = '^6', -- Recommended
     ft = "rust"     -- Load only for Rust files
   },
-  { "RRethy/nvim-treesitter-endwise", event = "InsertEnter" }
+  { "RRethy/nvim-treesitter-endwise", event = "InsertEnter" },
+  { "nvim-mini/mini.icons" }
 }
