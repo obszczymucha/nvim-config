@@ -8,7 +8,7 @@ local s = ls.s
 local i = ls.i
 local fmt = require( "luasnip.extras.fmt" ).fmt
 
-ls.add_snippets( LANG, {
+local snippets = {
   s( "bash", fmt( [[
   #!/usr/bin/env bash
 
@@ -21,4 +21,7 @@ ls.add_snippets( LANG, {
   ]], {
     start = i( 0 )
   } ) ),
-} )
+}
+
+ls.add_snippets( LANG, snippets )
+ls.add_snippets( "", snippets )
