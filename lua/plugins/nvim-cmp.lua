@@ -24,7 +24,8 @@ return {
       },
       "saadparwaiz1/cmp_luasnip",
       {
-        "zbirenbaum/copilot-cmp",
+        -- "zbirenbaum/copilot-cmp",
+        "obszczymucha/copilot-cmp", -- Temporary, he doesn't want to merge the compatibility fix.
         event = { "InsertEnter", "CmdlineEnter" },
         config = function()
           require( "copilot_cmp" ).setup( {
