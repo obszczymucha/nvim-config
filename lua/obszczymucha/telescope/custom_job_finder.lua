@@ -1,8 +1,8 @@
 -- A copy-paste of telescope's async_job_finder.lua with a little fix to avoid
 -- displaying the results when the prompt is empty.
 local function custom_async_job_finder( opts )
-  local async_job = require "telescope._"
-  local LinesPipe = require( "telescope._" ).LinesPipe
+  local async_job = require "telescope.async_job"
+  local LinesPipe = async_job.LinesPipe
   local make_entry = require "telescope.make_entry"
 
   local entry_maker = opts.entry_maker or make_entry.gen_from_string( opts )

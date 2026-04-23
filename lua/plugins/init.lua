@@ -17,7 +17,8 @@ return {
   { "neovim/nvim-lspconfig" },
   { "nvim-lua/plenary.nvim" },
   -- { "nvim-treesitter/nvim-treesitter-context" },
-  { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate",                                                ft = { "lua", "python", "javascript", "typescript", "rust", "go", "java", "scala" } },
+  -- nvim-treesitter-textobjects is not yet compatible with nvim-treesitter main branch
+  -- { "nvim-treesitter/nvim-treesitter-textobjects", build = ":TSUpdate", ft = { "lua", "python", "javascript", "typescript", "rust", "go", "java", "scala" } },
   { "psliwka/vim-smoothie",                        event = "VeryLazy" },
   { "rcarriga/nvim-dap-ui",                        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   { "tpope/vim-fugitive",                          cmd = "Git" },
