@@ -2,6 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
       require( "nvim-treesitter" ).install {
@@ -16,24 +17,18 @@ return {
         "regex",
         "markdown_inline",
         "vim",
-        "markdown"
+        "markdown",
+        "python"
       }
+    end,
+    init = function()
+      vim.api.nvim_create_autocmd( { "FileType" }, {
+        pattern = "*",
+        callback = function()
+          local buf = vim.api.nvim_get_current_buf()
+          pcall( vim.treesitter.start, buf )
+        end
+      } )
     end
   },
-  {
-    "MeanderingProgrammer/treesitter-modules.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require( "treesitter-modules" ).setup {
-        highlight = {
-          enable = true,
-          disable = { "c", "rust" },
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = true
-        },
-      }
-    end
-  }
 }
