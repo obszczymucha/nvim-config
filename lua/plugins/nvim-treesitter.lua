@@ -18,7 +18,9 @@ return {
         "markdown_inline",
         "vim",
         "markdown",
-        "python"
+        "python",
+        "bash",
+        "zsh"
       }
     end,
     init = function()
