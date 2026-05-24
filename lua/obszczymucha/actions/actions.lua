@@ -174,5 +174,15 @@ return {
       local bufname = vim.api.nvim_buf_get_name( 0 )
       return not require( "obszczymucha.actions.utils.bash" ).is_hooked( bufname )
     end
+  },
+  {
+    name = "Hook build release",
+    action = function()
+      require( "obszczymucha.actions.utils.cargo" ).hook()
+    end,
+    filetypes = { "rust" },
+    condition = function()
+      return not require( "obszczymucha.actions.utils.cargo" ).is_hooked()
+    end
   }
 }
