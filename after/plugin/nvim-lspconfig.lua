@@ -18,6 +18,7 @@ if mason_lspconfig then
     "jdtls",
     "jsonls",
     "lua_ls",
+    "ols",
     "pyright",
     "ruff",
     "rust_analyzer",
