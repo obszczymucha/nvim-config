@@ -58,11 +58,11 @@ return {
       R( "obszczymucha.telescope.multigrep" ).live_multigrep( selection )
     end, { desc = "Search selection" } )
 
-    vim.keymap.set( "n", "gb", function()
+    vim.keymap.set( "n", "go", function()
       R( "obszczymucha.telescope.git-commits" ).git_commits()
     end, { desc = "Git commits" } )
 
-    vim.keymap.set( "n", "gB", function()
+    vim.keymap.set( "n", "gb", function()
       R( "obszczymucha.telescope.git-branches" ).git_branches()
     end, { desc = "Git branches" } )
 
