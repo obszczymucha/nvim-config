@@ -6,6 +6,7 @@ local map = vim.keymap.set
 
 -- Git
 map( "n", "gl", "<cmd>GitMessenger<CR>", { silent = true, desc = "Git blame" } )
+map( "n", "gp", "<cmd>vert Git diff<CR>", { silent = true, desc = "Git diff" } )
 
 -- Notifications
 if is_wsl then
