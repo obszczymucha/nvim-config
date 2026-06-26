@@ -7,21 +7,18 @@ local opts = {
   delay = function(ctx)
     return ctx.plugin and 0 or 200
   end,
-  ---@param mapping wk.Mapping
-  filter = function(mapping)
+  filter = function()
     -- example to exclude mappings without a description
     -- return mapping.desc and mapping.desc ~= ""
     return true
   end,
   --- You can add any mappings here, or use `require('which-key').add()` later
-  ---@type wk.Spec
   spec = {},
   -- show a warning when issues were detected with your mappings
   notify = true,
   -- Which-key automatically sets up triggers for your mappings.
   -- But you can disable this and setup the triggers manually.
   -- Check the docs for more info.
-  ---@type wk.Spec
   triggers = {
     { "<auto>", mode = "nxso" },
   },
@@ -50,7 +47,6 @@ local opts = {
       g = true, -- bindings for prefixed with g
     },
   },
-  ---@type wk.Win.opts
   win = {
     -- don't allow the popup to overlap with the cursor
     no_overlap = true,
@@ -77,7 +73,6 @@ local opts = {
     scroll_down = "<c-d>", -- binding to scroll down inside the popup
     scroll_up = "<c-u>", -- binding to scroll up inside the popup
   },
-  ---@type (string|wk.Sorter)[]
   --- Mappings are sorted using configured sorters and natural sort of the keys
   --- Available sorters:
   --- * local: buffer-local mappings first
@@ -88,7 +83,6 @@ local opts = {
   --- * manual: the order the mappings were added
   --- * case: lower-case first
   sort = { "local", "order", "group", "alphanum", "mod" },
-  ---@type number|fun(node: wk.Node):boolean?
   expand = 0, -- expand groups when <= n mappings
   -- expand = function(node)
   --   return not node.desc -- expand all nodes without a description
@@ -124,7 +118,6 @@ local opts = {
     mappings = true,
     --- See `lua/which-key/icons.lua` for more details
     --- Set to `false` to disable keymap icons from rules
-    ---@type wk.IconRule[]|false
     rules = {},
     -- use the highlights from mini.icons
     -- When `false`, it will use `WhichKeyIcon` instead
