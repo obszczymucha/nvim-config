@@ -9,11 +9,11 @@ map( "n", "gl", "<cmd>GitMessenger<CR>", { silent = true, desc = "Git blame" } )
 
 -- Notifications
 if is_wsl then
-  map( "n", "<F38>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
+  map( "n", "<F38>", "<cmd>lua require( 'notify' ).dismiss()<CR>", { desc = "Dismiss notification" } )
 elseif is_macos then
-  map( "n", "<F37>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
+  map( "n", "<F37>", "<cmd>lua require( 'notify' ).dismiss()<CR>", { desc = "Dismiss notification" } )
 else
-  map( "n", "<A-Esc>", "<cmd>lua require('notify').dismiss()<CR>", { desc = "Dismiss notification" } )
+  map( "n", "<A-Esc>", "<cmd>lua require( 'notify' ).dismiss()<CR>", { desc = "Dismiss notification" } )
 end
 
 local function remap( name )
@@ -28,7 +28,7 @@ map( "n", "<leader>dV", "<cmd>lua require( 'obszczymucha.debug' ).toggle_horizon
 map( "n", "<leader>dq", remap( "show_test_results" ), { noremap = true, desc = "Show test results (popup)" } )
 map( "n", "<leader>ds", "<cmd>lua require( 'obszczymucha.debug' ).flip()<CR>", { desc = "Flip test debug" } )
 map( "n", "<leader>dc", "<cmd>lua require( 'obszczymucha.debug' ).clear()<CR>", { desc = "Clear test debug" } )
-map( "n", "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<CR>",
+map( "n", "<leader>dh", "<cmd>lua require( 'dap.ui.widgets' ).hover()<CR>",
   { desc = "Debug hover", silent = true } )
 
 -- File management
@@ -118,9 +118,9 @@ else
 end
 
 if is_wsl or is_macos then
-  map( "n", "<A-p>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', true, true)<CR>",
+  map( "n", "<A-p>", ":lua vim.api.nvim_put(vim.fn.systemlist( 'pbpaste' ), '', true, true)<CR>",
     { noremap = true, silent = true } )
-  map( "n", "<A-P>", ":lua vim.api.nvim_put(vim.fn.systemlist('pbpaste'), '', false, true)<CR>",
+  map( "n", "<A-P>", ":lua vim.api.nvim_put(vim.fn.systemlist( 'pbpaste' ), '', false, true)<CR>",
     { noremap = true, silent = true } )
 else
   map( "n", "<A-p>", "\"+p" )
@@ -168,9 +168,9 @@ map( "n", "gg", [[:call smoothie#do( "gg" )<CR>]], { silent = true } )
 map( "n", "zz", [[:call smoothie#do( "zz" )<CR>]], { silent = true } )
 map( "n", "zt", [[:call smoothie#do( "zt" )<CR>]], { silent = true } )
 map( "n", "zb", [[:call smoothie#do( "zb" )<CR>]], { silent = true } )
-map( "n", "zk", ":lua R( 'obszczymucha.navigation' ).readable_pos('k')<CR>",
+map( "n", "zk", ":lua R( 'obszczymucha.navigation' ).readable_pos( 'k' )<CR>",
   { silent = true, noremap = true, desc = "Cycle readable position up" } )
-map( "n", "zj", ":lua R( 'obszczymucha.navigation' ).readable_pos('j')<CR>",
+map( "n", "zj", ":lua R( 'obszczymucha.navigation' ).readable_pos( 'j' )<CR>",
   { silent = true, noremap = true, desc = "Cycle readable position down" } )
 map( "n", "M", [[:call smoothie#do( "M" )<CR>]], { silent = true } )
 map( "n", "H", [[:call smoothie#do( "H" )<CR>]], { silent = true } )
@@ -314,7 +314,7 @@ local function surround( keybind, before, after, desc )
   )
 end
 
-surround('"', '"', '"', 'Surround with "' )
+surround( '"', '"', '"', 'Surround with "' )
 surround( "'", "'", "'", "Surround with '" )
 surround( "*", "*", "*", "Surround with *" )
 surround( "2*", "**", "**", "Surround with **" )
@@ -359,7 +359,7 @@ map( "n", "<Esc>", function()
   end
 end, { silent = true } )
 
-map( "n", "<leader>r", ":lua require('obszczymucha.remap').reload()<CR>",
+map( "n", "<leader>r", ":lua require( 'obszczymucha.remap' ).reload()<CR>",
   { silent = true, desc = "Reload keymaps" } )
 map( "n", "<A-r>", remap( "reload" ), { silent = true } )
 map( "n", "<A-S-r>", ":LspRestart<CR> | :lua vim.notify( \"LSP restarted.\" )<CR>", { silent = true } )
@@ -380,8 +380,8 @@ function M.define_a_mark()
   vim.notify( string.format( "Mark %s defined.", mark ) )
 end
 
-map( "n", "'", ":lua require('obszczymucha.navigation').jump_to_mark_and_center()<CR>", { silent = true } )
-map( "n", "m", ":lua require('obszczymucha.remap').define_a_mark()<CR>", { silent = true } )
+map( "n", "'", ":lua require( 'obszczymucha.navigation' ).jump_to_mark_and_center()<CR>", { silent = true } )
+map( "n", "m", ":lua require( 'obszczymucha.remap' ).define_a_mark()<CR>", { silent = true } )
 
 -- Snippets
 -- Strangely, map causes some strange characters being shown with this.
@@ -389,8 +389,8 @@ vim.api.nvim_set_keymap( "i", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>l
   { expr = true, noremap = true } )
 vim.api.nvim_set_keymap( "s", "<Tab>", [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : "<Tab>"]],
   { expr = true, noremap = true } )
-vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require('luasnip').jump(1)<CR>", { expr = true, noremap = true } )
-vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>", { expr = true, noremap = true } )
+vim.api.nvim_set_keymap( "i", "<S-Tab>", "<cmd>lua require( 'luasnip' ).jump(1)<CR>", { expr = true, noremap = true } )
+vim.api.nvim_set_keymap( "s", "<S-Tab>", "<cmd>lua require( 'luasnip' ).jump(-1)<CR>", { expr = true, noremap = true } )
 
 -- Other
 map( "n", "<A-t>", ":Inspect<CR>", { silent = true, desc = "Inspect Treesitter element" } )
@@ -413,7 +413,7 @@ function M.reload()
   vim.notify( "Mappings reloaded." )
 end
 
--- map( "n", "<F1>", ":lua print('Princess Kenny')<CR>", { noremap = true, silent = true } )
+-- map( "n", "<F1>", ":lua print( 'Princess Kenny' )<CR>", { noremap = true, silent = true } )
 map( "n", "<F1>", ":redraw<CR>", { noremap = true, silent = true } )
 
 -- Command mode mappings
