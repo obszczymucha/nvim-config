@@ -1,5 +1,5 @@
 return {
-  "coder/claudecode.nvim",
+  "obszczymucha/claudecode.nvim",
   -- dependencies = { "folke/snacks.nvim" },
   config = true,
   keys = {
@@ -26,6 +26,7 @@ return {
       snacks_win_opts = {
         width = 0.4
       }
-    }
+    },
+    bind_address = "172.17.0.1"
   }
 }
