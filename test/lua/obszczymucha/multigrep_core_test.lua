@@ -73,6 +73,16 @@ function MultigrepCoreSpec:should_filter_by_glob_pattern()
   has_match( results, "code.lua", 11, "return { hello = hello, test = test }" )
 end
 
+function MultigrepCoreSpec:should_exclude_by_negated_glob_pattern()
+  local results = execute_search( "hello  !*.lua" )
+
+  eq( #results, 4 )
+  has_match( results, "file1.txt", 5, "Running hello test to verify the search works." )
+  has_match( results, "code.js", 1, "function hello() {" )
+  has_match( results, "code.js", 7, "  const result = hello();" )
+  has_match( results, "code.js", 11, "module.exports = { hello, test };" )
+end
+
 function MultigrepCoreSpec:should_return_empty_for_no_matches()
   local results = execute_search( "nonexistent_term_xyz" )
 

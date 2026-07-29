@@ -68,15 +68,22 @@ end
 local function parse_term( term )
   local tokens = vim.split( vim.trim( term ), GLOB_SEPARATOR )
   local search_text = tokens[ 1 ]
-  local globs = {}
+  local includes = {}
+  local excludes = {}
 
   for i = 2, #tokens do
-    if tokens[ i ] then
-      table.insert( globs, tokens[ i ] )
+    local glob = tokens[ i ]
+
+    if glob then
+      if glob:sub( 1, 1 ) == "!" then
+        table.insert( excludes, glob:sub( 2 ) )
+      else
+        table.insert( includes, glob )
+      end
     end
   end
 
-  return search_text, globs
+  return search_text, includes, excludes
 end
 
 local function quote_literal( text )
@@ -84,16 +91,28 @@ local function quote_literal( text )
   return '"' .. escaped .. '"'
 end
 
+local function add_glob_flags( args, includes, excludes )
+  for _, glob in ipairs( includes ) do
+    table.insert( args, "--include=" .. glob )
+  end
+
+  for _, glob in ipairs( excludes ) do
+    table.insert( args, "--exclude=" .. glob )
+  end
+end
+
 local function build_multi_search( terms )
-  local all_globs = {}
+  local all_includes = {}
+  local all_excludes = {}
   local search_terms = {}
 
   for _, term in ipairs( terms ) do
-    local search_text, globs = parse_term( term )
+    local search_text, includes, excludes = parse_term( term )
 
     if search_text then
       table.insert( search_terms, quote_literal( search_text ) )
-      vim.list_extend( all_globs, globs )
+      vim.list_extend( all_includes, includes )
+      vim.list_extend( all_excludes, excludes )
     end
   end
 
@@ -108,9 +127,7 @@ local function build_multi_search( terms )
   table.insert( args, pattern )
   table.insert( args, "--bool" )
 
-  for _, glob in ipairs( all_globs ) do
-    table.insert( args, "--include=" .. glob )
-  end
+  add_glob_flags( args, all_includes, all_excludes )
 
   vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
@@ -120,27 +137,30 @@ local function build_multi_search( terms )
 end
 
 local function build_regex_search( literals_part, regex_part )
-  local all_globs = {}
+  local all_includes = {}
+  local all_excludes = {}
   local search_terms = {}
 
   -- Parse literal terms
   if literals_part and literals_part ~= "" then
     local literal_terms = vim.split( literals_part, AND_SEPARATOR )
     for _, term in ipairs( literal_terms ) do
-      local search_text, globs = parse_term( term )
+      local search_text, includes, excludes = parse_term( term )
       if search_text then
         table.insert( search_terms, quote_literal( search_text ) )
-        vim.list_extend( all_globs, globs )
+        vim.list_extend( all_includes, includes )
+        vim.list_extend( all_excludes, excludes )
       end
     end
   end
 
   -- Parse regex term (don't quote it)
   if regex_part and regex_part ~= "" then
-    local regex_text, globs = parse_term( regex_part )
+    local regex_text, includes, excludes = parse_term( regex_part )
     if regex_text then
       table.insert( search_terms, regex_text )
-      vim.list_extend( all_globs, globs )
+      vim.list_extend( all_includes, includes )
+      vim.list_extend( all_excludes, excludes )
     end
   end
 
@@ -155,9 +175,7 @@ local function build_regex_search( literals_part, regex_part )
   table.insert( args, pattern )
   table.insert( args, "--bool" )
 
-  for _, glob in ipairs( all_globs ) do
-    table.insert( args, "--include=" .. glob )
-  end
+  add_glob_flags( args, all_includes, all_excludes )
 
   vim.list_extend( args, BASE_FLAGS )
   vim.list_extend( args, MULTI_SEARCH_FLAGS )
@@ -168,7 +186,7 @@ end
 
 local function build_single_search( prompt )
   local args = { "ugrep" }
-  local search_text, globs = parse_term( prompt )
+  local search_text, includes, excludes = parse_term( prompt )
 
   if search_text then
     table.insert( args, "-e" )
@@ -176,9 +194,7 @@ local function build_single_search( prompt )
     table.insert( args, "--bool" )
   end
 
-  for _, glob in ipairs( globs ) do
-    table.insert( args, "--include=" .. glob )
-  end
+  add_glob_flags( args, includes, excludes )
 
   vim.list_extend( args, BASE_FLAGS )
   add_conditional_flags( args )
